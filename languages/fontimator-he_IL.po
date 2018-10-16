@@ -1,15 +1,15 @@
-#, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2018-10-16 21:29+0300\n"
-"PO-Revision-Date: 2018-10-16 21:29+0300\n"
+"POT-Creation-Date: 2018-10-16 21:43+0300\n"
+"PO-Revision-Date: 2018-10-16 21:46+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
@@ -23,65 +23,71 @@ msgstr ""
 
 #: admin/class-fontimator-variations-helper.php:57
 msgid "Fontimator Tools:"
-msgstr ""
+msgstr "כלי הפוֹנטִימָטוֹר:"
 
 #: admin/class-fontimator-variations-helper.php:58
 msgid "Set-up all variations"
-msgstr ""
+msgstr "הגדר מחדש את כל הוריאציות"
 
 #: admin/class-fontimator-variations-helper.php:66
 msgid ""
 "After saving the attributes, DO NOT update product. Instead, refresh page or "
 "exit."
 msgstr ""
+"אחרי ששמרת את המשקלים, לא לעדכן את המוצר! במקום זאת, יש לרענן את העמוד או לצאת "
+"פשוט."
 
 #. translators: %1$d: variations changed, %2$s: Font name
 #: admin/class-fontimator-variations-helper.php:104
 #, php-format
 msgid "Fontimator set-up %1$d variations for font %2$s"
-msgstr ""
+msgstr "הפוֹנטִימָטוֹר הגדיר מחדש %1$d וריאציות עבור גופן %2$s"
 
 #. translators: ID parameter
 #: admin/class-fontimator-variations-helper.php:117
 #: admin/class-fontimator-variations-helper.php:154
 #, php-format
 msgid "Fontimator could not find font with ID %s"
-msgstr ""
+msgstr "הפוֹנטִימָטוֹר לא הצליח למצוא פונט עם הID %s"
 
 #. translators: Post name
 #: admin/class-fontimator-variations-helper.php:142
 #, php-format
 msgid "Fontimator created %1$d variations for font %2$s"
-msgstr ""
+msgstr "הפוֹנטִימָטוֹר ייצר %1$d וריאציות עבור גופן %2$s"
 
 #: admin/class-fontimator-variations-helper.php:184
 msgid ""
-"Enable this option if this variation has custom price/download file which "
-"you don't want to be overriden by the Fontimator"
+"Enable this option if this variation has custom price/download file which you "
+"don't want to be overriden by the Fontimator"
 msgstr ""
+"הפעל אפשרות זו, אם הוריאציה הספציפית הזו מכילה מחיר/קובץ מותאמים במיוחד שאינך "
+"רוצה שיידרסו ע”י  הפוֹנטִימָטוֹר"
 
 #: admin/class-fontimator-variations-helper.php:185
 msgid "Fontimator: Ignore me!"
-msgstr ""
+msgstr "הפוֹנטִימָטוֹר: התעלם ממני!"
 
 #: includes/acf-config/fontimator-config.php:29
 msgid "Save Fontimator Configuration"
-msgstr ""
+msgstr "שמור את הגדרות הפוֹנטִימָטוֹר"
 
 #: includes/acf-config/fontimator-config.php:32
 msgid "Fontimator Configuration Saved"
-msgstr ""
+msgstr "הגדרות הפוֹנטִימָטוֹר נשמרו"
 
 #: includes/class-pdf-file.php:45
 msgid "There was an error generating the fonts catalog."
-msgstr ""
+msgstr "אירעה שגיאה ביצירת קטלוג הגופנים."
 
 #: includes/class-zipomator-font-package.php:97
 #, php-format
 msgid ""
-"Font file doesn't exist for %1$s, %2$s, %3$s. Please contact us and we'll "
-"solve this problem in no-time :)"
+"Font file doesn't exist for %1$s, %2$s, %3$s. Please contact us and we'll solve "
+"this problem in no-time :)"
 msgstr ""
+"קובץ הגופן אינו קיים עבור %1$s,%2$s,%3$s. צור איתנו קשר ואנו נפתור בעיה זו תוך "
+"זמן קצר :)"
 
 #: includes/class-zipomator.php:158
 msgid ""
@@ -89,12 +95,17 @@ msgid ""
 "\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
 "\t\t\t\tand that your htaccess file is set up properly."
 msgstr ""
+"שגיאת זיפומטור: לא הועברו פרמטרים. \n"
+"‬\n"
+"‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
+"‬\n"
+"‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
 
 #. translators: This is (probably) the name of the invalid font.
 #: includes/class-zipomator.php:170
 #, php-format
 msgid "Zipomator Error: invalid amount of arguments in item: %s"
-msgstr ""
+msgstr "שגיאת זיפומטור: מספר פרמטרים לא תקין בפריט: %s"
 
 #: includes/class-zipomator.php:191
 msgid ""
@@ -102,115 +113,133 @@ msgid ""
 "\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
 "\t\t\t\tand that your htaccess file is set up properly."
 msgstr ""
+"שגיאת זיפומטור: לא הועבר רשיון ממברשיפ. \n"
+"‬\n"
+"‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
+"‬\n"
+"‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
 
 #: includes/class-zipomator.php:217
 msgid ""
 "Zipomator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
+"שגיאת זיפומטור: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
 #: public/class-fontimator-myaccount.php:49
 msgid "Select some fonts using the small checkboxes first."
-msgstr ""
+msgstr "יש לסמן כמה גופנים באמצעות תיבות הסימון קטנות תחילה."
 
 #: public/class-fontimator-myaccount.php:53
 msgid ""
 "Are you sure? You can't re-enable the membership without purchasing it again."
-msgstr ""
+msgstr "‫מאה אחוז? לא ניתן להחזיר את המינוי בלי לרכוש אותו מחדש."
 
 #: public/class-fontimator-myaccount.php:77
-msgid "Product"
-msgstr ""
+msgid "Family"
+msgstr "משפחה"
 
 #: public/class-fontimator-myaccount.php:78
 msgid "Weight"
-msgstr ""
+msgstr "משקל"
 
 #: public/class-fontimator-myaccount.php:79
-msgid "Item"
-msgstr ""
+msgid "License"
+msgstr "רישיון"
 
 #: public/class-fontimator-myaccount.php:80
 msgid "Download"
-msgstr ""
+msgstr "הורדה"
 
 #: public/class-fontimator-myaccount.php:98
 msgid "Your Newsletter Birthday Gift!"
-msgstr ""
+msgstr "מתנת יום ההולדת שלך מהניוזלטר!"
 
 #: public/class-fontimator-myaccount.php:103
 #, php-format
 msgid "Moved to %s"
-msgstr ""
+msgstr "עבר ל%s"
+
+#: public/class-fontimator-myaccount.php:103
+msgid "Fontimonim"
+msgstr "פונטימונים"
 
 #: public/class-fontimator-myaccount.php:105
 msgid "Archived"
-msgstr ""
+msgstr "עבר לארכיון"
 
 #: public/class-fontimator-myaccount.php:193
 msgid ""
 "Fontimator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
+"שגיאת פוֹנטִימָטוֹר: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
 #: public/class-fontimator-myaccount.php:259
 msgid "Cancel (unavailable during the first year)"
-msgstr ""
+msgstr "ביטול (לא זמין במהלך השנה הראשונה)"
 
 #: public/class-fontimator-myaccount.php:291
 msgid "Download Selected"
-msgstr ""
+msgstr "הורדת מסומנים"
 
 #: public/class-fontimator-myaccount.php:292
 msgid "Select All"
-msgstr ""
+msgstr "לסמן הכל"
 
 #: public/class-fontimator-myaccount.php:293
 msgid "Unselect All"
-msgstr ""
+msgstr "לסמן כלום"
 
 #. translators: discount percentage
 #: public/class-fontimator-public.php:85
 #, php-format
 msgid "%d%% Discount"
-msgstr ""
+msgstr "‫%d%% הנחה"
 
 #: public/class-fontimator-public.php:113
 msgid "Choose an option"
-msgstr ""
+msgstr "בחירת אפשרות"
 
 #: public/class-fontimator-public.php:143
 #, php-format
 msgid "%s Licenses:"
-msgstr ""
+msgstr "רשיונות %s:"
 
 #: public/partials/shortcode-zip-table.php:45
 msgid "Font Name × Licenses"
-msgstr ""
+msgstr "פונט / רשיון"
 
 #: public/partials/shortcode-zip-table.php:109
 #, php-format
 msgid "Weight: %s"
-msgstr ""
+msgstr "במשקל %s"
 
 #. Plugin Name of the plugin/theme
 msgid "The Fontimator"
-msgstr ""
+msgstr "הפוֹנטִימָטוֹר"
 
 #. Plugin URI of the plugin/theme
 msgid "http://reuven.rocks"
-msgstr ""
+msgstr "http://reuven.rocks"
 
 #. Description of the plugin/theme
 msgid ""
-"The famous Fontimator (FKA 'Zipomator'), which does everything here, "
-"basically. Developed for AlefAlefAlef and Fontimonim."
+"The famous Fontimator (FKA 'Zipomator'), which does everything here, basically. "
+"Developed for AlefAlefAlef and Fontimonim."
 msgstr ""
+"הפוֹנטִימָטוֹר המפורסם, שעושה כאן הכל, בעצם. פותח עבור AlefAlefAlef ו־Fontimonim."
 
 #. Author of the plugin/theme
 msgid "Reuven Karasik"
-msgstr ""
+msgstr "ראובן קרסיק"
 
 #. Author URI of the plugin/theme
 msgid "https://alefalefalef.co.il/"
-msgstr ""
+msgstr "https://alefalefalef.co.il/"
+
+#~ msgid "Font"
+#~ msgstr "פונט"
+
+#~ msgid "Product"
+#~ msgstr "מוצר"

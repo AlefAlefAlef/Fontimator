@@ -74,10 +74,10 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	public function add_columns_to_downloads_table( $columns ) {
 		return array(
 			'download-select'      => '&nbsp;',
-			'download-product'   => __( 'Product', 'woocommerce' ),
-			'download-font-weight'   => __( 'Weight', 'woocommerce' ),
-			'download-font-license'   => __( 'Item', 'woocommerce' ),
-			'download-file'      => __( 'Download', 'woocommerce' ),
+			'download-product'   => __( 'Family', 'fontimator' ),
+			'download-font-weight'   => __( 'Weight', 'fontimator' ),
+			'download-font-license'   => __( 'License', 'fontimator' ),
+			'download-file'      => __( 'Download', 'fontimator' ),
 			'download-actions'   => '&nbsp;',
 		);
 	}
@@ -100,7 +100,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 		if ( has_term( 'moved_to_fm', 'product_cat', $parent_id ) ) {
 			// TRANSLATORS: %s: the other site's name, i.e. 'Fontimonim'
-			echo '<i class="icon" title="' . sprintf( __( 'Moved to %s', 'fontimator' ), 'Fontimonim' ) . '" data-icon="ℶ"></i> ';
+			echo '<i class="icon" title="' . sprintf( __( 'Moved to %s', 'fontimator' ), __( 'Fontimonim', 'fontimator' ) ) . '" data-icon="ℶ"></i> ';
 		} elseif ( has_term( 'archive', 'product_cat', $parent_id ) ) {
 			echo '<i class="icon" title="' . __( 'Archived', 'fontimator' ) . '" data-icon="׳"></i> ';
 		}

@@ -33,7 +33,6 @@ class Fontimator_I18n {
 	 * @since    2.0.0
 	 */
 	public function load_plugin_textdomain() {
-
 		load_plugin_textdomain(
 			'fontimator',
 			false,

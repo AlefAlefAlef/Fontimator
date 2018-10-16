@@ -20,8 +20,8 @@
  * Version:           2.0.0
  * Author:            Reuven Karasik
  * Author URI:        https://alefalefalef.co.il/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           CC-NC-ND
+ * License URI:       https://creativecommons.org/licenses/by-nc-nd/3.0/
  * Text Domain:       fontimator
  * Domain Path:       /languages
  */

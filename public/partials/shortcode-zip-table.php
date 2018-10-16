@@ -106,7 +106,7 @@
 								<td>
 									<?php
 									/* TRANSLATORS: %s: Weight term name. */
-									echo sprintf( _x( 'Weight: %s', 'fontimator' ), $weight->name );
+									echo sprintf( __( 'Weight: %s', 'fontimator' ), $weight->name );
 									?>
 								</td>
 
