@@ -117,9 +117,8 @@
 										<?php
 										$cell_variation_id = $font_downloads[ $weight->slug ][ $license->slug ];
 										if ( $cell_variation_id ) {
-											$clean_weight = Zipomator::get_clean_weight( $weight->slug );
 											?>
-											<a href="<?php echo Zipomator::get_bundle_url( $font->get_slug(), $clean_weight, $license->slug ); ?>">
+											<a href="<?php echo Zipomator::get_nonced_url( $cell_variation_id ); ?>">
 												<?php echo $cell_variation_id; ?>
 											</a>
 											<?php

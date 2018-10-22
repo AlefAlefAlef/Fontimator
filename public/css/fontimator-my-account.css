@@ -2,3 +2,7 @@
 	font-size: 0.8em;
 	margin-top: 1.8em;
 }
+
+.woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--edit-address:not(.is-active) {
+	display: none;
+}

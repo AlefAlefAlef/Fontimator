@@ -43,9 +43,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				true // is_footer true here, to make sure the tab selection works
 			);
 
-			$zipomator_base_url = Zipomator::zipomator_url();
+			$zipomator_base_url = home_url( Zipomator::get_variation_endpoint() );
+			$zipomator_nonce = Zipomator::get_nonce();
 			wp_localize_script( 'fontimator-my-account', 'FontimatorDownloadCheckboxesButtons', array(
 				'zipomatorBaseURL' => $zipomator_base_url,
+				'zipomatorNonce' => $zipomator_nonce,
 				'disabledText' => __( 'Select some fonts using the small checkboxes first.' , 'fontimator' ),
 			) );
 
@@ -77,6 +79,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			'download-product'   => __( 'Family', 'fontimator' ),
 			'download-font-weight'   => __( 'Weight', 'fontimator' ),
 			'download-font-license'   => __( 'License', 'fontimator' ),
+			'download-font-version'   => __( 'Version', 'fontimator' ),
 			'download-file'      => __( 'Download', 'fontimator' ),
 			'download-actions'   => '&nbsp;',
 		);
@@ -88,9 +91,15 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		$membership = new Fontimator_Membership( $order_id );
 		if ( $membership && 'active' === $membership->get_status() ) {
 			$membership_variation = new Fontimator_Font_Variation( $membership->get_variation_id() );
-			echo '<a href="' . $membership_variation->get_permalink() . '" title="' . $membership_variation->get_title() . '"><i class="icon" data-icon="א"></i></a>';
+			echo '<a href="' . $membership_variation->get_permalink() . '" title="' . $membership_variation->get_title() . '"><i class="icon" data-icon="ö"></i></a>';
 			echo ' <span class="downloads-table-icon-membership-seperator">&rsaquo;</span> ';
 		}
+
+		if ( 'academic' === $order_id ) {
+			echo '<a href="/eula/?license=otf-accademic" title="' . __( 'Your Academic License', 'fontimator' ) . '"><i class="icon" data-icon="Þ"></i></a>';
+			echo ' <span class="downloads-table-icon-membership-seperator">&rsaquo;</span> ';
+		}
+
 		$parent_id = wp_get_post_parent_id( $download['product_id'] );
 		echo '<a href="' . get_permalink( $parent_id ) . '" title="' . get_the_title( $parent_id ) . '">';
 
@@ -110,14 +119,27 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		echo '</a>';
 	}
 
+	public function font_version_for_download( $download ) {
+		$product_id = wp_get_post_parent_id( $download['product_id'] );
+		$acf = Fontimator::get_instance()->get_acf();
+
+		$font_version = $acf->get_field( 'font_version', $product_id );
+		$font_release_year = $acf->get_field( 'font_release_year', $product_id );
+		$font_update_year = $acf->get_field( 'font_update_year', $product_id );
+		if ( $font_version ) {
+			echo $font_version;
+		}
+		if ( $font_update_year && $font_release_year != $font_update_year ) {
+			echo ' <span class="year">[' . $font_update_year . ']</span>';
+		}
+	}
+
 	public function font_weight_for_download( $download ) {
-		$weight_attribute = FTM_WEIGHT_ATTRIBUTE;
-		echo $this->get_font_attribute_for_download( $download, $weight_attribute );
+		echo $this->get_font_attribute_for_download( $download, FTM_WEIGHT_ATTRIBUTE );
 	}
 
 	public function font_license_for_download( $download ) {
-		$license_attribute = FTM_LICENSE_ATTRIBUTE;
-		echo $this->get_font_attribute_for_download( $download, $license_attribute );
+		echo $this->get_font_attribute_for_download( $download, FTM_LICENSE_ATTRIBUTE );
 	}
 
 	public function get_font_attribute_for_download( $download, $type ) {
@@ -140,7 +162,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 
 		return array(
-			'download_url'        => $variation_download->get_file(),
+			'download_url'        => Zipomator::get_nonced_url( $variation->get_id() ),
 			'download_id'         => $variation_download->get_id(),
 			'product_id'          => $variation->get_id(),
 			'product_name'        => strip_tags( $variation->get_name() ),
@@ -157,6 +179,50 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		);
 	}
 
+	public function get_all_fonts_downloads( $license, $order_id ) {
+		$downloads = array();
+		$archives = wc_get_products(
+			array(
+				'type' => 'variable',
+				'paginate' => false,
+				'limit' => -1,
+				'category' => array( 'archive' ),
+				'return' => 'ids',
+			)
+		);
+
+		$fonts = wc_get_products(
+			array(
+				'type' => 'variable',
+				'paginate' => false,
+				'limit' => -1,
+				'exclude' => $archives,
+			)
+		);
+
+		if ( ! $fonts ) {
+			wp_die( __( 'Fontimator Error: No fonts found. Are you sure you have WooCommerce products active?', 'fontimator' ) );
+		}
+
+		$fonts = array_map(
+			function ( $font_id ) {
+					return new Fontimator_Font( $font_id );
+			}, $fonts
+		);
+
+		foreach ( $fonts as $font ) {
+			$font_variation_for_membership = $font->get_variation_for_membership( $license );
+
+			if ( ! $font_variation_for_membership || ! $font_variation_for_membership->is_downloadable() ) {
+				continue;
+			} else {
+				$downloads[] = $this->get_new_download_obj( $font_variation_for_membership, $order_id );
+			}
+		}
+
+		return $downloads;
+	}
+
 	public function membership_add_all_fonts_downloads_table( $downloads ) {
 		// get membership
 		$subscriptions = wcs_get_users_subscriptions();
@@ -170,59 +236,19 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					continue;
 				}
 
-				$archives = wc_get_products(
-					array(
-						'type' => 'variable',
-						'paginate' => false,
-						'limit' => -1,
-						'category' => array( 'archive' ),
-						'return' => 'ids',
-					)
-				);
-
-				$fonts = wc_get_products(
-					array(
-						'type' => 'variable',
-						'paginate' => false,
-						'limit' => -1,
-						'exclude' => $archives,
-					)
-				);
-
-				if ( ! $fonts ) {
-					wp_die( __( 'Fontimator Error: No fonts found. Are you sure you have WooCommerce products active?', 'fontimator' ) );
-				}
-
-				$fonts = array_map(
-					function ( $font_id ) {
-							return new Fontimator_Font( $font_id );
-					}, $fonts
-				);
-
-				foreach ( $fonts as $font ) {
-					$font_variation_for_membership = $font->get_variation_for_membership( $membership_license );
-
-					if ( ! $font_variation_for_membership || ! $font_variation_for_membership->is_downloadable() ) {
-						continue;
-					} else {
-						$downloads[] = $this->get_new_download_obj( $font_variation_for_membership, $membership_id );
-					}
-				}
+				$membership_downloads = $this->get_all_fonts_downloads( $membership_license, $membership_id );
+				$downloads = array_merge( $downloads, $membership_downloads );
 			}
 		}
 		return $downloads;
 	}
 
 	public function wsms_add_gifts_downloads_table( $downloads ) {
-		global $wsms_instance;
-
-		if ( class_exists( 'WSMS' ) ) {
-			if ( ! $wsms_instance ) {
-				$wsms_instance = new WSMS;
-			}
-
-			$merge_fields = $wsms_instance->get_user_merge_fields();
-			$font_gifts = (array) get_field( 'mailchimp_font_gifts', 'options' );
+		global $woocommerce;
+		if ( class_exists( 'WC_Integration_WSMS' ) ) {
+			$wsms_integration = $woocommerce->integrations->integrations['wsms'];
+			$merge_fields = $wsms_integration->get_user_merge_fields();
+			$font_gifts = (array) Fontimator::get_instance()->get_acf()->get_field( 'mailchimp_font_gifts', 'options' );
 
 			foreach ( $font_gifts as $gift ) {
 				$merge_field = strtoupper( $gift['merge_field'] );
@@ -239,6 +265,24 @@ class Fontimator_MyAccount extends Fontimator_Public {
 						$downloads[] = $this->get_new_download_obj( $gift_variation, 'mailchimp_font_gift' );
 					}
 				}
+			}
+		}
+
+		return $downloads;
+	}
+
+	public function wsms_add_academic_downloads_table( $downloads ) {
+		global $woocommerce;
+		if ( class_exists( 'WC_Integration_WSMS' ) ) {
+			$wsms_integration = $woocommerce->integrations->integrations['wsms'];
+			$list_id = '0f16472e00';
+			$merge_fields = $wsms_integration->get_user_merge_fields( $list_id );
+			$academic_year = (int) $merge_fields->YEAR;
+			$graduation_date = new DateTime( $academic_year . '-07-31' );
+			$now = new DateTime();
+			if ( $graduation_date > $now ) {
+				$academic_downloads = $this->get_all_fonts_downloads( 'otf-2', 'academic' );
+				$downloads = array_merge( $downloads, $academic_downloads );
 			}
 		}
 
@@ -270,17 +314,9 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function checkbox_for_download( $download ) {
-		$variation = new Fontimator_Font_Variation( $download['product_id'] );
-		if ( ! $variation->get_weight() ) {
-			return; // No checkbox for memberships
-		}
-		$family = $variation->get_family();
-		$weight = Zipomator::get_clean_weight( $variation->get_weight() );
-		$license = $variation->get_license();
-		$item_string = sprintf( '{%s,%s,%s}', $family, $weight, $license );
 		?>
 
-		<input type="checkbox" name="fontimator-downloads" value="<?php echo $item_string; ?>" id="fontimator_download_<?php echo $download['product_id']; ?>" />
+		<input type="checkbox" name="fontimator-downloads" value="<?php echo $download['product_id']; ?>" id="fontimator_download_<?php echo $download['product_id']; ?>" />
 
 		<?php
 	}
@@ -293,6 +329,10 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			<button class="fontimator-unselect-all button alt" type="button"><?php _e( 'Unselect All', 'fontimator' ); ?></button>
 		</div>
 		<?php
+	}
+
+	public function add_edit_account_to_edit_address() {
+		WC_Shortcode_My_Account::edit_address( false );
 	}
 
 }

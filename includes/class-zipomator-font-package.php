@@ -27,6 +27,12 @@ class Zipomator_Font_Package {
 	 * @param array $items An array of all font packages bought.
 	 */
 	function __construct( $items = [] ) {
+		foreach ( $items as $item ) {
+			list( $family, $weight, $license ) = $item;
+			if ( 'web-reseller' === $license ) { // Add desktop 1-2 to reseller license
+				$items[] = array( $family, $weight, 'otf-web-reseller' );
+			}
+		}
 		$this->_items = $items;
 	}
 
@@ -46,7 +52,8 @@ class Zipomator_Font_Package {
 				break;
 
 			case 'license':
-				return FTM_FONTS_PATH . "/_licenses/{$license}.txt";
+				// return FTM_FONTS_PATH . "/_licenses/{$license}.txt";
+				return Zipomator::get_eula_url( array( self::simplify_license( $license ) ) );
 				break;
 
 			case 'thumbnail':
@@ -79,24 +86,25 @@ class Zipomator_Font_Package {
 				return false;
 			}
 
-			list( $family, $weight, $license ) = $item;
-			$font_id = self::get_font_post( $family )->ID;
-			$font = new Fontimator_Font( $font_id );
+			// Don't check for files actually, just for item validity
+			// list( $family, $weight, $license ) = $item;
+			// $font_id = self::get_font_post( $family )->ID;
+			// $font = new Fontimator_Font( $font_id );
 
-			if ( 'family' === $weight ) {
-				$weight = reset( $font->get_visible_weights( 'slug' ) );
-			} elseif ( 'familybasic' === $weight ) {
-				$weight = reset( $font->get_familybasic_weights( 'slug' ) );
-			}
+			// if ( 'family' === $weight ) {
+			// 	$weight = reset( $font->get_visible_weights( 'slug' ) );
+			// } elseif ( 'familybasic' === $weight ) {
+			// 	$weight = reset( $font->get_familybasic_weights( 'slug' ) );
+			// }
 
-			$weight = Zipomator::get_clean_weight( $weight );
+			// $weight = Zipomator::get_clean_weight( $weight );
 
-			$file_path = $this->get_server_path( 'font', $family, 'ttf', $weight, 'web' );
-			if ( ! file_exists( $file_path ) ) {
-				/* TRANSLATORS: %1\$s: Font Name, %2\$s: File Format, %3\$s: Font Weight */
-				echo sprintf( __( "Font file doesn't exist for %1\$s, %2\$s, %3\$s. Please contact us and we'll solve this problem in no-time :)", 'fontimator' ), $item[0], 'ttf', $weight );
-				return false;
-			}
+			// $file_path = $this->get_server_path( 'font', $family, 'ttf', $weight, 'web' );
+			// if ( ! file_exists( $file_path ) ) {
+			// 	/* TRANSLATORS: %1\$s: Font Name, %2\$s: File Format, %3\$s: Font Weight */
+			// 	echo sprintf( __( "Font file doesn't exist for %1\$s, %2\$s, %3\$s. Please contact us and we'll solve this problem in no-time :)", 'fontimator' ), $item[0], 'ttf', $weight );
+			// 	return false;
+			// }
 		}
 
 		return true;
@@ -143,6 +151,14 @@ class Zipomator_Font_Package {
 			}
 
 			foreach ( $weights as $weight ) {
+				// If weight is full, just use ZIP.
+				if ( 'full' === $weight ) {
+					$file_path = $this->get_server_path( 'font', $family, 'zip', 'full', $clean_license );
+					$local_path = $local_fontfiles_path_prefix . "{$family}-{$weight}-{$site_prefix}.zip";
+					$file_list[] = [ $file_path, $local_path ];
+					continue;
+				}
+
 				if ( 'web' === $clean_license ) {
 					$local_misc_path_prefix = $local_path_prefix;
 					$local_fontfiles_path_prefix = $local_path_prefix . 'webfont_files/';
@@ -179,8 +195,23 @@ class Zipomator_Font_Package {
 
 			// xxx-font-license-aaa.txt
 			$file_path = $this->get_server_path( 'license', false, false, false, $license );
-			$local_path = $local_misc_path_prefix . "{$license}-font-license-{$site_prefix}.txt";
-			$file_list[] = [ $file_path, $local_path ];
+
+			$local_path = $local_misc_path_prefix . "{$license}-font-license-{$site_prefix}.html";
+			if ( $file_path ) {
+				$license_html_content = file_get_contents(
+					$file_path, false, stream_context_create(
+						array(
+							'ssl' => array(
+								'verify_peer' => false,
+								'verify_peer_name' => false,
+							),
+						)
+					)
+				);
+				if ( $license_html_content ) {
+					$file_list[] = [ false, $license_html_content, $local_path ];
+				}
+			}
 
 			// poster, thumbnail, specimen
 			$file_path = $this->get_server_path( 'thumbnail', $family );

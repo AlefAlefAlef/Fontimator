@@ -100,4 +100,8 @@ class Fontimator_Admin {
 
 	}
 
+	public function can_edit_orders() {
+		return true;
+	}
+
 }

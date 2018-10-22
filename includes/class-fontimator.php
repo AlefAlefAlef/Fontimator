@@ -151,6 +151,7 @@ class Fontimator {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-zipomator-font-package.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-zip-file.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-pdf-file.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-zipomator-eula.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-zipomator.php';
 
 		/**
@@ -229,9 +230,11 @@ class Fontimator {
 
 		$this->loader->add_action( 'plugins_loaded', $this->loader, 'check_dependencies' );
 
+
 		$plugin_admin = new Fontimator_Admin( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_filter( 'wc_order_is_editable', $plugin_admin, 'can_edit_orders' );
 
 		$variations_helper = new Fontimator_Variations_Helper( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $variations_helper, 'enqueue_scripts' );
@@ -266,6 +269,7 @@ class Fontimator {
 
 		// Shortcodes
 		$this->loader->add_shortcode( 'fontimator-zip-table', $plugin_public, 'shortcode_zip_table' );
+		$this->loader->add_shortcode( 'fontimator-eula', $plugin_public, 'shortcode_eula' );
 
 	}
 
@@ -279,6 +283,10 @@ class Fontimator {
 		$myaccount = new Fontimator_MyAccount( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $myaccount, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $myaccount, 'enqueue_scripts' );
+		
+		// Adds the edit address section to edit-account. Disabled because we don't need it.
+		// $this->loader->add_action( 'woocommerce_after_edit_account_form', $myaccount, 'add_edit_account_to_edit_address' );
+		
 
 		// Add columns to download table
 		$this->loader->add_filter( 'woocommerce_account_downloads_columns', $myaccount, 'add_columns_to_downloads_table' );
@@ -287,6 +295,8 @@ class Fontimator {
 		$this->loader->add_action( 'woocommerce_account_downloads_column_download-product', $myaccount, 'prepend_icon_to_download_name' );
 		$this->loader->add_action( 'woocommerce_email_downloads_column_download-product', $myaccount, 'prepend_icon_to_download_name' );
 
+		$this->loader->add_action( 'woocommerce_account_downloads_column_download-font-version', $myaccount, 'font_version_for_download' );
+		$this->loader->add_action( 'woocommerce_email_downloads_column_download-font-version', $myaccount, 'font_version_for_download' );
 		$this->loader->add_action( 'woocommerce_account_downloads_column_download-font-weight', $myaccount, 'font_weight_for_download' );
 		$this->loader->add_action( 'woocommerce_email_downloads_column_download-font-weight', $myaccount, 'font_weight_for_download' );
 		$this->loader->add_action( 'woocommerce_account_downloads_column_download-font-license', $myaccount, 'font_license_for_download' );
@@ -300,9 +310,10 @@ class Fontimator {
 		// Add dynamic downloads
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'membership_add_all_fonts_downloads_table' );
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'wsms_add_gifts_downloads_table' );
+		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'wsms_add_academic_downloads_table' );
 
 		// Disable cancelation & modificaton
-		// $this->loader->add_filter( 'wcs_view_subscription_actions', $myaccount, 'disable_subsciprion_cancellation', 10, 2 );
+		$this->loader->add_filter( 'wcs_view_subscription_actions', $myaccount, 'disable_subsciprion_cancellation', 10, 2 );
 		$this->loader->add_filter( 'wcs_can_items_be_removed', $myaccount, 'remove_items_from_subscription' );
 		$this->loader->add_filter( 'wcs_can_item_be_removed', $myaccount, 'remove_items_from_subscription' );
 	}

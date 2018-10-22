@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2018-10-16 21:43+0300\n"
-"PO-Revision-Date: 2018-10-16 21:46+0300\n"
+"POT-Creation-Date: 2018-10-21 11:40+0300\n"
+"PO-Revision-Date: 2018-10-21 11:41+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -80,16 +80,7 @@ msgstr "הגדרות הפוֹנטִימָטוֹר נשמרו"
 msgid "There was an error generating the fonts catalog."
 msgstr "אירעה שגיאה ביצירת קטלוג הגופנים."
 
-#: includes/class-zipomator-font-package.php:97
-#, php-format
-msgid ""
-"Font file doesn't exist for %1$s, %2$s, %3$s. Please contact us and we'll solve "
-"this problem in no-time :)"
-msgstr ""
-"קובץ הגופן אינו קיים עבור %1$s,%2$s,%3$s. צור איתנו קשר ואנו נפתור בעיה זו תוך "
-"זמן קצר :)"
-
-#: includes/class-zipomator.php:158
+#: includes/class-zipomator.php:185
 msgid ""
 "Zipomator Error: no parameters were passed. \n"
 "\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
@@ -102,92 +93,131 @@ msgstr ""
 "‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
 
 #. translators: This is (probably) the name of the invalid font.
-#: includes/class-zipomator.php:170
+#: includes/class-zipomator.php:199
 #, php-format
 msgid "Zipomator Error: invalid amount of arguments in item: %s"
 msgstr "שגיאת זיפומטור: מספר פרמטרים לא תקין בפריט: %s"
 
-#: includes/class-zipomator.php:191
-msgid ""
-"Zipomator Error: no membership license was passed. \n"
-"\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
-"\t\t\t\tand that your htaccess file is set up properly."
-msgstr ""
-"שגיאת זיפומטור: לא הועבר רשיון ממברשיפ. \n"
-"‬\n"
-"‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
-"‬\n"
-"‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
-
-#: includes/class-zipomator.php:217
+#: includes/class-zipomator.php:235
 msgid ""
 "Zipomator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
 "שגיאת זיפומטור: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
-#: public/class-fontimator-myaccount.php:49
+#: includes/class-zipomator.php:260
+msgid ""
+"Zipomator Error: no membership license was passed. \n"
+"\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
+"\t\t\t\t\tand that your htaccess file is set up properly."
+msgstr ""
+"שגיאת זיפומטור: לא הועבר רשיון ממברשיפ. \n"
+"‬\n"
+"‏‫‬\n"
+"‬\n"
+"‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
+"‬\n"
+"‏‫‬\n"
+"‬\n"
+"‫‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
+
+#: includes/class-zipomator.php:288
+msgid ""
+"Zipomator Error: no variations were passed. \n"
+"\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
+"\t\t\t\t\tand that your htaccess file is set up properly."
+msgstr ""
+"שגיאת זיפומטור: לא הועברו פונטים. \n"
+"‬\n"
+"‏‫‬\n"
+"‬\n"
+"‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
+"‬\n"
+"‏‫‬\n"
+"‬\n"
+"‫‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
+
+#: includes/class-zipomator.php:298
+#, php-format
+msgid ""
+"Invalid download link. Go to your <a href=\"%s\">Downloads Page</a> to download "
+"the font."
+msgstr ""
+"קישור הורדה לא תקין. נסו ללכת ל<a href=\"%s\">דף ההורדות שלכם</a> כדי להוריד את "
+"הגופן."
+
+#: includes/class-zipomator.php:311 includes/class-zipomator.php:325
+#: includes/class-zipomator.php:333
+#, php-format
+msgid "Zipomator Error: Invalid download link. (%s)"
+msgstr "שגיאה זיפומטור: קישור הורדה לא תקין. (%s)"
+
+#: public/class-fontimator-myaccount.php:51
 msgid "Select some fonts using the small checkboxes first."
 msgstr "יש לסמן כמה גופנים באמצעות תיבות הסימון קטנות תחילה."
 
-#: public/class-fontimator-myaccount.php:53
+#: public/class-fontimator-myaccount.php:55
 msgid ""
 "Are you sure? You can't re-enable the membership without purchasing it again."
 msgstr "‫מאה אחוז? לא ניתן להחזיר את המינוי בלי לרכוש אותו מחדש."
 
-#: public/class-fontimator-myaccount.php:77
+#: public/class-fontimator-myaccount.php:79
 msgid "Family"
 msgstr "משפחה"
 
-#: public/class-fontimator-myaccount.php:78
+#: public/class-fontimator-myaccount.php:80
 msgid "Weight"
 msgstr "משקל"
 
-#: public/class-fontimator-myaccount.php:79
+#: public/class-fontimator-myaccount.php:81
 msgid "License"
 msgstr "רישיון"
 
-#: public/class-fontimator-myaccount.php:80
+#: public/class-fontimator-myaccount.php:82
 msgid "Download"
 msgstr "הורדה"
 
 #: public/class-fontimator-myaccount.php:98
+msgid "Your Academic License"
+msgstr "רשיון אקדמי"
+
+#: public/class-fontimator-myaccount.php:106
 msgid "Your Newsletter Birthday Gift!"
 msgstr "מתנת יום ההולדת שלך מהניוזלטר!"
 
-#: public/class-fontimator-myaccount.php:103
+#: public/class-fontimator-myaccount.php:111
 #, php-format
 msgid "Moved to %s"
 msgstr "עבר ל%s"
 
-#: public/class-fontimator-myaccount.php:103
+#: public/class-fontimator-myaccount.php:111
 msgid "Fontimonim"
 msgstr "פונטימונים"
 
-#: public/class-fontimator-myaccount.php:105
+#: public/class-fontimator-myaccount.php:113
 msgid "Archived"
 msgstr "עבר לארכיון"
 
-#: public/class-fontimator-myaccount.php:193
+#: public/class-fontimator-myaccount.php:190
 msgid ""
 "Fontimator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
 "שגיאת פוֹנטִימָטוֹר: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
-#: public/class-fontimator-myaccount.php:259
+#: public/class-fontimator-myaccount.php:289
 msgid "Cancel (unavailable during the first year)"
 msgstr "ביטול (לא זמין במהלך השנה הראשונה)"
 
-#: public/class-fontimator-myaccount.php:291
+#: public/class-fontimator-myaccount.php:313
 msgid "Download Selected"
 msgstr "הורדת מסומנים"
 
-#: public/class-fontimator-myaccount.php:292
+#: public/class-fontimator-myaccount.php:314
 msgid "Select All"
 msgstr "לסמן הכל"
 
-#: public/class-fontimator-myaccount.php:293
+#: public/class-fontimator-myaccount.php:315
 msgid "Unselect All"
 msgstr "לסמן כלום"
 
@@ -237,6 +267,13 @@ msgstr "ראובן קרסיק"
 #. Author URI of the plugin/theme
 msgid "https://alefalefalef.co.il/"
 msgstr "https://alefalefalef.co.il/"
+
+#~ msgid ""
+#~ "Font file doesn't exist for %1$s, %2$s, %3$s. Please contact us and we'll "
+#~ "solve this problem in no-time :)"
+#~ msgstr ""
+#~ "קובץ הגופן אינו קיים עבור %1$s,%2$s,%3$s. צור איתנו קשר ואנו נפתור בעיה זו "
+#~ "תוך זמן קצר :)"
 
 #~ msgid "Font"
 #~ msgstr "פונט"

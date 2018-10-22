@@ -20,7 +20,10 @@
  */
 class Zipomator {
 	protected static $zip_endpoint = 'get-zip';
+	protected static $variation_endpoint = 'download-font';
+	protected static $eula_endpoint = 'get-eula';
 	protected static $catalog_endpoint = 'get-catalog';
+	protected static $nonce_action = 'zipomator_download';
 
 	protected $specimen_filename_prefix;
 
@@ -32,9 +35,17 @@ class Zipomator {
 
 	public function add_rewrite_rules() {
 		$zip_endpoint = self::$zip_endpoint;
+		$variation_endpoint = self::$variation_endpoint;
+		$eula_endpoint = self::$eula_endpoint;
 		if ( $zip_endpoint ) {
 			add_rewrite_rule( "^{$zip_endpoint}/membership/(.*)$", 'index.php?zipomator_api=1&membership=1&license=$matches[1]', 'top' );
 			add_rewrite_rule( "^{$zip_endpoint}/(.*)$", 'index.php?zipomator_api=1&packages=$matches[1]', 'top' );
+		}
+		if ( $variation_endpoint ) {
+			add_rewrite_rule( "^{$variation_endpoint}/(.*)$", 'index.php?zipomator_api=1&variations=$matches[1]', 'top' );
+		}
+		if ( $eula_endpoint ) {
+			add_rewrite_rule( "^{$eula_endpoint}/(.*)$", 'index.php?zipomator_api=1&eula=$matches[1]', 'top' );
 		}
 		$catalog_endpoint = self::$catalog_endpoint;
 		if ( $catalog_endpoint ) {
@@ -48,6 +59,8 @@ class Zipomator {
 		$query_vars[] = 'membership';
 		$query_vars[] = 'catalog';
 		$query_vars[] = 'license';
+		$query_vars[] = 'variations';
+		$query_vars[] = 'eula';
 		return $query_vars;
 	}
 
@@ -62,8 +75,21 @@ class Zipomator {
 				$this->serve_catalog();
 				exit();
 			}
-			$package_string = urldecode( $wp->query_vars['packages'] );
-			$this->serve_package( $package_string );
+			if ( array_key_exists( 'packages', $wp->query_vars ) ) {
+				$package_string = urldecode( $wp->query_vars['packages'] );
+				$this->serve_package( $package_string );
+				exit();
+			}
+			if ( array_key_exists( 'variations', $wp->query_vars ) ) {
+				$variations = explode( ',', urldecode( $wp->query_vars['variations'] ) );
+				$this->serve_variations( $variations );
+				exit();
+			}
+			if ( array_key_exists( 'eula', $wp->query_vars ) ) {
+				$eula = explode( ',', urldecode( $wp->query_vars['eula'] ) );
+				$this->serve_eula( $eula );
+				exit();
+			}
 			exit();
 		}
 		return;
@@ -73,8 +99,29 @@ class Zipomator {
 		return implode( '-', [ $family, $weight, $license ] );
 	}
 
-	public static function zipomator_url( $url = '', $scheme = 'relative' ) {
-		return home_url( self::$zip_endpoint, $scheme ) . '/' . $url;
+
+
+	public static function get_eula_url( $licenses ) {
+		return home_url( self::$eula_endpoint . '/' . implode( ',', $licenses ) );
+	}
+	
+	
+	public static function get_variation_endpoint() {
+		return self::$variation_endpoint;
+	}
+
+	public static function get_nonce() {
+		return wp_create_nonce( self::$nonce_action );
+	}
+
+	public static function zipomator_bundle_url( $url = '', $scheme = 'relative' ) {
+		$url = home_url( self::$zip_endpoint, $scheme ) . '/' . $url;
+		return $url;
+	}
+
+	public static function zipomator_variation_url( $variations = array(), $scheme = 'relative' ) {
+		$url = home_url( self::$variation_endpoint, $scheme ) . '/' . implode( ',', $variations );
+		return wp_nonce_url( $url, self::$nonce_action );
 	}
 
 	public static function get_bundle_url( $family, $weight_clean, $license = false ) {
@@ -82,10 +129,10 @@ class Zipomator {
 		if ( 'membership' === $family ) {
 			$license = $license ?: $weight_clean;
 			$url_params = urlencode( $license );
-			return self::zipomator_url( 'membership/' . $url_params );
+			return self::zipomator_bundle_url( 'membership/' . $url_params );
 		}
 		$url_params = urlencode( sprintf( '\{%s,%s,%s\}', $family, $weight_clean, $license ) );
-		return self::zipomator_url( $url_params );
+		return self::zipomator_bundle_url( $url_params );
 	}
 
 	public static function get_clean_weight( $weight ) {
@@ -97,23 +144,18 @@ class Zipomator {
 		return $weight;
 	}
 
-	public static function get_url_for_variation( $variation_id ) {
-		$variation = new WC_Product_Variation( $variation_id );
-		$var_attrs = $variation->get_variation_attributes();
-
-		$product_id = $variation->get_parent_id();
-		$product    = new WC_Product( $product_id );
-
-		$family = $product->get_slug();
-		if ( count( $var_attrs ) < 2 ||
-			! isset( $var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ] ) ||
-			! isset( $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ] ) ) {
-			return false;
+	public static function get_nonced_url( $variations ) {
+		if ( 1 === count( $variations ) ) {
+			$variations = array( $variations );
 		}
-		$weight = self::get_clean_weight( $var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ] );
-		$license = $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ];
+		return self::zipomator_variation_url( $variations );
+	}
 
-		return self::get_bundle_url( $family, $weight, $license );
+	public static function is_nonce_valid( $nonce = null ) {
+		if ( ! $nonce ) {
+			$nonce = $_REQUEST['_wpnonce'];
+		}
+		return wp_verify_nonce( $nonce, self::$nonce_action );
 	}
 
 	/**
@@ -155,9 +197,13 @@ class Zipomator {
 	 */
 	protected function serve_package( $package_string ) {
 		if ( ! isset( $package_string ) ) {
-			wp_die(__('Zipomator Error: no parameters were passed. 
+			wp_die(
+				__(
+					'Zipomator Error: no parameters were passed. 
 				Please make sure you are trying to access via the correct URL,
-				and that your htaccess file is set up properly.', 'fontimator'));
+				and that your htaccess file is set up properly.', 'fontimator'
+				)
+			);
 		}
 
 		// Turn package format into variables
@@ -181,18 +227,7 @@ class Zipomator {
 		$zip_file->serve();
 	}
 
-	/**
-	 * Serve the membership package
-	 *
-	 * @param String $license The membership license
-	 */
-	protected function serve_membership( $license ) {
-		if ( ! isset( $license ) ) {
-			wp_die( __( 'Zipomator Error: no membership license was passed. 
-				Please make sure you are trying to access via the correct URL,
-				and that your htaccess file is set up properly.', 'fontimator' ) );
-		}
-
+	protected function get_membership_items( $license ) {
 		// Look for items
 		$archives = wc_get_products(
 			array(
@@ -226,6 +261,28 @@ class Zipomator {
 			}
 		}
 
+		return $items;
+
+	}
+
+	/**
+	 * Serve the membership package
+	 *
+	 * @param String $license The membership license
+	 */
+	protected function serve_membership( $license ) {
+		if ( ! isset( $license ) ) {
+			wp_die(
+				__(
+					'Zipomator Error: no membership license was passed. 
+					Please make sure you are trying to access via the correct URL,
+					and that your htaccess file is set up properly.', 'fontimator'
+				)
+			);
+		}
+
+		$items = $this->get_membership_items( $license );
+
 		// Create the package
 		$font_package = new Zipomator_Font_Package( $items );
 		if ( current_user_can( 'administrator' ) && ! $font_package->is_valid() ) {
@@ -236,6 +293,84 @@ class Zipomator {
 
 	}
 
+	/**
+	 * Serve the downloads for the variations
+	 *
+	 * @param Array $variations An array of variation IDs
+	 */
+	protected function serve_variations( $variations ) {
+		if ( ! isset( $variations ) ) {
+			wp_die(
+				__(
+					'Zipomator Error: no variations were passed. 
+					Please make sure you are trying to access via the correct URL,
+					and that your htaccess file is set up properly.', 'fontimator'
+				)
+			);
+		}
+
+		if ( ! current_user_can( 'administrator' ) && ! self::is_nonce_valid() ) {
+			// Redirect to downloads page.
+			// TRANSLATORS: URL to the downloads page
+			wp_die( sprintf( __( 'Invalid download link. Go to your <a href="%s">Downloads Page</a> to download the font.', 'fontimator' ), wc_get_page_permalink( 'myaccount' ) . 'downloads' ) );
+		}
+
+		$items = array();
+		foreach ( $variations as $variation_id ) {
+			$product_variation = wc_get_product( $variation_id );
+			$variation_type = $product_variation->get_type();
+			switch ( $variation_type ) {
+				case 'variation':
+					$variation = new Fontimator_Font_Variation( $product_variation );
+
+					if ( ! $variation || ! $variation->get_family() ) {
+						// TRANSLATORS: %s is the variation ID
+						wp_die( sprintf( __( 'Zipomator Error: Invalid download link. (%s)', 'fontimator' ), $variation_id ) );
+					}
+
+					$family = $variation->get_family();
+					$weight = self::get_clean_weight( $variation->get_weight() );
+					$license = $variation->get_license();
+					$items[] = array( $family, $weight, $license );
+					break;
+
+				case 'subscription_variation':
+					$var_attrs = $product_variation->get_variation_attributes();
+					$license = $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ];
+					if ( ! $license ) {
+						// TRANSLATORS: %s is the variation ID
+						wp_die( sprintf( __( 'Zipomator Error: Invalid download link. (%s)', 'fontimator' ), $variation_id ) );
+					}
+
+					$items = array_merge( $items, $this->get_membership_items( $license ) );
+					break;
+
+				default:
+					// TRANSLATORS: %s is the variation ID
+					wp_die( sprintf( __( 'Zipomator Error: Invalid download link. (%s)', 'fontimator' ), $variation_id ) );
+					break;
+			}
+		}
+
+		// Create the package
+		$font_package = new Zipomator_Font_Package( $items );
+		if ( current_user_can( 'administrator' ) && ! $font_package->is_valid() ) {
+			wp_die( 'Invalid input. Check the family, weights and license.' );
+		}
+
+		$zip_file = $font_package->make_zip();
+		$zip_file->serve();
+	}
+
+	/**
+	 * Serve the EULA for specified licenses
+	 *
+	 * @param Array $licenses An array of license types
+	 */
+	protected function serve_eula( $licenses ) {
+		$eula = new Zipomator_EULA( $licenses );
+		$eula->file();
+	}
 
 }
 

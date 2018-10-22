@@ -184,4 +184,11 @@ class Fontimator_Public {
 		return ob_get_clean();
 	}
 
+	public function shortcode_eula( $atts, $content = null ) {
+		ob_start();
+		$eula = new Zipomator_EULA( isset( $_GET['licenses'] ) ? explode( ',', $_GET['licenses'] ) : null );
+		$eula->html();
+		return ob_get_clean();
+	}
+
 }

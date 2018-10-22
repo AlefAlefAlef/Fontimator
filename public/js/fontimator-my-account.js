@@ -8,10 +8,13 @@ jQuery(function ($) {
 	$('.fontimator-bulk-download').click(function (e) {
 		var downloadsString = '';
 		$.each($("input[name='fontimator-downloads']:checked"), function () {
+			if ( downloadsString.length ) {
+				downloadsString += ',';
+			}
 			downloadsString += $(this).val();
 		});
 
-		window.location = FontimatorDownloadCheckboxesButtons.zipomatorBaseURL + '/' + downloadsString;
+		window.open( FontimatorDownloadCheckboxesButtons.zipomatorBaseURL + '/' + downloadsString + '?_wpnonce=' + FontimatorDownloadCheckboxesButtons.zipomatorNonce );
 	});
 
 	FontimatorDownloadCheckboxesButtons.updateBulkStatus = function() {

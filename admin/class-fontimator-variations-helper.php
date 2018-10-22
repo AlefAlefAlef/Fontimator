@@ -190,7 +190,7 @@ class Fontimator_Variations_Helper extends Fontimator_Admin {
 
 	public function save_ignore_checkbox_value( $post_id ) {
 		$fontimator_ignore = isset( $_POST['_fontimator_ignore'][ $post_id ] ) ? 'yes' : 'no';
-		setup_post_meta( $post_id, '_fontimator_ignore', $fontimator_ignore );
+		update_post_meta( $post_id, '_fontimator_ignore', $fontimator_ignore );
 	}
 
 
