@@ -193,7 +193,4 @@ class Fontimator_Variations_Helper extends Fontimator_Admin {
 		update_post_meta( $post_id, '_fontimator_ignore', $fontimator_ignore );
 	}
 
-
-
-
 }

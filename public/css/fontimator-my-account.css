@@ -1,6 +1,6 @@
 .fontimator-buttons {
 	font-size: 0.8em;
-	margin-top: 1.8em;
+	margin: 1.8em 0;
 }
 
 .woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--edit-address:not(.is-active) {

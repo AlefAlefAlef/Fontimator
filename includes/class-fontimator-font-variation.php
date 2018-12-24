@@ -46,15 +46,17 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		// 	return false;
 		// }
 
-		parent::__construct( $product );
+		if ( is_a( $product, 'WC_Product_Variation' ) || get_post( wp_get_post_parent_id( $product ) ) ) {
+			parent::__construct( $product );
+			$var_attrs = $this->get_variation_attributes();
+			if ( count( $var_attrs ) ) {
+				$this->weight = $var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ];
+				$this->license = $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ];
+				$font = new Fontimator_Font( $this->get_parent_id() );
+				$this->family = $font->get_slug();
+			}
+		}
 
-		$var_attrs = $this->get_variation_attributes();
-
-		$this->weight = $var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ];
-		$this->license = $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ];
-
-		$font = new Fontimator_Font( $this->get_parent_id() );
-		$this->family = $font->get_slug();
 	}
 
 	public function setup() {
@@ -68,7 +70,7 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		// Set download link
 		$this->setup_download_link();
 
-		do_action( 'fontimator_variation_setup', $this, $var_attrs );
+		do_action( 'fontimator_variation_setup', $this );
 	}
 
 	public function setup_download_link() {
@@ -78,7 +80,7 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		$zip_file->set_id( wp_generate_uuid4() );
 		$zip_file->set_name( Zipomator::single_name( $this->family, $weight_clean, $this->license ) . '.zip' );
 
-		$download_url = Zipomator::get_url( $this->family, $weight_clean, $this->license );
+		$download_url = Zipomator::get_bundle_url( $this->family, $weight_clean, $this->license );
 
 		$zip_file->set_file( $download_url );
 		$this->set_downloads( [ $zip_file ] );
@@ -97,13 +99,13 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 			$price = $base_price;
 		}
 
-		if ( '000-family' === $weight ) {
+		if ( '000-family' === $this->weight ) {
 			$visible_weights = $font->get_visible_weights();
 			$weight_count = count( $visible_weights );
 
 			$price = $weight_count * $price;
 			$sale_price = $price * floatval( $fontprice_ratios['family'] );
-		} elseif ( '000-familybasic' === $weight ) {
+		} elseif ( '000-familybasic' === $this->weight ) {
 			$weights = $font->get_familybasic_weights();
 
 			$price = (count( $weights )) * $price;
@@ -113,7 +115,7 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		// Set prices
 		$this->set_regular_price( ceil( $price / 5 ) * 5 );
 
-		if ( $sale_price ) {
+		if ( isset( $sale_price ) && is_numeric( $sale_price ) ) {
 			$this->set_sale_price( ceil( $sale_price / 5 ) * 5 );
 		}
 
@@ -128,8 +130,41 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		return $this->license;
 	}
 
+	public function get_license_type() {
+		$license_parts = explode( '-', $this->license );
+		return $license_parts[0];
+	}
+
 	public function get_family() {
 		return $this->family;
+	}
+
+	public function get_name() {
+		$name = $this->get_title(); // Family
+
+		if ( $this->weight ) {
+			$weight_name = get_term_by( 'slug', $this->weight, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->name;
+			// TRANSLATORS: The Weight name
+			$name .= sprintf( __( ', weight of %s', 'fontimator' ), $weight_name );
+		}
+
+		if ( $this->license ) {
+			switch ( explode( '-', $this->license )[0] ) {
+				case 'web':
+					$license_name = __( 'web', 'fontimator' );
+					break;
+				case 'app':
+					$license_name = __( 'app', 'fontimator' );
+					break;
+				case 'otf':
+					$license_name = __( 'desktop', 'fontimator' );
+					break;
+			}
+			// TRANSLATORS: The License name
+			$name .= sprintf( __( ', %s license', 'fontimator' ), $license_name );
+		}
+
+		return $name;
 	}
 
 

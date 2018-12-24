@@ -104,8 +104,7 @@ class Zipomator {
 	public static function get_eula_url( $licenses ) {
 		return home_url( self::$eula_endpoint . '/' . implode( ',', $licenses ) );
 	}
-	
-	
+
 	public static function get_variation_endpoint() {
 		return self::$variation_endpoint;
 	}
@@ -114,7 +113,7 @@ class Zipomator {
 		return wp_create_nonce( self::$nonce_action );
 	}
 
-	public static function zipomator_bundle_url( $url = '', $scheme = 'relative' ) {
+	public static function zipomator_bundle_url( $url = '', $scheme = 'https' ) {
 		$url = home_url( self::$zip_endpoint, $scheme ) . '/' . $url;
 		return $url;
 	}
@@ -312,7 +311,7 @@ class Zipomator {
 		if ( ! current_user_can( 'administrator' ) && ! self::is_nonce_valid() ) {
 			// Redirect to downloads page.
 			// TRANSLATORS: URL to the downloads page
-			wp_die( sprintf( __( 'Invalid download link. Go to your <a href="%s">Downloads Page</a> to download the font.', 'fontimator' ), wc_get_page_permalink( 'myaccount' ) . 'downloads' ) );
+			wp_die( sprintf( __( 'Invalid download link. Go to your <a href="%s">Downloads Page</a> to download the font.', 'fontimator' ), esc_url( wc_get_endpoint_url( 'downloads' ) ) ) );
 		}
 
 		$items = array();

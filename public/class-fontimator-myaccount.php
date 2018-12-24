@@ -18,6 +18,7 @@
  * @author     Reuven Karasik <rubik@karasik.org>
  */
 class Fontimator_MyAccount extends Fontimator_Public {
+	public $downloads_table_notes;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -45,15 +46,19 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 			$zipomator_base_url = home_url( Zipomator::get_variation_endpoint() );
 			$zipomator_nonce = Zipomator::get_nonce();
-			wp_localize_script( 'fontimator-my-account', 'FontimatorDownloadCheckboxesButtons', array(
-				'zipomatorBaseURL' => $zipomator_base_url,
-				'zipomatorNonce' => $zipomator_nonce,
-				'disabledText' => __( 'Select some fonts using the small checkboxes first.' , 'fontimator' ),
-			) );
+			wp_localize_script(
+				'fontimator-my-account', 'FontimatorDownloadCheckboxesButtons', array(
+					'zipomatorBaseURL' => $zipomator_base_url,
+					'zipomatorNonce' => $zipomator_nonce,
+					'disabledText' => __( 'Select some fonts using the small checkboxes first.' , 'fontimator' ),
+				)
+			);
 
-			wp_localize_script( 'fontimator-my-account', 'FontimatorSubscriptionActions', array(
-				'cancelConfirmationText' => esc_html__( "Are you sure? You can't re-enable the membership without purchasing it again.", 'fontimator' ),
-			) );
+			wp_localize_script(
+				'fontimator-my-account', 'FontimatorSubscriptionActions', array(
+					'cancelConfirmationText' => esc_html__( "Are you sure? You can't re-enable the membership without purchasing it again.", 'fontimator' ),
+				)
+			);
 		}
 	}
 
@@ -73,6 +78,24 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 	}
 
+	public function locate_template( $template, $template_name, $template_path ) {
+		switch ( basename( $template ) ) {
+			case 'dashboard.php':
+				$template = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'partials/fontimator-myaccount-dashboard.php';
+				break;
+
+			// Add title to forgot password page
+			case 'lost-password-confirmation.php':
+			case 'form-reset-password.php':
+			case 'form-lost-password.php':
+				echo '<h2>' . __( 'Recover password or old purchases', 'fontimator' ) . '</h2>';
+				break;
+		}
+
+		return $template;
+	}
+
+
 	public function add_columns_to_downloads_table( $columns ) {
 		return array(
 			'download-select'      => '&nbsp;',
@@ -91,12 +114,12 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		$membership = new Fontimator_Membership( $order_id );
 		if ( $membership && 'active' === $membership->get_status() ) {
 			$membership_variation = new Fontimator_Font_Variation( $membership->get_variation_id() );
-			echo '<a href="' . $membership_variation->get_permalink() . '" title="' . $membership_variation->get_title() . '"><i class="icon" data-icon="ö"></i></a>';
+			echo '<a href="' . $membership_variation->get_permalink() . '" title="' . $membership_variation->get_title() . '"><i class="icon" data-icon="ø"></i></a>';
 			echo ' <span class="downloads-table-icon-membership-seperator">&rsaquo;</span> ';
 		}
 
 		if ( 'academic' === $order_id ) {
-			echo '<a href="/eula/?license=otf-accademic" title="' . __( 'Your Academic License', 'fontimator' ) . '"><i class="icon" data-icon="Þ"></i></a>';
+			echo '<a href="/eula/?licenses=otf,academic" title="' . __( 'Your Academic License', 'fontimator' ) . '"><i class="icon" data-icon="Ÿ"></i></a>';
 			echo ' <span class="downloads-table-icon-membership-seperator">&rsaquo;</span> ';
 		}
 
@@ -165,7 +188,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			'download_url'        => Zipomator::get_nonced_url( $variation->get_id() ),
 			'download_id'         => $variation_download->get_id(),
 			'product_id'          => $variation->get_id(),
-			'product_name'        => strip_tags( $variation->get_name() ),
+			'product_name'        => strip_tags( $variation->get_title() ),
 			'product_url'         => $variation->is_visible() ? $variation->get_permalink() : '', // Since 3.3.0.
 			'download_name'       => strip_tags( $variation_download->get_name() ),
 			'order_id'            => $order_id,
@@ -283,6 +306,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			if ( $graduation_date > $now ) {
 				$academic_downloads = $this->get_all_fonts_downloads( 'otf-2', 'academic' );
 				$downloads = array_merge( $downloads, $academic_downloads );
+			} elseif ( $academic_year ) {
+				$this->downloads_table_notes .= sprintf( __( '<strong>Please note:</strong> You had an Academic License until July 31st, %s, but it is out of date.', 'fontimator' ), $academic_year );
 			}
 		}
 
@@ -324,15 +349,27 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	public function downloads_table_buttons() {
 		?>
 		<div class="fontimator-buttons">
-			<button class="fontimator-bulk-download button alt" type="submit" disabled><?php _e( 'Download Selected', 'fontimator' ); ?></button>
 			<button class="fontimator-select-all button alt" type="button"><?php _e( 'Select All', 'fontimator' ); ?></button>
 			<button class="fontimator-unselect-all button alt" type="button"><?php _e( 'Unselect All', 'fontimator' ); ?></button>
+			<button class="fontimator-bulk-download button alt" type="submit" disabled><?php _e( 'Download Selected', 'fontimator' ); ?></button>
 		</div>
 		<?php
 	}
 
 	public function add_edit_account_to_edit_address() {
 		WC_Shortcode_My_Account::edit_address( false );
+	}
+
+	public function add_message_after_downloads() {
+		echo '<div class="footnotes">';
+		// TRANSLATORS: %s is the link to contact form
+		echo sprintf( __( "Missing something? If you have previously purchased a font license that isn't listed here, please <a href='%s'>Contact us</a> and we will fix the issue.", 'fontimator' ), esc_url( home_url( 'contact' ) ) );
+		echo '<br />';
+		echo sprintf( __( "Each time you download fonts from this page you agree to the <strong>current</strong> <a href='%s'>EULA</a>.", 'fontimator' ), esc_url( home_url( 'eula' ) ) );
+		if ( $this->downloads_table_notes ) {
+			echo '<br />' . $this->downloads_table_notes;
+		}
+		echo '</div>';
 	}
 
 }

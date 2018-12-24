@@ -155,6 +155,16 @@ class Fontimator {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-zipomator.php';
 
 		/**
+		 * The class responsible for WooCommerce actions and overrides.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-woocommerce.php';
+
+		/**
+		 * The helper class with Product Queries.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-query.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fontimator-admin.php';
@@ -217,6 +227,34 @@ class Fontimator {
 		$this->loader->add_filter( 'query_vars', $zipomator, 'query_vars', 30, 2 );
 		$this->loader->add_action( 'parse_request', $zipomator, 'parse_request' );
 
+		$fontimator_woocommerce = new Fontimator_WooCommerce();
+		// Remove the quantity field from WooCommerce Product
+		$this->loader->add_filter( 'woocommerce_is_sold_individually', $fontimator_woocommerce, '_return_true' );
+
+		// Trim zeros in price decimals
+		$this->loader->add_filter( 'woocommerce_price_trim_zeros', $fontimator_woocommerce, '_return_true' );
+		$this->loader->add_filter( 'wc_price', $fontimator_woocommerce, 'add_span_to_decimals_in_price' );
+
+		// Remove billing fields
+		$this->loader->add_filter( 'woocommerce_billing_fields', $fontimator_woocommerce, 'custom_billing_fields' );
+		$this->loader->add_filter( 'woocommerce_checkout_fields', $fontimator_woocommerce, 'custom_billing_fields' );
+
+		// Variations in font name
+		$this->loader->add_filter( 'woocommerce_product_variation_title_include_attributes', $fontimator_woocommerce, '_return_false' );
+		$this->loader->add_filter( 'woocommerce_is_attribute_in_product_name', $fontimator_woocommerce, '_return_false' );
+
+		// Email columns and quantity
+		$this->loader->add_filter( 'woocommerce_email_order_item_quantity', $fontimator_woocommerce, '_return_empty' );
+		$this->loader->add_filter( 'woocommerce_email_downloads_columns', $fontimator_woocommerce, 'remove_expires_head_from_email' );
+		$this->loader->add_filter( 'woocommerce_email_downloads_column_download-expires', $fontimator_woocommerce, '_return_false' );
+
+		// When user has no subscriptions, link to a subscription in their dashboard
+		$this->loader->add_filter( 'woocommerce_subscriptions_message_store_url', $fontimator_woocommerce, 'subscription_message_store_url_to_product' );
+
+		// Price Ranges
+		$this->loader->add_filter( 'woocommerce_get_price_html_from_text', $fontimator_woocommerce, 'woocommerce_get_price_html_from_text' );
+		$this->loader->add_filter( 'woocommerce_variable_price_html', $fontimator_woocommerce, 'woocommerce_variable_price_html', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_variable_sale_price_html', $fontimator_woocommerce, 'woocommerce_variable_price_html', 10, 2 );
 	}
 
 	/**
@@ -229,7 +267,6 @@ class Fontimator {
 	private function define_admin_hooks() {
 
 		$this->loader->add_action( 'plugins_loaded', $this->loader, 'check_dependencies' );
-
 
 		$plugin_admin = new Fontimator_Admin( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
@@ -262,14 +299,25 @@ class Fontimator {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		// WooCommerce Product Archive Page
+		$this->loader->add_filter( 'woocommerce_catalog_orderby', $plugin_public, 'hide_sorting_options_from_dropdown' );
+
 		// WooCommerce Product Page
 		$this->loader->add_filter( 'woocommerce_dropdown_variation_attribute_options_args', $plugin_public, 'hide_dead_weights_from_dropdown' );
 		$this->loader->add_filter( 'woocommerce_variation_option_name', $plugin_public, 'add_family_calculation_to_dropdown' );
 		$this->loader->add_filter( 'woocommerce_dropdown_variation_attribute_options_html', $plugin_public, 'group_licenses_dropdown', 100, 2 );
 
+		// LicenseApp Field
+		$this->loader->add_action( 'woocommerce_before_add_to_cart_button', $plugin_public, 'display_licenseapp_field' );
+		$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $plugin_public, 'validate_licenseapp_field', 10, 4 );
+		$this->loader->add_filter( 'woocommerce_add_cart_item_data', $plugin_public, 'add_licenseapp_item_data', 10, 4 );
+		$this->loader->add_filter( 'woocommerce_get_item_data', $plugin_public, 'licenseapp_get_item_data', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_checkout_create_order_line_item', $plugin_public, 'add_licenseapp_to_order', 10, 4 );
+
 		// Shortcodes
 		$this->loader->add_shortcode( 'fontimator-zip-table', $plugin_public, 'shortcode_zip_table' );
 		$this->loader->add_shortcode( 'fontimator-eula', $plugin_public, 'shortcode_eula' );
+		$this->loader->add_shortcode( 'fontimator-sale-products', $plugin_public, 'shortcode_sale_products' );
 
 	}
 
@@ -283,10 +331,12 @@ class Fontimator {
 		$myaccount = new Fontimator_MyAccount( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $myaccount, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $myaccount, 'enqueue_scripts' );
-		
+
 		// Adds the edit address section to edit-account. Disabled because we don't need it.
 		// $this->loader->add_action( 'woocommerce_after_edit_account_form', $myaccount, 'add_edit_account_to_edit_address' );
-		
+
+		// Override templates
+		$this->loader->add_filter( 'woocommerce_locate_template', $myaccount, 'locate_template', 10, 3 );
 
 		// Add columns to download table
 		$this->loader->add_filter( 'woocommerce_account_downloads_columns', $myaccount, 'add_columns_to_downloads_table' );
@@ -305,12 +355,13 @@ class Fontimator {
 		$this->loader->add_action( 'woocommerce_account_downloads_column_download-select', $myaccount, 'checkbox_for_download' );
 
 		$this->loader->add_action( 'woocommerce_before_available_downloads', $myaccount, 'downloads_table_buttons' );
-		$this->loader->add_action( 'woocommerce_after_available_downloads', $myaccount, 'downloads_table_buttons' );
 
 		// Add dynamic downloads
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'membership_add_all_fonts_downloads_table' );
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'wsms_add_gifts_downloads_table' );
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'wsms_add_academic_downloads_table' );
+		// Add missing downloads helptext
+		$this->loader->add_action( 'woocommerce_after_account_downloads', $myaccount, 'add_message_after_downloads' );
 
 		// Disable cancelation & modificaton
 		$this->loader->add_filter( 'wcs_view_subscription_actions', $myaccount, 'disable_subsciprion_cancellation', 10, 2 );

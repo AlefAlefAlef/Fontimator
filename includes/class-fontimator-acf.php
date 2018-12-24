@@ -83,6 +83,7 @@ class Fontimator_ACF {
 			'license_attribute' => 'license',
 			'weight_attribute' => 'weight',
 			'catalog_filename_prefix' => 'specimen',
+			'display_family_discount_percentage' => 1,
 		);
 	}
 

@@ -69,7 +69,22 @@ class Fontimator_Public {
 	 * @since    2.0.0
 	 */
 	public function enqueue_scripts() {
-		// wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'fontimator-public-js', plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, true );
+
+		wp_localize_script(
+			'fontimator-public-js', 'FontimatorTimedMessages', array(
+				'greetings' => array(
+					'morning' => __( 'Good Morning, %s.', 'fontimator' ),
+					'afternoon' => __( 'Good Afternoon, %s.', 'fontimator' ),
+					'evening' => __( 'Good Evening, %s.', 'fontimator' ),
+				),
+				'welcome' => array(
+					'morning' => __( 'How great to start the day with some stats about your purchases!', 'fontimator' ),
+					'afternoon' => __( "We hope you had your lunch, and you're ready to kick in with some stats about your fonts!", 'fontimator' ),
+					'evening' => __( 'Working late? We got all your font information in one place.', 'fontimator' ),
+				),
+			)
+		);
 	}
 
 	public function add_family_calculation_to_dropdown( $name ) {
@@ -80,7 +95,8 @@ class Fontimator_Public {
 				$fontprice_ratios = $font->get_fontprice_ratios();
 				$ratio = $fontprice_ratios['family'];
 				$discount = number_format( (1 - floatval( $ratio )) * 100 );
-				if ( 0 !== $discount ) {
+				$display_family_discount_percentage = Fontimator::get_instance()->get_acf()->get_field( 'display_family_discount_percentage', 'options' );
+				if ( 0 != $discount && $display_family_discount_percentage ) {
 					// translators: discount percentage
 					return $name . ' = ' . sprintf( __( '%d%% Discount', 'fontimator' ), $discount );
 				}
@@ -152,15 +168,6 @@ class Fontimator_Public {
 			}
 
 			$html .= '</select>';
-			$html .= '
-			<script>
-			jQuery(function($){
-				$("form.variations_form").on("woocommerce_update_variation_values", function(event){
-					$(this).find("optgroup:empty").remove();
-				});
-			});
-			</script>
-		';
 			return $html;
 		}
 
@@ -177,10 +184,95 @@ class Fontimator_Public {
 		}
 		return $args;
 	}
+	public function hide_sorting_options_from_dropdown( $orderby ) {
+		unset( $orderby['price-desc'] );
+		return $orderby;
+	}
+
+	/**
+	 * Display licenseapp field on the front end
+	 */
+	function display_licenseapp_field() {
+		wp_localize_script(
+			'fontimator-public-js', 'FontimatorPublic', array(
+				'licenseAttributeName' => FTM_LICENSE_ATTRIBUTE,
+				'placeholders' => array(
+					'web' => _x( 'example.com', 'The website address field placeholder', 'fontimator' ),
+					'app' => _x( 'App Name', 'The app name field placeholder', 'fontimator' ),
+				),
+			)
+		);
+		$license_info_page_link = Fontimator::get_instance()->get_acf()->get_field( 'license_info_page', 'options' );
+		?>
+		<label for="licenseapp" class="licenseapp-field" style="display: none">
+			<span data-license="app"><?php _e( 'The app name:', 'fontimator' ); ?></span>
+			<span data-license="web" style="display: none"><?php _e( 'The website address:', 'fontimator' ); ?></span>
+			<a class="info-tooltip" href="<?php echo $license_info_page_link; ?>" title="<?php esc_attr_e( 'Every web/app license is purchased per one app/website. If you need it for two different websites, you must purchase it twice.', 'fontimator' ); ?>" target="blank"><i class="icon">.</i></a>
+			<input type="text" id="licenseapp" name="licenseapp" required>
+		</label>
+		<?php
+	}
+
+	/**
+	 * Validate the licenseapp field
+	 * @param Array     $passed         Validation status.
+	 * @param Integer   $product_id     Product ID.
+	 * @param Boolean   $quantity       Quantity
+	 */
+	function validate_licenseapp_field( $passed, $product_id, $quantity, $variation_id ) {
+		$variation = new Fontimator_Font_Variation( $variation_id );
+		$is_licenseapp_required = in_array( $variation->get_license_type(), array( 'app', 'web' ) );
+		if ( $is_licenseapp_required && empty( $_POST['licenseapp'] ) ) {
+			// Fails validation
+			$passed = false;
+			wc_add_notice( __( 'Please enter a website URL/app name for this license', 'fontimator' ), 'error' );
+		}
+		return $passed;
+	}
+
+	/**
+	 * Add the licenseapp as item data to the cart object
+	 * @param Array      $cart_item_data Cart item meta data.
+	 * @param Integer   $product_id     Product ID.
+	 * @param Integer   $variation_id   Variation ID.
+	 * @param Boolean   $quantity           Quantity
+	*/
+	function add_licenseapp_item_data( $cart_item_data, $product_id, $variation_id, $quantity ) {
+		if ( ! empty( $_POST['licenseapp'] ) ) {
+			// Add the item data
+			$cart_item_data['licenseapp'] = $_POST['licenseapp'];
+		}
+		return $cart_item_data;
+	}
+
+	/**
+	 * Add the licenseapp to cart item data, e.g. cart page
+	 */
+	function licenseapp_get_item_data( $item_data, $cart_item ) {
+		if ( ! empty( $cart_item['licenseapp'] ) ) {
+			$item_data[] = array(
+				'key' => __( 'License For', 'fontimator' ),
+				'display' => $cart_item['licenseapp'],
+				'value' => $cart_item['licenseapp'],
+			);
+		}
+		return $item_data;
+	}
+
+	/**
+	 * Add the licenseapp to order items
+	 */
+	function add_licenseapp_to_order( $item, $cart_item_key, $values, $order ) {
+		foreach ( $item as $cart_item_key => $values ) {
+			if ( isset( $values['licenseapp'] ) ) {
+				$item->add_meta_data( __( 'License For', 'fontimator' ), $values['licenseapp'], true );
+			}
+		}
+	}
 
 	public function shortcode_zip_table( $atts, $content = null ) {
 		ob_start();
-		include_once( 'partials/shortcode-zip-table.php' );
+		require plugin_dir_path( __FILE__ ) . 'partials/shortcode-zip-table.php';
 		return ob_get_clean();
 	}
 
@@ -188,6 +280,12 @@ class Fontimator_Public {
 		ob_start();
 		$eula = new Zipomator_EULA( isset( $_GET['licenses'] ) ? explode( ',', $_GET['licenses'] ) : null );
 		$eula->html();
+		return ob_get_clean();
+	}
+
+	public function shortcode_sale_products( $atts, $content = null ) {
+		ob_start();
+		require plugin_dir_path( __FILE__ ) . 'partials/shortcode-sale-products.php';
 		return ob_get_clean();
 	}
 
