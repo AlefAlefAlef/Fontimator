@@ -30,7 +30,29 @@ class Fontimator_Activator {
 	 * @since    2.0.0
 	 */
 	public static function activate() {
-
+		self::install_free_downloads_db();
 	}
+
+
+	private static function install_free_downloads_db() {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . Fontimator_Free_Download::$db_table_name;
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $table_name (
+					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					download_id tinytext NOT NULL,
+					user_name text DEFAULT '',
+					user_email text NOT NULL,
+					time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+					PRIMARY KEY  (id)
+				) $charset_collate;";
+
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+	}
+
 
 }

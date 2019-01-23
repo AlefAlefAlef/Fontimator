@@ -1,7 +1,13 @@
 jQuery(function ($) {
 	// Downloads Table
+	$('.fontimator-table .font-family-header').click(function() {
+		$(this).toggleClass('open');
+	});	
+
+
+	// Download Buttons
 	if ($("input[name='fontimator-downloads']").length < 2) {
-		$(".fontimator-buttons").hide();
+		$(".fontimator-buttons .download-buttons").hide();
 		$("th.download-select, td.download-select").hide(); //avraham added Oct 21, 2017
 	}
 

@@ -75,10 +75,11 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 
 	public function setup_download_link() {
 		$weight_clean = Zipomator::get_clean_weight( $this->weight );
+		$license_clean = Zipomator::get_clean_license( $this->license );
 
 		$zip_file = new WC_Product_Download();
 		$zip_file->set_id( wp_generate_uuid4() );
-		$zip_file->set_name( Zipomator::single_name( $this->family, $weight_clean, $this->license ) . '.zip' );
+		$zip_file->set_name( Zipomator::single_name( $this->family, $weight_clean, $license_clean, $this->get_version() ) . '.zip' );
 
 		$download_url = Zipomator::get_bundle_url( $this->family, $weight_clean, $this->license );
 
@@ -122,12 +123,17 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		return $this->save();
 	}
 
-	public function get_weight() {
+	public function get_weight( $context = 'view' ) {
+		// $context is not usable, it's to suport the WC_Product_Variation::get_weight declaration
 		return $this->weight;
 	}
 
 	public function get_license() {
 		return $this->license;
+	}
+
+	public function get_version() {
+		return Fontimator::get_instance()->get_acf()->get_field( 'font_version', $this->get_parent_id() );
 	}
 
 	public function get_license_type() {
@@ -139,7 +145,8 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		return $this->family;
 	}
 
-	public function get_name() {
+	public function get_name( $context = 'view' ) {
+		// $context is not usable, it's to suport the WC_Product::get_name declaration
 		$name = $this->get_title(); // Family
 
 		if ( $this->weight ) {

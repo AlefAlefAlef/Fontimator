@@ -1,8 +1,27 @@
 .fontimator-buttons {
 	font-size: 0.8em;
 	margin: 1.8em 0;
+
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
 }
 
 .woocommerce-MyAccount-navigation-link.woocommerce-MyAccount-navigation-link--edit-address:not(.is-active) {
 	display: none;
+}
+
+.woocommerce-MyAccount-content .woocommerce-form-row label[for="account_display_name"],
+.woocommerce-MyAccount-content .woocommerce-form-row #account_display_name,
+.woocommerce-MyAccount-content .woocommerce-form-row #account_display_name + span
+{
+	display: none;
+}
+
+.fontimator-table .font-family-header {
+	font-size: 1.3em;
+	cursor: pointer;
 }

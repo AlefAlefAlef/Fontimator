@@ -158,10 +158,11 @@
 			?>
 		</table>
 	<?php
-	else :
-		echo 'Nothing to see here...';
-	endif;
-	?>
+	else : ?>
+		<div class="center-float">
+			<?php wp_login_form(); ?>
+		</div>
+	<?php endif; ?>
 
 
 

@@ -49,6 +49,7 @@ class Fontimator_ACF {
 			'fontimator-options',
 			'fontimator-font-options',
 			'fontimator-font-price-formulas',
+			'fontimator-free-downloads',
 		);
 
 		if ( class_exists( 'WSMS' ) ) {
@@ -82,7 +83,7 @@ class Fontimator_ACF {
 			'site_name' => 'Fontimator',
 			'license_attribute' => 'license',
 			'weight_attribute' => 'weight',
-			'catalog_filename_prefix' => 'specimen',
+			'specimen_filename_prefix' => 'specimen',
 			'display_family_discount_percentage' => 1,
 		);
 	}

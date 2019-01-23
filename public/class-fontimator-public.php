@@ -77,11 +77,14 @@ class Fontimator_Public {
 					'morning' => __( 'Good Morning, %s.', 'fontimator' ),
 					'afternoon' => __( 'Good Afternoon, %s.', 'fontimator' ),
 					'evening' => __( 'Good Evening, %s.', 'fontimator' ),
+					'night' => __( 'Good Night, %s.', 'fontimator' ),
+					'saturday' => __( 'Good Shabbos, %s.', 'fontimator' ),
 				),
 				'welcome' => array(
 					'morning' => __( 'How great to start the day with some stats about your purchases!', 'fontimator' ),
 					'afternoon' => __( "We hope you had your lunch, and you're ready to kick in with some stats about your fonts!", 'fontimator' ),
-					'evening' => __( 'Working late? We got all your font information in one place.', 'fontimator' ),
+					'evening' => __( 'Still in the office? How about some typography before sleep?', 'fontimator' ),
+					'night' => __( 'Working late? We got all your font information in one place.', 'fontimator' ),
 				),
 			)
 		);
@@ -270,6 +273,65 @@ class Fontimator_Public {
 		}
 	}
 
+	public function show_already_bought_notice() {
+		global $product;
+		if ( is_user_logged_in() ) {
+			global $product;
+			$current_user = wp_get_current_user();
+			if ( wc_customer_bought_product( $current_user->user_email, $current_user->ID, $product->get_id() ) ) {
+				echo '<div class="user-bought">';
+					printf( __( 'Hello, %1$s. You have purchased some weights of %2$s font before. You can download the files in your <a href="%3$s">Dashboard</a>.', 'fontimator' ), $current_user->first_name, $product->get_name(), esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) . 'downloads' ) );
+				echo '</div>';
+			}
+		}
+
+	}
+
+	public function print_with_font_preview( $text, $font_id = false ) {
+		$font = new Fontimator_Font( $font_id );
+
+		$family = $font->get_slug();
+		if ( ! $family ) {
+			echo $text;
+			return;
+		}
+		$adjust_size = get_field( 'font_adjust_size', $font_id );
+		$adjust_lineheight_of_box = get_field( 'font_adjust_lineheight_of_box', $font_id );
+		$weight_alef = (get_field( 'font_weight_alef', $font_id )) ? get_field( 'font_weight_alef', $font_id )->slug : '400-regular';
+
+		simple_font_face( $family, $weight_alef );
+		?>
+		<span
+			style="font-family:<?php echo $family; ?>-variable, <?php echo $family; ?>, blank;
+				font-size:<?php echo 1 * $adjust_size; ?>em;
+				line-height:<?php echo .85 * $adjust_lineheight_of_box; ?>em;
+				height:<?php echo .85 / $adjust_size; ?>em;
+				z-index: 1;
+				font-weight:<?php echo get_weight_number( $weight_alef ); ?>;">
+
+			<?php echo $text; ?>
+		</span>
+		<?php
+	}
+
+	public function display_share_cart_url() {
+		global $woocommerce;
+
+		if ( ! $_REQUEST['ftm-add-to-cart'] && ! $_REQUEST['ftm-automatic-cart'] ) {
+			$items = $woocommerce->cart->get_cart();
+			$product_ids = array_values( wp_list_pluck( $items, 'variation_id' ) );
+			$cart_url = esc_url_raw( add_query_arg( 'ftm-add-to-cart', implode( ',', $product_ids ), wc_get_cart_url() ) );
+			?>
+			<a href="<?php echo $cart_url; ?>" title="<?php esc_attr_e( 'Click here to copy the link to this cart, which you can send to your client or save for later.', 'fontimator' ); ?>" data-success-text="<?php esc_attr_e( 'Link to cart was copied!', 'fontimator' ); ?>" class="share-cart-button button tooltip copyable-link">
+				<?php _e( 'Share a link to this cart', 'fontimator' ); ?>
+			</a>
+			<?php
+
+		}
+
+	}
+
+
 	public function shortcode_zip_table( $atts, $content = null ) {
 		ob_start();
 		require plugin_dir_path( __FILE__ ) . 'partials/shortcode-zip-table.php';
@@ -286,6 +348,12 @@ class Fontimator_Public {
 	public function shortcode_sale_products( $atts, $content = null ) {
 		ob_start();
 		require plugin_dir_path( __FILE__ ) . 'partials/shortcode-sale-products.php';
+		return ob_get_clean();
+	}
+
+	public function shortcode_free_download( $atts, $content = null ) {
+		ob_start();
+		require plugin_dir_path( __FILE__ ) . 'partials/shortcode-free-download.php';
 		return ob_get_clean();
 	}
 

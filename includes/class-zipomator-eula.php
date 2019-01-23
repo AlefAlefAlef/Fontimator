@@ -58,7 +58,7 @@ class Zipomator_EULA {
 		echo $content;
 	}
 
-	public function css() {
+	public function ploni_fontface() {
 		$woff_file = file_get_contents( FTM_FONTS_PATH . 'ploni/ploni-regular-aaa.woff' );
 		$woff_data = 'data:application/font-woff;charset=utf-8;base64,' . base64_encode( $woff_file );
 		$woff2_file = file_get_contents( FTM_FONTS_PATH . 'ploni/ploni-regular-aaa.woff2' );
@@ -75,6 +75,14 @@ class Zipomator_EULA {
 			font-style: normal;
 
 		}
+
+		</style>
+		<?php
+	}
+	public function css() {
+		$this->ploni_fontface();
+		?>
+		<style>
 
 		html, body {
 			text-align: right;
@@ -140,7 +148,7 @@ class Zipomator_EULA {
 				<title>
 					<?php
 					// TRANSLATORS: The names of relevant licenses.
-					printf( esc_html__( 'End User License Agreement: %s' ), $this->licenses_titles );
+					printf( esc_html__( 'End User License Agreement: %s', 'fontimator' ), $this->licenses_titles );
 					?>
 				</title>
 				<?php $this->css(); ?>

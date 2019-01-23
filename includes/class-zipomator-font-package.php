@@ -38,7 +38,7 @@ class Zipomator_Font_Package {
 
 	private function get_server_path( $type = 'font', $family = '', $format = 'otf', $weight = 'regular', $license = 'app' ) {
 
-		if ( 'ttf' === $format && 'web' !== $license ) {
+		if ( 'ttf' === $format && 'web' !== $license && 'variable' != $weight ) {
 			$office_postfix = '-OFFICE';
 		} else {
 			$office_postfix = '';
@@ -53,6 +53,9 @@ class Zipomator_Font_Package {
 
 			case 'license':
 				// return FTM_FONTS_PATH . "/_licenses/{$license}.txt";
+				if ( 'otf-web-reseller' === $license ) {
+					return Zipomator::get_eula_url( array( 'desktop', 'web', 'reseller' ) );
+				}
 				return Zipomator::get_eula_url( array( self::simplify_license( $license ) ) );
 				break;
 
@@ -61,11 +64,11 @@ class Zipomator_Font_Package {
 				break;
 
 			case 'specimen':
-				return FTM_FONTS_PATH . "/{$family}/specimen.pdf";
+				return FTM_FONTS_PATH . "{$family}/specimen.pdf";
 				break;
 
 			case 'poster':
-				return FTM_FONTS_PATH . "/{$family}/poster.pdf";
+				return FTM_FONTS_PATH . "{$family}/poster.pdf";
 				break;
 
 			default:
@@ -82,7 +85,7 @@ class Zipomator_Font_Package {
 			return false;
 		}
 		foreach ( $this->_items as $item ) {
-			if ( count( $item ) !== 3 ) {
+			if ( count( $item ) < 3 ) { // Can be either 3 or 4, depending on whether or not font version
 				return false;
 			}
 
@@ -112,6 +115,7 @@ class Zipomator_Font_Package {
 
 	public function generate_file_list() {
 		$file_list = [];
+		$already_included_licenses = [];
 		$site_name = FTM_SITE_NAME;
 		$site_prefix = FTM_SITE_PREFIX;
 
@@ -171,6 +175,14 @@ class Zipomator_Font_Package {
 						$local_path = $local_fontfiles_path_prefix . "{$family}-{$weight}-{$site_prefix}.{$format}";
 						$file_list[] = [ $file_path, $local_path ];
 					}
+				} elseif ( 'variable' === $weight ) {
+					$local_fontfiles_path_prefix = $local_path_prefix;
+					$local_misc_path_prefix = $local_path_prefix . '_misc/';
+
+					// Add font files
+					$file_path = $this->get_server_path( 'font', $family, 'ttf', $weight, 'web' );
+					$local_path = $local_fontfiles_path_prefix . "{$family}-{$weight}-{$site_prefix}.ttf";
+					$file_list[] = [ $file_path, $local_path ];
 				} else {
 					$local_misc_path_prefix = $local_path_prefix . '_misc/';
 					$local_fontfiles_path_prefix = $local_path_prefix;
@@ -194,22 +206,25 @@ class Zipomator_Font_Package {
 			$file_list[] = [ false, "[InternetShortcut]\nURL={$font_url}", $local_path ];
 
 			// xxx-font-license-aaa.txt
-			$file_path = $this->get_server_path( 'license', false, false, false, $license );
-
 			$local_path = $local_misc_path_prefix . "{$license}-font-license-{$site_prefix}.html";
-			if ( $file_path ) {
-				$license_html_content = file_get_contents(
-					$file_path, false, stream_context_create(
-						array(
-							'ssl' => array(
-								'verify_peer' => false,
-								'verify_peer_name' => false,
-							),
+			if ( ! in_array( $local_path, $already_included_licenses ) ) {
+				$file_path = $this->get_server_path( 'license', false, false, false, $license );
+
+				if ( $file_path ) {
+					$license_html_content = file_get_contents(
+						$file_path, false, stream_context_create(
+							array(
+								'ssl' => array(
+									'verify_peer' => false,
+									'verify_peer_name' => false,
+								),
+							)
 						)
-					)
-				);
-				if ( $license_html_content ) {
-					$file_list[] = [ false, $license_html_content, $local_path ];
+					);
+					if ( $license_html_content ) {
+						$file_list[] = [ false, $license_html_content, $local_path ];
+						$already_included_licenses[] = $local_path;
+					}
 				}
 			}
 
@@ -240,7 +255,7 @@ class Zipomator_Font_Package {
 		$nice_filename = FTM_SITE_PREFIX . '-fonts';
 		if ( count( $this->_items ) < 2 ) {
 			$single = $this->_items[0];
-			$nice_filename = Zipomator::single_name( $single[0], $single[1], $single[2] );
+			$nice_filename = Zipomator::single_name( $single[0], $single[1], self::simplify_license( $single[2] ), $single[3] );
 		};
 		$this->_zip_file = new Zip_File( $this->_file_list, $nice_filename );
 		return $this->_zip_file;

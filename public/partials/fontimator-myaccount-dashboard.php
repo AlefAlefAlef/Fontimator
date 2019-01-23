@@ -21,17 +21,17 @@ $customer_orders = wc_get_orders(
 );
 
 $user_fonts = array();
-$user_weights = array();
+// $user_weights = array();
 
 foreach ( $customer_orders as $order ) {
 	foreach ( $order->get_items() as $order_item ) {
 		if ( $order_item->get_product()->get_type() === 'variation' ) {
-			if ( ! in_array( $order_item->get_product_id(), $user_fonts ) ) {
+			if ( ! has_term( 'archive', 'product_cat', $order_item->get_product_id() ) && ! in_array( $order_item->get_product_id(), $user_fonts ) ) {
 				array_push( $user_fonts, $order_item->get_product_id() );
 			}
-			if ( ! in_array( $order_item->get_variation_id(), $user_weights ) ) {
-				array_push( $user_weights, $order_item->get_variation_id() );
-			}
+			// if ( ! in_array( $order_item->get_variation_id(), $user_weights ) ) {
+			// 	array_push( $user_weights, $order_item->get_variation_id() );
+			// }
 		}
 	}
 }
@@ -53,7 +53,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 <div class="fontimator-myaccount-dashboard">
 	<div class="top">
 		<section class="dashbox dashbox-half" id="dash-welcome">
-			<h2 class="fontimator-timed-message-greeting" data-name="<strong><?php echo esc_attr( $current_user->first_name ); ?></strong>"><!-- Text here is generated automatically by the Fontimator --></h2>
+			<h2 class="fontimator-timed-message-greeting" data-name="<strong><?php echo esc_attr( $current_user->first_name ); ?></strong>"><!-- Text here is generated automatically by the Fontimator --><?php printf( _x( 'Hello, %s!', 'Default greeting when time functions are not loaded yet.', 'fontimator' ), esc_attr( $current_user->first_name ) ); ?></h2>
 			<p class="fontimator-timed-message-welcome"><!-- Text here is generated automatically by the Fontimator --></p>
 			<p>
 				<?php
@@ -77,10 +77,11 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 			<?php } else { ?>
 				<figure>
 					<div class="big"><?php echo count( $user_fonts ); ?></div>
-					<figcaption><?php printf( _n( '(%d weight total)', '(%d weights total)', count( $user_weights ), 'fontimator' ), count( $user_weights ) ); ?></figcaption>
+					<?php /* <figcaption><?php printf( _n( '(%d weight total)', '(%d weights total)', count( $user_weights ), 'fontimator' ), count( $user_weights ) ); ?></figcaption> */ ?>
+					<figcaption><?php printf( __( '(out of %d in the catalog)', 'fontimator' ), count( Fontimator::get_catalog_fonts() ) ); ?></figcaption>
 				</figure>
 			<?php } ?>
-			<a class="more" href="<?php echo wc_get_endpoint_url( 'downloads' ); ?>"><?php _e( 'To all purchased licenses', 'fontimator' ); ?></a>
+			<a class="more" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php _e( 'To the catalog', 'fontimator' ); ?></a>
 		</section>
 
 		
@@ -130,7 +131,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 						// 'status' => 'completed',
 						'type' => 'shop_order',
 						// 'order' => 'DESC',
-						'limit'  => 5,
+						'limit'  => 4,
 						'customer_id' => get_current_user_id(),
 					)
 				);

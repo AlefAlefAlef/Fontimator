@@ -95,14 +95,15 @@ class Zipomator {
 		return;
 	}
 
-	public static function single_name( $family, $weight, $license ) {
-		return implode( '-', [ $family, $weight, $license ] );
+	public static function single_name( $family, $weight, $license, $version = null ) {
+		return implode( '-', array_filter( array( $family, $weight, $license, $version ) ) );
 	}
 
 
 
 	public static function get_eula_url( $licenses ) {
-		return home_url( self::$eula_endpoint . '/' . implode( ',', $licenses ) );
+		// return home_url( self::$eula_endpoint . '/' . implode( ',', $licenses ) );
+		return 'https://alefalefalef.co.il/' . self::$eula_endpoint . '/' . implode( ',', (array) $licenses );
 	}
 
 	public static function get_variation_endpoint() {
@@ -143,6 +144,15 @@ class Zipomator {
 		return $weight;
 	}
 
+	public static function get_clean_license( $license ) {
+		$license_parts = explode( '-', $license );
+		if ( count( $license_parts ) > 1 ) {
+			$license_clean = $license_parts[0];
+			return $license_clean;
+		}
+		return $license;
+	}
+
 	public static function get_nonced_url( $variations ) {
 		if ( 1 === count( $variations ) ) {
 			$variations = array( $variations );
@@ -181,8 +191,12 @@ class Zipomator {
 
 		$files[] = FTM_FONTS_PATH . FTM_SITE_PREFIX . '-catalog-suffix.pdf';
 
+		$month = strtolower( date( 'F' ) );
+		$year = date( 'Y' );
+		$pdf_nice_file_name = FTM_SITE_NAME . "-catalog-{$month}-{$year}";
+
 		try {
-			$pdf = new PDF_File( $files, FTM_SITE_PREFIX . '-catalog' );
+			$pdf = new PDF_File( $files, $pdf_nice_file_name );
 			$pdf->serve();
 		} catch ( Exception $e ) {
 			wp_die( $e->getMessage() );
@@ -227,33 +241,15 @@ class Zipomator {
 	}
 
 	protected function get_membership_items( $license ) {
-		// Look for items
-		$archives = wc_get_products(
-			array(
-				'type' => 'variable',
-				'paginate' => false,
-				'limit' => -1,
-				'category' => array( 'archive' ),
-				'return' => 'ids',
-			)
-		);
-
-		$fonts = wc_get_products(
-			array(
-				'type' => 'variable',
-				'paginate' => false,
-				'limit' => -1,
-				'exclude' => $archives,
-			)
-		);
+		$fonts = Fontimator::get_catalog_fonts();
 
 		if ( ! count( $fonts ) ) {
 			wp_die( __( 'Zipomator Error: No fonts found. Are you sure you have WooCommerce products active?', 'fontimator' ) );
 		}
 
 		$items = array();
-		foreach ( $fonts as $product ) {
-			$font = new Fontimator_Font( $product->get_ID() );
+		foreach ( $fonts as $product_id ) {
+			$font = new Fontimator_Font( $product_id );
 			$font_weights = $font->get_visible_weights( 'slug' );
 			foreach ( $font_weights as $weight ) {
 				$items[] = array( $font->get_slug(), self::get_clean_weight( $weight ), $license );
@@ -330,7 +326,8 @@ class Zipomator {
 					$family = $variation->get_family();
 					$weight = self::get_clean_weight( $variation->get_weight() );
 					$license = $variation->get_license();
-					$items[] = array( $family, $weight, $license );
+					$version = $variation->get_version();
+					$items[] = array( $family, $weight, $license, $version );
 					break;
 
 				case 'subscription_variation':

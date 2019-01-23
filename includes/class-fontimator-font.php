@@ -71,15 +71,19 @@ class Fontimator_Font extends WC_Product_Variable {
 		$ids = $acf->get_field( 'familybasic_weights', $this->id );
 
 		if ( 'slug' === $return_format ) {
-			return array_map( function( $id ) {
-				return get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->slug;
-			}, $ids );
+			return array_map(
+				function( $id ) {
+						return get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->slug;
+				}, $ids
+			);
 		}
 
 		if ( 'name' === $return_format ) {
-			$weights = array_map( function( $id ) {
-				return get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->name;
-			}, $ids );
+			$weights = array_map(
+				function( $id ) {
+						return get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->name;
+				}, $ids
+			);
 		}
 
 		return $ids;
@@ -131,9 +135,11 @@ class Fontimator_Font extends WC_Product_Variable {
 
 	public function setup_variations() {
 		$fontprice_ratios = $this->get_fontprice_ratios();
-		$variations = array_map( function ( $variation_id ) {
-			return new Fontimator_Font_Variation( $variation_id );
-		}, $this->get_children() );
+		$variations = array_map(
+			function ( $variation_id ) {
+					return new Fontimator_Font_Variation( $variation_id );
+			}, $this->get_children()
+		);
 		$updated = 0;
 		foreach ( $variations as $variation ) {
 			if ( $variation->get_id() && 'yes' !== $variation->get_meta( '_fontimator_ignore' ) ) {
@@ -197,7 +203,7 @@ class Fontimator_Font extends WC_Product_Variable {
 	 * @param string $license The required license
 	 * @return Fontimator_Font_Variation The matching variation.
 	 */
-	public function get_matching_variation( $weight, $license ) {
+	public function get_specific_variation( $weight, $license ) {
 		$args = array(
 			'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE => $weight,
 			'attribute_pa_' . FTM_LICENSE_ATTRIBUTE => $license,
@@ -225,7 +231,7 @@ class Fontimator_Font extends WC_Product_Variable {
 			$weight = '000-family';
 		}
 
-		return $this->get_matching_variation( $weight, $license );
+		return $this->get_specific_variation( $weight, $license );
 	}
 
 }

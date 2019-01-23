@@ -28,6 +28,8 @@ class Zip_File {
 				//make sure the file exists
 				if ( file_exists( $file[0] ) || 3 === count( $file ) ) {
 					$valid_files[] = $file;
+				} else {
+					// var_dump( $file[0] );
 				}
 			}
 		}
@@ -44,9 +46,11 @@ class Zip_File {
 			foreach ( $valid_files as $file ) {
 				if ( file_exists( $file[0] ) && is_file( $file[0] ) ) {
 					$zip->addFile( $file[0], $file[1] );
-				}
-				if ( false === $file[0] ) {
+				} elseif ( false === $file[0] ) {
 					$zip->addFromString( $file[2], $file[1] );
+				} else {
+					// var_dump( $file );
+					// die( $file[0] );
 				}
 			}
 			//debug
