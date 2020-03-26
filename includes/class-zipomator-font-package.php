@@ -54,7 +54,9 @@ class Zipomator_Font_Package {
 			case 'license':
 				// return FTM_FONTS_PATH . "/_licenses/{$license}.txt";
 				if ( 'otf-web-reseller' === $license ) {
-					return Zipomator::get_eula_url( array( 'desktop', 'web', 'reseller' ) );
+					return Zipomator::get_eula_url( array( 'otf', 'web', 'reseller' ) );
+				} elseif ( 'web-reseller' === $license ) {
+					return;
 				}
 				return Zipomator::get_eula_url( array( self::simplify_license( $license ) ) );
 				break;
@@ -205,6 +207,13 @@ class Zipomator_Font_Package {
 			$local_path = $local_misc_path_prefix . "link-to-{$site_name}.url";
 			$file_list[] = [ false, "[InternetShortcut]\nURL={$font_url}", $local_path ];
 
+			// how-to-use.url
+			if ( 'web' === $clean_license ) {
+				$guide_url = 'https://alefalefalef.co.il/webfont-guide/?source=Zipomator&font=' . $family;
+				$local_path = $local_misc_path_prefix . 'how-to-use.url';
+				$file_list[] = [ false, "[InternetShortcut]\nURL={$guide_url}", $local_path ];
+			}
+
 			// xxx-font-license-aaa.txt
 			$local_path = $local_misc_path_prefix . "{$license}-font-license-{$site_prefix}.html";
 			if ( ! in_array( $local_path, $already_included_licenses ) ) {
@@ -268,7 +277,7 @@ class Zipomator_Font_Package {
 
 	public static function simplify_license( $license ) {
 		if ( strpos( $license, '-' ) > -1 ) {
-			return explode( '-', $license )[0];
+			return explode( '-', $license, 2 )[0];
 		}
 		return $license;
 	}

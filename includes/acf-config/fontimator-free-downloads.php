@@ -10,7 +10,7 @@ acf_add_local_field_group(
 				'label' => 'Downloads',
 				'name' => 'ftm_free_downloads',
 				'type' => 'repeater',
-				'instructions' => '',
+				'instructions' => '<span dir="ltr">Example: [fontimator-free-download download="font_heshbon"]</span>',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(

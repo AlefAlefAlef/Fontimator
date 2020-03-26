@@ -2,8 +2,8 @@
 
 acf_add_local_field_group(
 	array(
-		'key' => 'fontimator-wsms-gifts',
-		'title' => 'WSMS MailChimp Font Gifts Settings',
+		'key' => 'fontimator-mc-gifts',
+		'title' => 'MailChimp Font Gifts Settings',
 		'fields' => array(
 			array(
 				'key' => 'field_5bb4b99c46a40',

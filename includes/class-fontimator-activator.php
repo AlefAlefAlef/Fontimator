@@ -37,7 +37,7 @@ class Fontimator_Activator {
 	private static function install_free_downloads_db() {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . Fontimator_Free_Download::$db_table_name;
+		$table_name = $wpdb->prefix . 'ftm_free_downloads';
 
 		$charset_collate = $wpdb->get_charset_collate();
 

@@ -78,12 +78,16 @@ class Fontimator {
 	 * @since    2.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+		if ( defined( 'FONTIMATOR_VERSION' ) ) {
+			$this->version = FONTIMATOR_VERSION;
 		} else {
-			$this->version = '2.2.0';
+			$this->version = '2.0.0';
 		}
 		$this->plugin_name = 'fontimator';
+
+		if ( ! class_exists('WooCommerce') || ! class_exists( 'WC_Subscription' ) ) {
+			return;
+		}
 
 		$this->load_includes();
 		$this->define_constants();
@@ -238,8 +242,9 @@ class Fontimator {
 	}
 
 	private function define_global_hooks() {
-		$specimen_filename_prefix = $this->acf->get_field( 'specimen_filename_prefix', 'options' );
-		$zipomator = new Zipomator( $specimen_filename_prefix );
+		global $mc4wp_aaa;
+
+		$zipomator = new Zipomator();
 		$zipomator->add_rewrite_rules();
 		$this->loader->add_filter( 'query_vars', $zipomator, 'query_vars', 30, 2 );
 		$this->loader->add_action( 'parse_request', $zipomator, 'parse_request' );
@@ -248,10 +253,19 @@ class Fontimator {
 
 		// Add variations from ftm-add-to-cart
 		$this->loader->add_filter( 'wp_loaded', $fontimator_woocommerce, 'add_variations_from_url' );
+		$this->loader->add_action( 'woocommerce_before_calculate_totals', $fontimator_woocommerce, 'apply_session_discounts', 90 );
 
 		// Remove the quantity field from WooCommerce Product
 		$this->loader->add_filter( 'woocommerce_is_sold_individually', $fontimator_woocommerce, '_return_true' );
 
+		// Forgot password hack to sign up users on the fly
+		if ( $mc4wp_aaa ) {
+			remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_lost_password' ), 20 ); // Replace with ours
+			$this->loader->add_action( 'wp_loaded', $fontimator_woocommerce, 'process_lost_password', 20 );
+			$this->loader->add_filter( 'authenticate', $fontimator_woocommerce, 'check_email_mailchimp_on_login', 90, 3 );
+		}
+
+		// Timeout limit
 		$this->loader->add_filter( 'woocommerce_json_search_limit', $fontimator_woocommerce, 'woocommerce_json_search_limit' );
 
 		// Trim zeros in price decimals
@@ -297,6 +311,9 @@ class Fontimator {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_filter( 'wc_order_is_editable', $plugin_admin, 'can_edit_orders' );
 
+		// Custom actions in admin
+		$this->loader->add_action( 'current_screen', $plugin_admin, 'maybe_generate_complete_family_eligible_emails_list' );
+
 		$variations_helper = new Fontimator_Variations_Helper( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $variations_helper, 'enqueue_scripts' );
 		$this->loader->add_action( 'woocommerce_variable_product_before_variations', $variations_helper, 'variable_product_toolbar' );
@@ -307,6 +324,8 @@ class Fontimator {
 		$this->loader->add_filter( 'post_row_actions', $variations_helper, 'add_product_row_actions', 30, 2 );
 		$this->loader->add_action( 'woocommerce_variation_options', $variations_helper, 'print_ignore_checkbox', 10, 3 );
 		$this->loader->add_action( 'woocommerce_save_product_variation', $variations_helper, 'save_ignore_checkbox_value' );
+
+		$this->loader->add_action( 'edit_user_profile', $variations_helper, 'add_delete_user_link', 90 );
 
 	}
 
@@ -323,6 +342,9 @@ class Fontimator {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		// DevTools banner
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'devtools_detect_notice' );
+
 		// WooCommerce Product Archive Page
 		$this->loader->add_filter( 'woocommerce_catalog_orderby', $plugin_public, 'hide_sorting_options_from_dropdown' );
 
@@ -335,18 +357,25 @@ class Fontimator {
 		// LicenseApp Field
 		$this->loader->add_action( 'woocommerce_before_add_to_cart_button', $plugin_public, 'display_licenseapp_field' );
 		$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $plugin_public, 'validate_licenseapp_field', 10, 4 );
-		$this->loader->add_filter( 'woocommerce_add_cart_item_data', $plugin_public, 'add_licenseapp_item_data', 10, 4 );
-		$this->loader->add_filter( 'woocommerce_get_item_data', $plugin_public, 'licenseapp_get_item_data', 10, 2 );
-		$this->loader->add_filter( 'woocommerce_checkout_create_order_line_item', $plugin_public, 'add_licenseapp_to_order', 10, 4 );
+		$this->loader->add_filter( 'woocommerce_add_cart_item_data', $plugin_public, 'add_licenseapp_cart_data', 10, 4 );
+		$this->loader->add_filter( 'woocommerce_get_item_data', $plugin_public, 'add_licenseapp_get_item_data', 10, 2 );
+		$this->loader->add_filter( 'woocommerce_checkout_create_order_line_item', $plugin_public, 'add_licenseapp_to_order_line_item', 10, 4 );
+
+		// Discount Field
+		$this->loader->add_filter( 'woocommerce_cart_item_price', $plugin_public, 'add_discount_price_to_cart', 10, 3 );
 
 		// WooCommerce Cart Page
 		$this->loader->add_action( 'woocommerce_cart_actions', $plugin_public, 'display_share_cart_url' );
+		
+		// WooCommerce Checkout Page
+		$this->loader->add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', $plugin_public, 'terms_and_conditions_checkbox_text' );
 
 		// Shortcodes
 		$this->loader->add_shortcode( 'fontimator-zip-table', $plugin_public, 'shortcode_zip_table' );
 		$this->loader->add_shortcode( 'fontimator-eula', $plugin_public, 'shortcode_eula' );
 		$this->loader->add_shortcode( 'fontimator-sale-products', $plugin_public, 'shortcode_sale_products' );
 		$this->loader->add_shortcode( 'fontimator-free-download', $plugin_public, 'shortcode_free_download' );
+		$this->loader->add_shortcode( 'fontimator-genderize', $plugin_public, 'shortcode_genderize' );
 
 	}
 
@@ -357,6 +386,8 @@ class Fontimator {
 	 * @access   private
 	 */
 	private function define_myaccount_hooks() {
+		global $mc4wp_aaa;
+		
 		// Resource: https://businessbloomer.com/woocommerce-visual-hook-guide-account-pages/
 
 		$myaccount = new Fontimator_MyAccount( $this->get_plugin_name(), $this->get_version() );
@@ -379,13 +410,11 @@ class Fontimator {
 		$this->loader->add_filter( 'woocommerce_account_downloads_columns', $myaccount, 'add_columns_to_downloads_table' );
 		$this->loader->add_filter( 'woocommerce_email_downloads_columns', $myaccount, 'add_columns_to_downloads_table' );
 
-		$this->loader->add_action( 'woocommerce_account_downloads_column_download-product', $myaccount, 'prepend_icon_to_download_name' );
-		$this->loader->add_action( 'woocommerce_email_downloads_column_download-product', $myaccount, 'prepend_icon_to_download_name' );
+		$this->loader->add_action( 'woocommerce_account_downloads_column_download-product', $myaccount, 'prepend_icon_to_download_name', 10 );
+		$this->loader->add_action( 'woocommerce_account_downloads_column_download-product', $myaccount, 'append_weight_to_download_name', 20 );
 
 		$this->loader->add_action( 'woocommerce_account_downloads_column_download-font-version', $myaccount, 'font_version_for_download' );
 		$this->loader->add_action( 'woocommerce_email_downloads_column_download-font-version', $myaccount, 'font_version_for_download' );
-		$this->loader->add_action( 'woocommerce_account_downloads_column_download-font-weight', $myaccount, 'font_weight_for_download' );
-		$this->loader->add_action( 'woocommerce_email_downloads_column_download-font-weight', $myaccount, 'font_weight_for_download' );
 		$this->loader->add_action( 'woocommerce_account_downloads_column_download-font-license', $myaccount, 'font_license_for_download' );
 		$this->loader->add_action( 'woocommerce_email_downloads_column_download-font-license', $myaccount, 'font_license_for_download' );
 
@@ -396,13 +425,22 @@ class Fontimator {
 
 		// Add dynamic downloads
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'membership_add_all_fonts_downloads_table', 20 );
-		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'wsms_add_academic_downloads_table', 40 );
-		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'wsms_add_gifts_downloads_table', 50 );
+		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'mc4wp_add_academic_downloads_table', 40 );
+		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'mc4wp_add_gifts_downloads_table', 50 );
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'add_free_fonts_downloads_table', 60 );
 		$this->loader->add_filter( 'woocommerce_customer_get_downloadable_products', $myaccount, 'sort_downloads_by_family', 100 );
 
-		// Add missing downloads helptext
+		// Add complete-family banner
+		$this->loader->add_action( 'ftm_account_downloads_after_group', $myaccount, 'complete_family_banner', 10, 2 );
+
+		// Add footnotes
 		$this->loader->add_action( 'woocommerce_after_account_downloads', $myaccount, 'add_message_after_downloads' );
+		
+		// Add gender to edit account page
+		if ( $mc4wp_aaa ) {
+			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_gender_field_to_edit_account' );
+			$this->loader->add_action( 'woocommerce_save_account_details', $myaccount, 'save_gender_field_on_edit_account' );
+		}
 
 		// Disable cancelation & modificaton
 		$this->loader->add_filter( 'wcs_view_subscription_actions', $myaccount, 'disable_subsciprion_cancellation', 10, 2 );
@@ -463,31 +501,6 @@ class Fontimator {
 	 */
 	public function get_version() {
 		return $this->version;
-	}
-
-	public static function get_catalog_fonts( $return = 'ids' ) {
-		// Get all fonts amount
-		$archives = wc_get_products(
-			array(
-				'type' => 'variable',
-				'paginate' => false,
-				'limit' => -1,
-				'category' => array( 'archive' ),
-				'return' => 'ids',
-			)
-		);
-
-		$all_fonts = wc_get_products(
-			array(
-				'type' => 'variable',
-				'paginate' => false,
-				'limit' => -1,
-				'exclude' => $archives,
-				'return' => $return,
-			)
-		);
-
-		return $all_fonts;
 	}
 
 }

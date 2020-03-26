@@ -1,13 +1,11 @@
 (function( $ ) {
 	'use strict';
 	$(function(){
-		$("form.variations_form").on("woocommerce_update_variation_values", function (event) {
+		$(document).on('woocommerce_update_variation_values', 'form.variations_form', function (event) {
 			$(this).find("optgroup:empty").remove();
 		});
 
-		$('.licenseapp-field .info-tooltip').aToolTip({ inSpeed: 350, yOffset: -55, fixed: false });
-
-		$('form.variations_form').on('found_variation reset_data',
+		$(document).on('found_variation reset_data', 'form.variations_form', 
 			function (event, variation) {
 				var $container = $('.licenseapp-field');
 				if(variation && variation.attributes) {
@@ -18,9 +16,12 @@
 							.attr('placeholder', FontimatorPublic.placeholders[licenseAttr]);
 						$container.find('span').hide()
 							.filter('[data-license="' + licenseAttr + '"]').show();
+
+						// Here for editing variation in cart, where there might be a few tooltips
+						$('.licenseapp-field .info-tooltip').aToolTip({ inSpeed: 350, yOffset: -55, fixed: false });
 					} else {
 						$container.hide()
-							.find('input').prop('required', false);
+							.find('input').prop('required', false).val('');
 					}
 				} else {
 					$container.hide()
@@ -56,6 +57,61 @@
 		$('.fontimator-timed-message-welcome').each(function(){
 			var greeting = FontimatorTimedMessages.welcome[get_part_of_day()];
 			$(this).html(greeting);
+		});
+
+
+		// Copyable Links
+		function copyText(str) {
+			var el = document.createElement('textarea');
+			el.value = str;
+			el.setAttribute('readonly', '');
+			el.style.position = 'absolute';
+			el.style.left = '-9999px';
+			document.body.appendChild(el);
+			el.select();
+			document.execCommand('copy');
+			document.body.removeChild(el);
+		};
+
+		
+		$('a.copyable-link').click(function(e){
+			e.preventDefault();
+			copyText($(this).attr('href'));
+
+			if ($(this).data('success-text')) {
+				$(this).text($(this).data('success-text'));
+			}
+		});
+
+		$(".fontimator-free-download a.open").each(function() {
+			$(this).click(function (e) {
+				$(this).hide();
+				$(this).parent().children('form').slideDown();
+				e.preventDefault();
+			});
+		});
+
+		$('.fontimator-free-download form').submit(function(e){
+			$(this).find('.success-overlay').css('display', 'flex').hide().fadeIn(300);
+			if ($(this).find('input.tipotip-checkbox').prop('checked') ) {
+				$(this).find('p.tipotip-message').show();
+			}
+		}).find('.close').click(function(event){
+			event.preventDefault();
+			$(this).parent().fadeOut(200);
+
+
+		});
+
+		// DevTools detect
+		// Get notified when it's opened/closed or orientation changes
+		window.addEventListener('devtoolschange', event => {
+			if (event.detail.isOpen) {
+				$('#devtools-pop-up').slideDown(100).parent().show();
+				window.disableDevToolsDetection = true;
+			} else {
+				$('#devtools-pop-up').hide().parent().hide();
+			}
 		});
 	});
 })( jQuery );

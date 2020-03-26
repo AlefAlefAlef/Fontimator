@@ -60,7 +60,7 @@ class Fontimator_Public {
 	 * @since    2.0.0
 	 */
 	public function enqueue_styles() {
-		// wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/fontimator-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/fontimator-public.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -70,6 +70,10 @@ class Fontimator_Public {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'fontimator-public-js', plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, true );
+
+		if ( ! current_user_can('administrator') ) {
+			wp_enqueue_script( 'devtools-detect', plugin_dir_url( __FILE__ ) . 'js/devtools-detector.js', array( ), $this->version, true );
+		}
 
 		wp_localize_script(
 			'fontimator-public-js', 'FontimatorTimedMessages', array(
@@ -88,6 +92,75 @@ class Fontimator_Public {
 				),
 			)
 		);
+		
+		wp_localize_script(
+			'fontimator-public-js', 'FontimatorPublic', array(
+				'licenseAttributeName' => FTM_LICENSE_ATTRIBUTE,
+				'placeholders' => array(
+					'web' => _x( 'example.com', 'The website address field placeholder', 'fontimator' ),
+					'app' => _x( 'App Name', 'The app name field placeholder', 'fontimator' ),
+				),
+			)
+		);
+	}
+
+	public function devtools_detect_notice() {
+		if ( current_user_can( 'administrator' ) ) {
+			// return;
+		}
+
+		$github_link = 'http://github.com/alefalefalef';
+
+		if ( FTM_SITE_NAME === 'fontimonim' ) {
+			$colophon_page = get_page_by_path( 'info/brand-assets' );
+		} else {
+			$colophon_page = get_page_by_path( 'about/colophon' );
+		}
+		$colophon_link = get_permalink( $colophon_page );
+
+		$eula_link = get_permalink( get_page_by_path( 'more/license' ) );
+
+		?>
+		<div class="pop-up-wrapper">
+			<section class="pop-up" id="devtools-pop-up" style="display:none;">
+				<header>
+					<div class="title">
+						<?php _e( 'Inspecting Elements Ey?!', 'fontimator' ); ?>
+					</div>
+				</header>
+				<section class="message">
+					<p>
+						<?php echo sprintf(
+							esc_html( __( 'Hi! We see you\'re interested in the behind the scenes of our site. That\'s great! Some of the code can even be found at %1$sour github%2$s and the %3$sColophon Page%4$s.', 'fontimator' ) ),
+							"<a href='$github_link'>",'</a>',
+							"<a href='$colophon_link'>",'</a>'
+						); ?>
+					</p>
+					<p>
+						<?php _e( 'We just wanted to remind you that downloading font files from our site is a criminal offence and a violation of intelectual property.', 'fontimator' ); ?>
+					</p>
+					<p>
+						<?php _e( 'Happy inspecting.', 'fontimator' ); ?>
+					</p>
+				</section>
+				<footer>
+					<div class="small-info">
+						<p><?php echo sprintf(
+							esc_html( __( 'More information can be found in our %1$sEnd-User License Agreement%2$s page, and feel free to contact us for any issues.', 'fontimator' ) ),
+							"<a href='$eula_link'>",'</a>'
+						); ?></p>
+						<?php 
+						$user_ip = $_SERVER['REMOTE_ADDR'];
+						if ( !($user_ip) ) {
+							echo '<p>Recorded IP: ' . $user_ip . '</p>';
+						}
+						?>
+					</div>
+					<a class="exit" href="#"><?php _ex( 'Close', 'Close button on popups', 'fontimator' ); ?></a>
+				</footer>
+			</section>
+		</div>
+		<?php
 	}
 
 	public function add_family_calculation_to_dropdown( $name ) {
@@ -195,16 +268,7 @@ class Fontimator_Public {
 	/**
 	 * Display licenseapp field on the front end
 	 */
-	function display_licenseapp_field() {
-		wp_localize_script(
-			'fontimator-public-js', 'FontimatorPublic', array(
-				'licenseAttributeName' => FTM_LICENSE_ATTRIBUTE,
-				'placeholders' => array(
-					'web' => _x( 'example.com', 'The website address field placeholder', 'fontimator' ),
-					'app' => _x( 'App Name', 'The app name field placeholder', 'fontimator' ),
-				),
-			)
-		);
+	public static function display_licenseapp_field() {
 		$license_info_page_link = Fontimator::get_instance()->get_acf()->get_field( 'license_info_page', 'options' );
 		?>
 		<label for="licenseapp" class="licenseapp-field" style="display: none">
@@ -224,8 +288,9 @@ class Fontimator_Public {
 	 */
 	function validate_licenseapp_field( $passed, $product_id, $quantity, $variation_id ) {
 		$variation = new Fontimator_Font_Variation( $variation_id );
-		$is_licenseapp_required = in_array( $variation->get_license_type(), array( 'app', 'web' ) );
-		if ( $is_licenseapp_required && empty( $_POST['licenseapp'] ) ) {
+		$is_licenseapp_required = in_array( $variation->get_license_type(), array( 'app', 'web' ) )
+			&& $variation->get_license() !== 'web-reseller';
+		if ( $is_licenseapp_required && empty( $_REQUEST['licenseapp'] ) ) {
 			// Fails validation
 			$passed = false;
 			wc_add_notice( __( 'Please enter a website URL/app name for this license', 'fontimator' ), 'error' );
@@ -240,10 +305,10 @@ class Fontimator_Public {
 	 * @param Integer   $variation_id   Variation ID.
 	 * @param Boolean   $quantity           Quantity
 	*/
-	function add_licenseapp_item_data( $cart_item_data, $product_id, $variation_id, $quantity ) {
-		if ( ! empty( $_POST['licenseapp'] ) ) {
+	function add_licenseapp_cart_data( $cart_item_data, $product_id, $variation_id, $quantity ) {
+		if ( ! empty( $_REQUEST['licenseapp'] ) ) {
 			// Add the item data
-			$cart_item_data['licenseapp'] = $_POST['licenseapp'];
+			$cart_item_data['licenseapp'] = $_REQUEST['licenseapp'];
 		}
 		return $cart_item_data;
 	}
@@ -251,7 +316,7 @@ class Fontimator_Public {
 	/**
 	 * Add the licenseapp to cart item data, e.g. cart page
 	 */
-	function licenseapp_get_item_data( $item_data, $cart_item ) {
+	function add_licenseapp_get_item_data( $item_data, $cart_item ) {
 		if ( ! empty( $cart_item['licenseapp'] ) ) {
 			$item_data[] = array(
 				'key' => __( 'License For', 'fontimator' ),
@@ -265,7 +330,7 @@ class Fontimator_Public {
 	/**
 	 * Add the licenseapp to order items
 	 */
-	function add_licenseapp_to_order( $item, $cart_item_key, $values, $order ) {
+	function add_licenseapp_to_order_line_item( $item, $cart_item_key, $values, $order ) {
 		foreach ( $item as $cart_item_key => $values ) {
 			if ( isset( $values['licenseapp'] ) ) {
 				$item->add_meta_data( __( 'License For', 'fontimator' ), $values['licenseapp'], true );
@@ -273,14 +338,53 @@ class Fontimator_Public {
 		}
 	}
 
+
+	/**
+	 * Add the discount to order items
+	 */
+	function add_discount_price_to_cart( $old_display, $cart_item, $cart_item_key ) {
+		$sale_price = $cart_item['data']->get_sale_price();
+		$regular_price = $cart_item['data']->get_regular_price();
+		$price = $cart_item['data']->get_price();
+
+		if ( $sale_price !== $regular_price && $sale_price == $price ) {
+			$output = sprintf( '<del>%1$s</del>&nbsp;&nbsp;%2$s', wc_price($regular_price), wc_price($sale_price) );
+			
+			if ( $discount_reason = $cart_item['data']->get_meta('discount_reason') ) {
+				$output .= sprintf( ' <br><small class="discount-reason">(%s)</small>', $discount_reason );
+			}
+
+			return $output;
+		}
+		return $old_display;
+	}
+
 	public function show_already_bought_notice() {
 		global $product;
+		$gender_specific_yourelooking = Fontimator_I18n::genderize_string(
+			_x( 'you are looking', 'Gender-nuetral', 'fontimator' ),
+			_x( 'you are looking', 'Male', 'fontimator' ),
+			_x( 'you are looking', 'Female', 'fontimator' )
+		);
+		$gender_specific_enter = Fontimator_I18n::genderize_string(
+			_x( 'Enter', 'Gender-nuetral "Enter"', 'fontimator' ),
+			_x( 'Enter', 'Male "Enter"', 'fontimator' ),
+			_x( 'Enter', 'Female "Enter"', 'fontimator' )
+		);
 		if ( is_user_logged_in() ) {
 			global $product;
 			$current_user = wp_get_current_user();
 			if ( wc_customer_bought_product( $current_user->user_email, $current_user->ID, $product->get_id() ) ) {
 				echo '<div class="user-bought">';
-					printf( __( 'Hello, %1$s. You have purchased some weights of %2$s font before. You can download the files in your <a href="%3$s">Dashboard</a>.', 'fontimator' ), $current_user->first_name, $product->get_name(), esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) . 'downloads' ) );
+					printf( 
+					__( 'Hello, %1$s. If %2$s for the files and licenses of font %3$s you have purchased - %4$s to the %5$sDownloads page%6$s.', 'fontimator' ), 
+						$current_user->first_name, 
+						$gender_specific_yourelooking,
+						$product->get_name(), 
+						$gender_specific_enter,
+						'<a href="' . esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) . 'downloads' ) . '">',
+						'</a>'
+				);
 				echo '</div>';
 			}
 		}
@@ -301,16 +405,17 @@ class Fontimator_Public {
 
 		simple_font_face( $family, $weight_alef );
 		?>
-		<span
-			style="font-family:<?php echo $family; ?>-variable, <?php echo $family; ?>, blank;
-				font-size:<?php echo 1 * $adjust_size; ?>em;
-				line-height:<?php echo .85 * $adjust_lineheight_of_box; ?>em;
-				height:<?php echo .85 / $adjust_size; ?>em;
+		<div
+			class="font-name-with-preview font-name-<?php echo $family; ?>"
+			style="font-family: <?php echo $family; ?>;
+				font-size:<?php echo 1.4 * $adjust_size; ?>em;
+				line-height:<?php echo 0.7 * $adjust_lineheight_of_box; ?>em;
+				height:<?php echo 0.7 / $adjust_size; ?>em;
 				z-index: 1;
 				font-weight:<?php echo get_weight_number( $weight_alef ); ?>;">
 
 			<?php echo $text; ?>
-		</span>
+		</div>
 		<?php
 	}
 
@@ -323,7 +428,7 @@ class Fontimator_Public {
 			$cart_url = esc_url_raw( add_query_arg( 'ftm-add-to-cart', implode( ',', $product_ids ), wc_get_cart_url() ) );
 			?>
 			<a href="<?php echo $cart_url; ?>" title="<?php esc_attr_e( 'Click here to copy the link to this cart, which you can send to your client or save for later.', 'fontimator' ); ?>" data-success-text="<?php esc_attr_e( 'Link to cart was copied!', 'fontimator' ); ?>" class="share-cart-button button tooltip copyable-link">
-				<?php _e( 'Share a link to this cart', 'fontimator' ); ?>
+				<i class="icon" data-icon="t"></i> <?php _e( 'Share a link to this cart', 'fontimator' ); ?>
 			</a>
 			<?php
 
@@ -356,5 +461,29 @@ class Fontimator_Public {
 		require plugin_dir_path( __FILE__ ) . 'partials/shortcode-free-download.php';
 		return ob_get_clean();
 	}
+
+	public function shortcode_genderize( $atts, $content = null ) {
+		$default = $atts['default'];
+		$male = $atts['male'];
+		$female = $atts['female'];
+
+		return Fontimator_I18n::genderize_string( $default, $male, $female );
+	}
+
+	public function terms_and_conditions_checkbox_text( $option ){
+		$gender_specific_agree = Fontimator_I18n::genderize_string(
+			_x( 'agree', 'Gender-nuetral agree', 'fontimator' ),
+			_x( 'agree', 'Male agree', 'fontimator' ),
+			_x( 'agree', 'Female agree', 'fontimator' )
+		);
+		$option = get_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', 
+			sprintf( 
+			__( 'I have read and %1$s to the ‫‫‫%2$s', 'fontimator' ), 
+			$gender_specific_agree,	
+			'[terms]' )
+		);
+		return $option;
+	}
+
 
 }

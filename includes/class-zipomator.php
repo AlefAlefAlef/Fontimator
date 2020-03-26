@@ -27,11 +27,6 @@ class Zipomator {
 
 	protected $specimen_filename_prefix;
 
-	public function __construct( $specimen_filename_prefix ) {
-		// $acf = Fontimator::get_instance();
-		// $this->specimen_filename_prefix = $acf->get_field( 'specimen_filename_prefix', 'options' );
-		$this->specimen_filename_prefix = $specimen_filename_prefix;
-	}
 
 	public function add_rewrite_rules() {
 		$zip_endpoint = self::$zip_endpoint;
@@ -45,7 +40,7 @@ class Zipomator {
 			add_rewrite_rule( "^{$variation_endpoint}/(.*)$", 'index.php?zipomator_api=1&variations=$matches[1]', 'top' );
 		}
 		if ( $eula_endpoint ) {
-			add_rewrite_rule( "^{$eula_endpoint}/(.*)$", 'index.php?zipomator_api=1&eula=$matches[1]', 'top' );
+			add_rewrite_rule( "^{$eula_endpoint}/?(.*)$", 'index.php?zipomator_api=1&eula=$matches[1]', 'top' );
 		}
 		$catalog_endpoint = self::$catalog_endpoint;
 		if ( $catalog_endpoint ) {
@@ -136,7 +131,7 @@ class Zipomator {
 	}
 
 	public static function get_clean_weight( $weight ) {
-		$weight_parts = explode( '-', $weight );
+		$weight_parts = explode( '-', $weight, 2 );
 		if ( count( $weight_parts ) > 1 ) {
 			$weight_clean = $weight_parts[1];
 			return $weight_clean;
@@ -145,7 +140,7 @@ class Zipomator {
 	}
 
 	public static function get_clean_license( $license ) {
-		$license_parts = explode( '-', $license );
+		$license_parts = explode( '-', $license, 2 );
 		if ( count( $license_parts ) > 1 ) {
 			$license_clean = $license_parts[0];
 			return $license_clean;
@@ -154,7 +149,7 @@ class Zipomator {
 	}
 
 	public static function get_nonced_url( $variations ) {
-		if ( 1 === count( $variations ) ) {
+		if ( ! is_array( $variation ) ) {
 			$variations = array( $variations );
 		}
 		return self::zipomator_variation_url( $variations );
@@ -171,6 +166,7 @@ class Zipomator {
 	 * Serve the fonts catalog
 	 */
 	protected function serve_catalog() {
+		$specimen_filename_prefix = Fontimator::get_instance()->get_acf()->get_field( 'specimen_filename_prefix', 'options' );
 		$fonts = wc_get_products(
 			array(
 				'type' => 'variable',
@@ -185,7 +181,7 @@ class Zipomator {
 
 		foreach ( $fonts as $font ) {
 			$font_slug = $font->get_slug();
-			$file_path = FTM_FONTS_PATH . "{$font_slug}/{$this->specimen_filename_prefix}-{$font_slug}.pdf";
+			$file_path = FTM_FONTS_PATH . "{$font_slug}/{$specimen_filename_prefix}-{$font_slug}.pdf";
 			$files[] = $file_path;
 		}
 
@@ -212,7 +208,7 @@ class Zipomator {
 		if ( ! isset( $package_string ) ) {
 			wp_die(
 				__(
-					'Zipomator Error: no parameters were passed. 
+					'Zipomator Error: no parameters were passed.
 				Please make sure you are trying to access via the correct URL,
 				and that your htaccess file is set up properly.', 'fontimator'
 				)
@@ -241,7 +237,7 @@ class Zipomator {
 	}
 
 	protected function get_membership_items( $license ) {
-		$fonts = Fontimator::get_catalog_fonts();
+		$fonts = Fontimator_Query::get_catalog_fonts();
 
 		if ( ! count( $fonts ) ) {
 			wp_die( __( 'Zipomator Error: No fonts found. Are you sure you have WooCommerce products active?', 'fontimator' ) );
@@ -269,7 +265,7 @@ class Zipomator {
 		if ( ! isset( $license ) ) {
 			wp_die(
 				__(
-					'Zipomator Error: no membership license was passed. 
+					'Zipomator Error: no membership license was passed.
 					Please make sure you are trying to access via the correct URL,
 					and that your htaccess file is set up properly.', 'fontimator'
 				)
@@ -297,7 +293,7 @@ class Zipomator {
 		if ( ! isset( $variations ) ) {
 			wp_die(
 				__(
-					'Zipomator Error: no variations were passed. 
+					'Zipomator Error: no variations were passed.
 					Please make sure you are trying to access via the correct URL,
 					and that your htaccess file is set up properly.', 'fontimator'
 				)
@@ -369,4 +365,3 @@ class Zipomator {
 	}
 
 }
-

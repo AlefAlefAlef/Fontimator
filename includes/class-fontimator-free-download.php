@@ -39,23 +39,45 @@ class Fontimator_Free_Download {
 	}
 
 	public function get_url() {
-		return $this->download_url;
+		return FTM_FONTS_URL . $this->download_url;
+	}
+
+	public function has_downloaded( $email ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . self::$db_table_name;
+
+		$results = $wpdb->query(
+			$wpdb->prepare(
+				"
+				SELECT id FROM $table_name
+				WHERE download_id = %s
+				AND user_email = %s
+				",
+				$this->download_id, $email
+			)
+		);
+
+		return $results > 0;
 	}
 
 	public function register_download( $name, $email ) {
 		global $wpdb;
 
-		$table_name = $wpdb->prefix . self::$db_table_name;
+		if ( ! $this->has_downloaded( $email ) ) {
+			$table_name = $wpdb->prefix . self::$db_table_name;
 
-		$wpdb->insert(
-			$table_name,
-			array(
-				'download_id' => $this->download_id,
-				'user_name' => $name,
-				'user_email' => $email,
-				'time' => current_time( 'mysql' ),
-			)
-		);
+			$wpdb->insert(
+				$table_name,
+				array(
+					'download_id' => $this->download_id,
+					'user_name' => $name,
+					'user_email' => $email,
+					'time' => current_time( 'mysql' ),
+				)
+			);
+		}
+
 	}
 
 

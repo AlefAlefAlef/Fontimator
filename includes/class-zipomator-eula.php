@@ -36,12 +36,13 @@ class Zipomator_EULA {
 
 		if ( $this->licenses ) {
 			?>
-			<h2>
+			<h3>
 				<?php
 				// TRANSLATORS: The names of relevant licenses.
-				printf( esc_html__( 'End User License Agreement: %s', 'fontimator' ), $this->licenses_titles );
+				//printf( esc_html__( 'End User License Agreement: %s', 'fontimator' ), $this->licenses_titles );
+				echo $this->licenses_titles;
 				?>
-			</h2>
+			</h3>
 	<?php
 		}
 		// var_dump( $licenses );

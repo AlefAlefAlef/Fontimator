@@ -61,6 +61,9 @@ $downloads = Fontimator_MyAccount::group_downloads_by_family( $downloads );
 							} elseif ( 'free' === $family_name ) {
 								echo '<i class="icon" data-icon="₪"></i> ';
 								_e( 'Free Downloads', 'fontimator' );
+							} elseif ( 'membership-reseller' === $family_name ) {
+								echo '<i class="icon" data-icon="ø"></i> ';
+								_e( 'Reseller Membership License', 'fontimator' );
 							} else {
 								$first_download = reset( $family_group );
 								Fontimator_Public::print_with_font_preview( $first_download['product_name'], wp_get_post_parent_id( $first_download['product_id'] ) );
@@ -73,31 +76,32 @@ $downloads = Fontimator_MyAccount::group_downloads_by_family( $downloads );
 						?>
 						<tr>
 							<?php foreach ( wc_get_account_downloads_columns() as $column_id => $column_name ) : ?>
-									<td class="<?php echo esc_attr( $column_id ); ?>" data-title="<?php echo esc_attr( $column_name ); ?>">
-										<?php
-										if ( has_action( 'woocommerce_account_downloads_column_' . $column_id ) ) {
-											do_action( 'woocommerce_account_downloads_column_' . $column_id, $download );
-										} else {
-											switch ( $column_id ) {
-												case 'download-product':
-													if ( $download['product_url'] ) {
-														echo '<a href="' . esc_url( $download['product_url'] ) . '">' . esc_html( $download['product_name'] ) . '</a>';
-													} else {
-														echo esc_html( $download['product_name'] );
-													}
-													break;
-												case 'download-file':
-													echo '<a href="' . esc_url( $download['download_url'] ) . '" class="woocommerce-MyAccount-downloads-file button alt">' . esc_html( $download['download_name'] ) . '</a>';
-													break;
-											}
+								<td class="<?php echo esc_attr( $column_id ); ?>" data-title="<?php echo esc_attr( $column_name ); ?>">
+									<?php
+									if ( has_action( 'woocommerce_account_downloads_column_' . $column_id ) ) {
+										do_action( 'woocommerce_account_downloads_column_' . $column_id, $download );
+									} else {
+										switch ( $column_id ) {
+											case 'download-product': // Overriden by Fontimator_MyAccount::prepend_icon_to_download_name
+												if ( $download['product_url'] ) {
+													echo '<a href="' . esc_url( $download['product_url'] ) . '">' . esc_html( $download['product_name'] ) . '</a>';
+												} else {
+													echo esc_html( $download['product_name'] );
+												}
+												break;
+											case 'download-file':
+												echo '<a href="' . esc_url( $download['download_url'] ) . '" class="woocommerce-MyAccount-downloads-file button alt">' . esc_html( $download['download_name'] ) . '</a>';
+												break;
 										}
-										?>
-									</td>
-								<?php endforeach; ?>
-							</tr>
+									}
+									?>
+								</td>
+							<?php endforeach; ?>
+						</tr>
 
-							<?php
+						<?php
 					}
+					do_action( 'ftm_account_downloads_after_group', $family_name, $family_group );
 					?>
 				</tbody>
 			

@@ -59,4 +59,35 @@ class Fontimator_Query {
 		return $on_sale_weights_query;
 	}
 
+	/**
+	 * Returns all fonts in the catalog, meaning- not in archive category.
+	 *
+	 * @param string $return Format to return, default - ids.
+	 * @return array array of all fonts in catalog
+	 */
+	public static function get_catalog_fonts( $return = 'ids' ) {
+		// Get all fonts amount
+		$archives = wc_get_products(
+			array(
+				'type' => 'variable',
+				'paginate' => false,
+				'limit' => -1,
+				'category' => array( 'archive' ),
+				'return' => 'ids',
+			)
+		);
+
+		$all_fonts = wc_get_products(
+			array(
+				'type' => 'variable',
+				'paginate' => false,
+				'limit' => -1,
+				'exclude' => $archives,
+				'return' => $return,
+			)
+		);
+
+		return $all_fonts;
+	}
+
 }

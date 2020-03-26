@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2019-01-23 15:14+0200\n"
-"PO-Revision-Date: 2019-01-23 15:14+0200\n"
+"POT-Creation-Date: 2020-02-25 08:55+0200\n"
+"PO-Revision-Date: 2020-03-04 16:12+0200\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: fontimator.php\n"
@@ -20,6 +20,11 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/class-fontimator-admin.php:228
+#, php-format
+msgid "Delete &#8220;%s&#8221; permanently"
+msgstr "מחיקת &#8220;%s&#8221; לצמיתות"
 
 #: admin/class-fontimator-variations-helper.php:57
 msgid "Fontimator Tools:"
@@ -31,7 +36,8 @@ msgstr "הגדר מחדש את כל הוריאציות"
 
 #: admin/class-fontimator-variations-helper.php:66
 msgid ""
-"After saving the attributes, DO NOT update product. Instead, refresh page or exit."
+"After saving the attributes, DO NOT update product. Instead, refresh page or "
+"exit."
 msgstr ""
 "אחרי ששמרת את המשקלים, לא לעדכן את המוצר! במקום זאת, יש לרענן את העמוד או לצאת "
 "פשוט."
@@ -75,112 +81,102 @@ msgstr "שמור את הגדרות הפוֹנטִימָטוֹר"
 msgid "Fontimator Configuration Saved"
 msgstr "הגדרות הפוֹנטִימָטוֹר נשמרו"
 
-#: includes/class-fontimator-font-variation.php:155
+#: includes/class-fontimator-font-variation.php:163
 #, php-format
 msgid ", weight of %s"
 msgstr "‫ (%s)"
 
-#: includes/class-fontimator-font-variation.php:161
+#: includes/class-fontimator-font-variation.php:169
 msgid "web"
 msgstr "ווב"
 
-#: includes/class-fontimator-font-variation.php:164
+#: includes/class-fontimator-font-variation.php:172
 msgid "app"
 msgstr "אפליקציה"
 
-#: includes/class-fontimator-font-variation.php:167
+#: includes/class-fontimator-font-variation.php:175
 msgid "desktop"
 msgstr "דסקטופ"
 
-#: includes/class-fontimator-font-variation.php:171
+#: includes/class-fontimator-font-variation.php:179
 #, php-format
 msgid ", %s license"
 msgstr ", רישיון %s"
 
-#: includes/class-fontimator-woocommerce.php:72
+#: includes/class-fontimator-woocommerce.php:73
 msgid "From: "
 msgstr "החל מ־"
 
-#: includes/class-fontimator-woocommerce.php:121
+#: includes/class-fontimator-woocommerce.php:122
 msgid ""
-"We added all the right products to your cart. Now all that is left is to checkout!"
-msgstr "הוספנו את כל הפונטים הנכונים לעגלה שלך. עכשיו כל מה שנותר זה לשלם :)"
+"We added all the right products to your cart. Now all that is left is to "
+"checkout!"
+msgstr ""
+"סל הקניות שלך עודכן. לפני לחיצה על ״המשך לתשלום״ כדאי לעבור על כל הפריטים בסל "
+"כדי לוודא שאכן אלו הרישיונות שרצית לרכוש."
+
+#: includes/class-fontimator-woocommerce.php:241
+#, php-format
+msgid ""
+"Hello there, %3$s! Your account is almost ready - please reset your password "
+"%1$shere%2$s."
+msgstr ""
+"אהלן %3$s! עדיין לא הגדרת סיסמה... כדי לגשת לאיזור האישי, %1$sיש ללחוץ כאן%2$s "
+"לאיפוס הסיסמה."
 
 #: includes/class-pdf-file.php:45
 msgid "There was an error generating the fonts catalog."
 msgstr "אירעה שגיאה ביצירת קטלוג הגופנים."
 
-#: includes/class-zipomator-eula.php:42 includes/class-zipomator-eula.php:151
+#: includes/class-zipomator-eula.php:152
 #, php-format
 msgid "End User License Agreement: %s"
 msgstr "הסכם רישיון שימוש בפונטים: %s"
 
-#: includes/class-zipomator.php:215
+#: includes/class-zipomator.php:211
 msgid ""
-"Zipomator Error: no parameters were passed. \n"
+"Zipomator Error: no parameters were passed.\n"
 "\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
 "\t\t\t\tand that your htaccess file is set up properly."
 msgstr ""
-"שגיאת זיפומטור: לא הועברו פרמטרים. \n"
-"‬\n"
-"‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
-"‬\n"
-"‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
+"שגיאת זיפומטור: לא הועברו פרמטרים. ‬\n"
+"‫‫‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,‬\n"
+"‫‫‫‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
 
 #. translators: This is (probably) the name of the invalid font.
-#: includes/class-zipomator.php:229
+#: includes/class-zipomator.php:225
 #, php-format
 msgid "Zipomator Error: invalid amount of arguments in item: %s"
 msgstr "שגיאת זיפומטור: מספר פרמטרים לא תקין בפריט: %s"
 
-#: includes/class-zipomator.php:247
+#: includes/class-zipomator.php:243
 msgid ""
 "Zipomator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
 "שגיאת זיפומטור: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
-#: includes/class-zipomator.php:272
+#: includes/class-zipomator.php:268
 msgid ""
-"Zipomator Error: no membership license was passed. \n"
+"Zipomator Error: no membership license was passed.\n"
 "\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
 "\t\t\t\t\tand that your htaccess file is set up properly."
 msgstr ""
-"שגיאת זיפומטור: לא הועבר רישיון ממברשיפ. \n"
-"‬\n"
-"‏‫‬\n"
-"‬\n"
-"‫‏‫‬\n"
-"‬\n"
-"‏‫‬\n"
-"‬\n"
-"‫‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
-"‬\n"
-"‏‫‬\n"
-"‬\n"
-"‫‏‫‬\n"
-"‬\n"
-"‏‫‬\n"
-"‬\n"
+"שגיאת זיפומטור: לא הועבר רישיון ממברשיפ. ‬\n"
+"‫‫‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה, ‬\n"
+"‫‫‫‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
+
+#: includes/class-zipomator.php:296
+msgid ""
+"Zipomator Error: no variations were passed.\n"
+"\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
+"\t\t\t\t\tand that your htaccess file is set up properly."
+msgstr ""
+"שגיאת זיפומטור: לא הועברו פונטים. ‬\n"
+"‫‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה, ‬\n"
 "‫‫‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
 
-#: includes/class-zipomator.php:300
-msgid ""
-"Zipomator Error: no variations were passed. \n"
-"\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
-"\t\t\t\t\tand that your htaccess file is set up properly."
-msgstr ""
-"שגיאת זיפומטור: לא הועברו פונטים. \n"
-"‬\n"
-"‏‫‬\n"
-"‬\n"
-"‫‫אנא וודאו שאתם מנסים להגיע לכתובת הנכונה,\n"
-"‬\n"
-"‏‫‬\n"
-"‬\n"
-"‫‫ושקובץ הHTACCESS שלכם מוגדר כראוי."
-
-#: includes/class-zipomator.php:310
+#: includes/class-zipomator.php:306
 #, php-format
 msgid ""
 "Invalid download link. Go to your <a href=\"%s\">Downloads Page</a> to download "
@@ -189,114 +185,120 @@ msgstr ""
 "קישור הורדה לא תקין. נסו ללכת ל<a href=\"%s\">דף ההורדות שלכם</a> כדי להוריד את "
 "הפונט."
 
-#: includes/class-zipomator.php:323 includes/class-zipomator.php:338
-#: includes/class-zipomator.php:346
+#: includes/class-zipomator.php:319 includes/class-zipomator.php:334
+#: includes/class-zipomator.php:342
 #, php-format
 msgid "Zipomator Error: Invalid download link. (%s)"
 msgstr "שגיאת זיפומטור: קישור הורדה לא תקין. (%s)"
 
-#: public/class-fontimator-myaccount.php:53
+#: public/class-fontimator-myaccount.php:55
 msgid "Select some fonts using the small checkboxes first."
 msgstr "יש לסמן כמה גופנים באמצעות תיבות הסימון קטנות תחילה."
 
-#: public/class-fontimator-myaccount.php:59
+#: public/class-fontimator-myaccount.php:63
 msgid ""
 "Are you sure? You can't re-enable the membership without purchasing it again."
 msgstr "‫מאה אחוז? לא ניתן להחזיר את המינוי בלי לרכוש אותו מחדש."
 
-#: public/class-fontimator-myaccount.php:91
+#: public/class-fontimator-myaccount.php:95
 msgid "Recover password or old purchases"
 msgstr "איפוס סיסמה או שיחזור רכישה ישנה"
 
-#: public/class-fontimator-myaccount.php:112
+#: public/class-fontimator-myaccount.php:124
 #, php-format
 msgid ""
-"Hold on, %1$s! You are not subscribed to our newsletter, and miss all the fun. <a "
-"href=\"%2$s\" target=\"_blank\">Subscribe Now!</a>"
+"Hold on, %1$s! You are not subscribed to our newsletter, and miss all the fun. "
+"<a href=\"%2$s\" target=\"_blank\">Subscribe Now!</a>"
 msgstr ""
-"רק רגע, %1$s! שמנו לב שאנחנו לא שולחים לך עדיין את הניוזלטר שלנו, עם מבצעים שווים "
-"ומתנות חינם מפעם לפעם. <a href=\"%2$s\" target=\"_blank\">הגיע הזמן להרשם!</a>"
+"רק רגע, %1$s! שמנו לב שאנחנו לא שולחים לך עדיין את הניוזלטר שלנו, עם מבצעים "
+"שווים ומתנות בחינם מפעם לפעם. <a href=\"%2$s\" target=\"_blank\">ממש כדאי להרשם!"
+"</a>"
 
-#: public/class-fontimator-myaccount.php:121
+#: public/class-fontimator-myaccount.php:134
 msgid "Family"
 msgstr "פונט"
 
-#: public/class-fontimator-myaccount.php:122
-msgid "Weight"
-msgstr "משקל"
-
-#: public/class-fontimator-myaccount.php:123
+#: public/class-fontimator-myaccount.php:135
 msgid "License"
 msgstr "רישיון"
 
-#: public/class-fontimator-myaccount.php:124
+#: public/class-fontimator-myaccount.php:136
 msgid "Version"
-msgstr "גירסה"
+msgstr "גרסה"
 
-#: public/class-fontimator-myaccount.php:125
+#: public/class-fontimator-myaccount.php:137
 msgid "Download"
 msgstr "הורדה"
 
-#: public/class-fontimator-myaccount.php:141
+#: public/class-fontimator-myaccount.php:158
 msgid "Your Academic License"
 msgstr "רישיון אקדמי"
 
-#: public/class-fontimator-myaccount.php:149
+#: public/class-fontimator-myaccount.php:166
 msgid "Your Newsletter Birthday Gift!"
 msgstr "מתנת יום ההולדת שלך מהניוזלטר!"
 
-#: public/class-fontimator-myaccount.php:154
+#: public/class-fontimator-myaccount.php:171
 #, php-format
 msgid "Moved to %s"
 msgstr "עבר ל%s"
 
-#: public/class-fontimator-myaccount.php:154
+#: public/class-fontimator-myaccount.php:171
 msgid "Fontimonim"
 msgstr "פונטימונים"
 
-#: public/class-fontimator-myaccount.php:156
+#: public/class-fontimator-myaccount.php:173
 msgid "Archived"
 msgstr "עבר לארכיון"
 
-#: public/class-fontimator-myaccount.php:280
+#: public/class-fontimator-myaccount.php:215
+msgctxt "License column for free downloads (instead of ♾)"
+msgid "Free"
+msgstr "חינמי"
+
+#: public/class-fontimator-myaccount.php:321
 msgid ""
 "Fontimator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
 "שגיאת פוֹנטִימָטוֹר: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
-#: public/class-fontimator-myaccount.php:363
+#: public/class-fontimator-myaccount.php:431
 #, php-format
 msgid ""
-"<strong>Please note:</strong> You had an Academic License until July 31st, %s, "
-"but it is out of date."
+"<strong>Please note:</strong> You had an Academic License until December 31st, "
+"%s, but it is out of date."
 msgstr ""
 "‫<strong>רישיונות עבר:</strong> היה לך רישיון שימוש אקדמי בספריית הפונטים שלנו "
-"שהסתיים ב־31 ביולי %s."
+"שהסתיים ב־31 בדצמבר %s."
 
-#: public/class-fontimator-myaccount.php:381
+#: public/class-fontimator-myaccount.php:451
+msgid "Cancel (unavailable during the first 32 months)"
+msgstr "ביטול (לא זמין במהלך 3 השנים הראשונות)"
+
+#: public/class-fontimator-myaccount.php:453
 msgid "Cancel (unavailable during the first year)"
 msgstr "ביטול (לא זמין במהלך השנה הראשונה)"
 
-#: public/class-fontimator-myaccount.php:408
+#: public/class-fontimator-myaccount.php:484
 msgid "Updated your downloads list. We hope everything is here this time!"
 msgstr ""
-"רשימת ההורדות שלך עודכנה. אם רכשת רישיונות שלא מופיעים פה, כדאי <a href=\"/contact"
-"\" target-=\"_blank\">לכתוב לנו</a> כדי שנסדר לך את זה."
+"רשימת ההורדות שלך עודכנה. אם רכשת רישיונות שלא מופיעים פה, כדאי לך <a href=\"/"
+"contact\" target-=\"_blank\">לכתוב לנו</a> כדי שנסדר את זה."
 
-#: public/class-fontimator-myaccount.php:421
+#: public/class-fontimator-myaccount.php:497
 msgid "Select All"
 msgstr "לסמן הכל"
 
-#: public/class-fontimator-myaccount.php:422
+#: public/class-fontimator-myaccount.php:498
 msgid "Unselect All"
 msgstr "לסמן כלום"
 
-#: public/class-fontimator-myaccount.php:423
+#: public/class-fontimator-myaccount.php:499
 msgid "Download Selected"
 msgstr "הורדת קבצים מסומנים"
 
-#: public/class-fontimator-myaccount.php:443
+#: public/class-fontimator-myaccount.php:614
 #, php-format
 msgid ""
 "Each time you download fonts from this page you agree to the <strong>current</"
@@ -304,95 +306,152 @@ msgid ""
 msgstr ""
 "כל הורדה של פונטים מעמוד זה מותנית בהסכמה ל<a href='%s'>תנאי השימוש</a> העדכניים."
 
-#: public/class-fontimator-myaccount.php:445
+#: public/class-fontimator-myaccount.php:620
 #, php-format
 msgid ""
 "Missing something? If you have previously purchased a font license that isn't "
 "listed here, please <a href='%s'>click here</a> to refresh your downloads list."
 msgstr ""
-"רכשת רישיון שימוש שלא מופיע פה? אפשר <a href='%s'>ללחוץ כאן</a> כדי לרענן את "
+"אם רכשת רישיון שימוש שלא מופיע פה, אפשר <a href='%s'>ללחוץ כאן</a> כדי לרענן את "
 "הרשימה."
 
-#: public/class-fontimator-public.php:77
+#: public/class-fontimator-myaccount.php:645
+msgid "How would you like to be addressed?"
+msgstr "איך לפנות אליך?"
+
+#: public/class-fontimator-myaccount.php:648
+msgctxt "Gender field option in edit account form"
+msgid "As female"
+msgstr "לשון נקבה"
+
+#: public/class-fontimator-myaccount.php:649
+msgctxt "Gender field option in edit account form"
+msgid "As male"
+msgstr "לשון זכר"
+
+#: public/class-fontimator-public.php:79
 #, php-format
 msgid "Good Morning, %s."
 msgstr "בוקר טוב, %s!"
 
-#: public/class-fontimator-public.php:78
+#: public/class-fontimator-public.php:80
 #, php-format
 msgid "Good Afternoon, %s."
 msgstr "‫צהריים טובים, %s!"
 
-#: public/class-fontimator-public.php:79
+#: public/class-fontimator-public.php:81
 #, php-format
 msgid "Good Evening, %s."
 msgstr "ערב טוב, %s!"
 
-#: public/class-fontimator-public.php:80
+#: public/class-fontimator-public.php:82
 #, php-format
 msgid "Good Night, %s."
 msgstr "לילה טוב, %s!"
 
-#: public/class-fontimator-public.php:81
+#: public/class-fontimator-public.php:83
 #, php-format
 msgid "Good Shabbos, %s."
 msgstr "גוד שאבעס, %s!"
 
-#: public/class-fontimator-public.php:84
+#: public/class-fontimator-public.php:86
 msgid "How great to start the day with some stats about your purchases!"
 msgstr ""
 "הכי כיף להתחיל את היום ברגל ימין, עם קצת סטטיסטיקות ומידע שימושי לגבי החשבון שלך."
 
-#: public/class-fontimator-public.php:85
+#: public/class-fontimator-public.php:87
 msgid ""
 "We hope you had your lunch, and you're ready to kick in with some stats about "
 "your fonts!"
-msgstr "אנחנו מקווים שאכלת צהריים, ויש לך אנרגיות להשתמש בכל הפונטים שקנית!"
+msgstr "מקווים שאכלת ארוחת צהריים ויש לך אנרגיות מחודשות להמשיך את היום."
 
-#: public/class-fontimator-public.php:86
+#: public/class-fontimator-public.php:88
 msgid "Still in the office? How about some typography before sleep?"
-msgstr "עדיין במשרד? מה דעתך על קצת טיפוגרפיה לפני השינה?"
+msgstr ""
+"עדיין במשרד? סידרנו לך קצת מידע לגבי הרכישות שלך – כדי שיהיה לך במה להרהר בארוחת "
+"ערב ;)"
 
-#: public/class-fontimator-public.php:87
+#: public/class-fontimator-public.php:89
 msgid "Working late? We got all your font information in one place."
 msgstr ""
 "לילה לבן, אה?! מזל שהכנו לך את כל המידע שיעשה לך סדר בכל הרכישות שלך אצלנו. והלו "
 "שם, לא לעבוד קשה מדי!"
 
-#. translators: discount percentage
-#: public/class-fontimator-public.php:104
-#, php-format
-msgid "%d%% Discount"
-msgstr "‫%d%% הנחה"
-
-#: public/class-fontimator-public.php:132
-msgid "Choose an option"
-msgstr "בחירת אפשרות"
-
-#: public/class-fontimator-public.php:162
-#, php-format
-msgid "%s Licenses:"
-msgstr "רשיונות %s:"
-
-#: public/class-fontimator-public.php:203
+#: public/class-fontimator-public.php:98
 msgctxt "The website address field placeholder"
 msgid "example.com"
 msgstr "example.com"
 
-#: public/class-fontimator-public.php:204
+#: public/class-fontimator-public.php:99
 msgctxt "The app name field placeholder"
 msgid "App Name"
-msgstr "יישומון"
+msgstr "שם האפליקציה"
 
-#: public/class-fontimator-public.php:211
+#: public/class-fontimator-public.php:126
+msgid "Inspecting Elements Ey?!"
+msgstr "חיפשת משהו?! רק רגע…"
+
+#: public/class-fontimator-public.php:132
+#, php-format
+msgid ""
+"Hi! We see you're interested in the behind the scenes of our site. That's great! "
+"Some of the code can even be found at %1$sour github%2$s and the %3$sColophon "
+"Page%4$s."
+msgstr ""
+"כיף שנכנסת להציץ על הקוד של האתר! חלק ממנו אפילו נמצא  %1$sבגיטהאב%2$s ובעמוד "
+"%3$sהקולופֿון%4$s שלנו."
+
+#: public/class-fontimator-public.php:138
+msgid ""
+"We just wanted to remind you that downloading font files from our site is a "
+"criminal offence and a violation of intelectual property."
+msgstr ""
+"רק, אנחנו מבקשים ממך <strong>לא להוריד פונטים מהאתר שלנו בצורה פיראטית.</strong> "
+"הפונטים שלנו מוגנים בחוק זכויות יוצרים, ושימוש בהם ללא רישיון מהווה עבירה פלילית "
+"בארץ ובעולם."
+
+#: public/class-fontimator-public.php:141
+msgid "Happy inspecting."
+msgstr "שיטוט נעים ◔‿◔"
+
+#: public/class-fontimator-public.php:147
+#, php-format
+msgid ""
+"More information can be found in our %1$sEnd-User License Agreement%2$s page, "
+"and feel free to contact us for any issues."
+msgstr ""
+"מידע נוסף אפשר למצוא בעמוד %1$sתנאי השימוש%2$s, או ליצור איתנו קשר דרך עמוד "
+"יצירת הקשר."
+
+#: public/class-fontimator-public.php:157
+msgctxt "Close button on popups"
+msgid "Close"
+msgstr "סגירה"
+
+#. translators: discount percentage
+#: public/class-fontimator-public.php:175
+#, php-format
+msgid "%d%% Discount"
+msgstr "‫%d%% הנחה"
+
+#: public/class-fontimator-public.php:203
+msgid "Choose an option"
+msgstr "בחירת אפשרות"
+
+#: public/class-fontimator-public.php:233
+#, php-format
+msgid "%s Licenses:"
+msgstr "רשיונות %s:"
+
+#: public/class-fontimator-public.php:273
 msgid "The app name:"
 msgstr "שם האפליקציה:"
 
-#: public/class-fontimator-public.php:212
+#: public/class-fontimator-public.php:274
 msgid "The website address:"
 msgstr "כתובת האתר:"
 
-#: public/class-fontimator-public.php:213
+#: public/class-fontimator-public.php:275
 msgid ""
 "Every web/app license is purchased per one app/website. If you need it for two "
 "different websites, you must purchase it twice."
@@ -400,40 +459,160 @@ msgstr ""
 "כל רישיון ווב/אפליקציה נרכש עבור אתר/אפליקציה בודד/ת (כולל סאב־דומיינים). לחצו "
 "לפרטים נוספים."
 
-#: public/class-fontimator-public.php:231
+#: public/class-fontimator-public.php:294
 msgid "Please enter a website URL/app name for this license"
 msgstr ""
 "יש להזין כתובת אתר או שם אפליקציה כדי לרכוש רישיון. זכרו: כל רישיון הוא עבור "
 "אתר/אפליקציה אחת"
 
-#: public/class-fontimator-public.php:257 public/class-fontimator-public.php:271
+#: public/class-fontimator-public.php:320 public/class-fontimator-public.php:334
 msgid "License For"
 msgstr "רישיון עבור"
 
-#: public/class-fontimator-public.php:283
+#: public/class-fontimator-public.php:363
+msgctxt "Gender-nuetral"
+msgid "you are looking"
+msgstr "חיפשת"
+
+#: public/class-fontimator-public.php:364
+msgctxt "Male"
+msgid "you are looking"
+msgstr "אתה מחפש"
+
+#: public/class-fontimator-public.php:365
+msgctxt "Female"
+msgid "you are looking"
+msgstr "את מחפשת"
+
+#: public/class-fontimator-public.php:368
+msgctxt "Gender-nuetral \"Enter\""
+msgid "Enter"
+msgstr "כדאי להיכנס"
+
+#: public/class-fontimator-public.php:369
+msgctxt "Male \"Enter\""
+msgid "Enter"
+msgstr "כנס"
+
+#: public/class-fontimator-public.php:370
+msgctxt "Female \"Enter\""
+msgid "Enter"
+msgstr "כנסי"
+
+#: public/class-fontimator-public.php:378
 #, php-format
 msgid ""
-"Hello, %1$s. You have purchased some weights of %2$s font before. You can "
-"download the files in your <a href=\"%3$s\">Dashboard</a>."
+"Hello, %1$s. If %2$s for the files and licenses of font %3$s you have purchased "
+"- %4$s to the %5$sDownloads page%6$s."
 msgstr ""
-"היי %1$s, רכשת בעבר משקל/ים של פונט %2$s. פירוט הרישיונות שלך וקובצי הפונט זמינים "
-"להורדה ב<a href=\"%3$s\">איזור האישי שלך</a>."
+"‫‫‫%1$s, אם ‫‫‫%2$s את הקבצים והרישיונות של פונט %3$s שרכשת – ‫‫‫%4$s אל  ‫‫‫%5$sעמוד ההורדות"
+" ‫‫‫%6$s באיזור האישי שלך."
 
-#: public/class-fontimator-public.php:321
+#: public/class-fontimator-public.php:428
 msgid ""
 "Click here to copy the link to this cart, which you can send to your client or "
 "save for later."
 msgstr ""
-"לחצו כאן כדי להעתיק את הקישור לסל הקניות הנוכחי שלכם, שאותו תוכלו לשלוח ללקוח או "
-"לשמור למועד מאוחר יותר."
+"הלינק הזה נמצא כאן למקרה שבא לך לשלוח למישהו - לקוח, מפיק, מחלקת רכש וכו׳ – "
+"קישור ישיר לרכישת רישיונות ספציפיים, או אם סתם בא לך לשמור את תכולת הסל הנוכחי "
+"שלך ליום סגריר."
 
-#: public/class-fontimator-public.php:321
+#: public/class-fontimator-public.php:428
 msgid "Link to cart was copied!"
-msgstr "הקישור לעגלה הועתק!"
+msgstr "הלינק הועתק לזיכרון!"
 
-#: public/class-fontimator-public.php:322
+#: public/class-fontimator-public.php:429
 msgid "Share a link to this cart"
-msgstr "שליחת סל זה ללקוח שלך"
+msgstr "לינק לשיתוף הסל שלך"
+
+#: public/class-fontimator-public.php:473
+msgctxt "Gender-nuetral agree"
+msgid "agree"
+msgstr "הסכמתי"
+
+#: public/class-fontimator-public.php:474
+msgctxt "Male agree"
+msgid "agree"
+msgstr "אני מסכים"
+
+#: public/class-fontimator-public.php:475
+msgctxt "Female agree"
+msgid "agree"
+msgstr "אני מסכימה"
+
+#: public/class-fontimator-public.php:479
+#, php-format
+msgid "I have read and %1$s to the ‫‫‫%2$s"
+msgstr "‫קראתי ו‫‫‫%1$s ל‫‫‫%2$s"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:36
+msgctxt "Discount Reason"
+msgid "Family Reunite discount"
+msgstr "‫מבצע השלמת משפחות"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:45
+msgid "Why separate family members?"
+msgstr "למה להפריד משפחות בישראל‽"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:49
+#, php-format
+msgctxt "Gender-nuetral \"Dear %s\" in dashboard"
+msgid "Dear %s"
+msgstr "‫‫%s"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:50
+#, php-format
+msgctxt "Male \"Dear %s\" in dashboard"
+msgid "Dear %s"
+msgstr "‫‫%s היקר"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:51
+#, php-format
+msgctxt "Female \"Dear %s\" in dashboard"
+msgid "Dear %s"
+msgstr "‫%s היקרה"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:55
+#, php-format
+msgid ""
+"%1$s, The holiday season is a great time to reunite font families. For a limited "
+"time only, we offer you a %2$s%% discount on %3$s so you can now complete font "
+"%4$s. This way you won't leave any weight behind!"
+msgstr ""
+"‫%1$s, לכבוד יום המשפחה 2020 יצאנו במבצע מיוחד לאיחוד משפחות של פונטים. לזמן "
+"מוגבל אנחנו מציעים לך %2$s%% הנחה על %3$s כדי להשלים את משפחת&nbsp;%4$s!"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:58
+#, php-format
+msgid "the weight you are missing"
+msgid_plural "the %s weights you are missing"
+msgstr[0] "המשקל שחסר לך"
+msgstr[1] "‫‫%s המשקלים שחסרים לך"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:63
+msgid "Add the missing weights to my cart!"
+msgstr "יאללה, תוסיפו לי לסל את המשקלים שחסרים לי"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:68
+msgid "More info:"
+msgstr "עוד מידע:"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:70
+msgid "About the famliy reunion sale"
+msgstr "מידע על מבצע השלמת משפחות"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:73
+#, php-format
+msgid "Font %s specimen"
+msgstr "ספסימן פונט %s"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:75
+msgid "AlefAlefAef on Facebook"
+msgstr "פייסבוק אאא"
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:77
+msgid "Join our Newsletter"
+msgstr "הצטרפות לניוזלטר"
 
 #: public/partials/fontimator-downloads-table.php:31
 msgid "Downloads"
@@ -449,11 +628,19 @@ msgstr "רישיון אקדמי"
 
 #: public/partials/fontimator-downloads-table.php:57
 msgid "Archive"
-msgstr "פונטים שיצאו מקטלוג אאא"
+msgstr "פונטים שרכשת שיצאו מהקטלוג"
 
 #: public/partials/fontimator-downloads-table.php:60
 msgid "Gifts"
 msgstr "מתנות יום־הולדת"
+
+#: public/partials/fontimator-downloads-table.php:63
+msgid "Free Downloads"
+msgstr "רישיונות חינמיים שהורדת"
+
+#: public/partials/fontimator-downloads-table.php:66
+msgid "Reseller Membership License"
+msgstr "מינוי ריסלר"
 
 #: public/partials/fontimator-myaccount-dashboard.php:56
 #, php-format
@@ -462,142 +649,251 @@ msgid "Hello, %s!"
 msgstr "אהלן, %s!"
 
 #: public/partials/fontimator-myaccount-dashboard.php:61
+msgctxt "Gender-nuetral \"you can\" in dashboard"
+msgid "you can"
+msgstr "אפשר"
+
+#: public/partials/fontimator-myaccount-dashboard.php:62
+msgctxt "Male \"you can\" in dashboard"
+msgid "you can"
+msgstr "אתה יכול"
+
+#: public/partials/fontimator-myaccount-dashboard.php:63
+msgctxt "Female \"you can\" in dashboard"
+msgid "you can"
+msgstr "את יכולה"
+
+#: public/partials/fontimator-myaccount-dashboard.php:67
 #, php-format
 msgid ""
-"From your account dashboard you can download your <a href=\"%1$s\">font files</"
-"a>, view your <a href=\"%2$s\">recent orders</a>, and <a href=\"%3$s\">edit your "
+"From your account dashboard %1$s can download your <a href=\"%2$s\">font files</"
+"a>, view your <a href=\"%3$s\">recent orders</a>, and <a href=\"%4$s\">edit your "
 "password and account details</a>."
 msgstr ""
-"‫כאן בלוח הבקרה של החשבון, אפשר להוריד את <a href=\"%1$s\">קובצי הפונטים</a> שלך, "
-"לראות את ה<a href=\"%2$s\">הזמנות האחרונות</a> שלך, ו<a href=\"%3$s\">לערוך את "
+"‫‫כאן בלוח הבקרה של החשבון %1$s להוריד את <a href=\"%2$s\">קובצי הפונטים</a> שלך, "
+"לראות את ה<a href=\"%3$s\">הזמנות האחרונות</a> שלך, ו<a href=\"%4$s\">לערוך את "
 "הסיסמה ופרטי החשבון</a>."
 
-#: public/partials/fontimator-myaccount-dashboard.php:71
+#: public/partials/fontimator-myaccount-dashboard.php:78
 msgid "Fonts you've purchased:"
 msgstr "פונטים שרכשת עד כה:"
 
-#: public/partials/fontimator-myaccount-dashboard.php:75
+#: public/partials/fontimator-myaccount-dashboard.php:82
 msgid "(You have a membership)"
 msgstr "(יש לך רישיון מינוי)"
 
-#: public/partials/fontimator-myaccount-dashboard.php:81
+#: public/partials/fontimator-myaccount-dashboard.php:88
 #, php-format
 msgid "(out of %d in the catalog)"
 msgstr "(מתוך %d שבקטלוג)"
 
-#: public/partials/fontimator-myaccount-dashboard.php:84
-msgid "To the catalog"
-msgstr "אל הקטלוג"
+#: public/partials/fontimator-myaccount-dashboard.php:91
+#: public/partials/fontimator-myaccount-dashboard.php:112
+msgid "To all your downloads"
+msgstr "לכל ההורדות שלך"
 
-#: public/partials/fontimator-myaccount-dashboard.php:89
+#: public/partials/fontimator-myaccount-dashboard.php:96
 msgctxt "Dashboard membership dashbox title"
 msgid "Your Membership"
 msgstr "המינוי שלך"
 
-#: public/partials/fontimator-myaccount-dashboard.php:95
+#: public/partials/fontimator-myaccount-dashboard.php:102
 #, php-format
 msgid "Will renew on %s"
 msgstr "תשלום הבא ב־%s"
 
-#: public/partials/fontimator-myaccount-dashboard.php:97
+#: public/partials/fontimator-myaccount-dashboard.php:104
 msgid "You don't have an active membership. :("
 msgstr "אין לך מינוי עדיין..."
 
-#: public/partials/fontimator-myaccount-dashboard.php:105
-msgid "To the subscription details"
-msgstr "לפרטי המינוי"
-
-#: public/partials/fontimator-myaccount-dashboard.php:109
+#: public/partials/fontimator-myaccount-dashboard.php:116
 msgid "Learn more about memberships"
 msgstr "‫קראו עוד על המינוי שלנו"
 
-#: public/partials/fontimator-myaccount-dashboard.php:118
+#: public/partials/fontimator-myaccount-dashboard.php:125
 msgid "Recent Activity"
 msgstr "פעולות אחרונות"
 
-#: public/partials/fontimator-myaccount-dashboard.php:119
+#: public/partials/fontimator-myaccount-dashboard.php:126
 msgid "Your Last Orders"
 msgstr "ההזמנות האחרונות שלך"
 
-#: public/partials/fontimator-myaccount-dashboard.php:122
+#: public/partials/fontimator-myaccount-dashboard.php:129
 msgctxt "Dashboard last orders table column name"
 msgid "Order"
 msgstr "הזמנה"
 
-#: public/partials/fontimator-myaccount-dashboard.php:123
+#: public/partials/fontimator-myaccount-dashboard.php:130
 msgctxt "Dashboard last orders table column name"
 msgid "Date"
 msgstr "תאריך"
 
-#: public/partials/fontimator-myaccount-dashboard.php:124
+#: public/partials/fontimator-myaccount-dashboard.php:131
 msgctxt "Dashboard last orders table column name"
 msgid "Total"
 msgstr "סה\"כ"
 
-#: public/partials/fontimator-myaccount-dashboard.php:125
+#: public/partials/fontimator-myaccount-dashboard.php:132
 msgctxt "Dashboard last orders table column name"
 msgid "Status"
 msgstr "סטטוס"
 
 #. translators: 1: formatted order total 2: total order items
-#: public/partials/fontimator-myaccount-dashboard.php:148
+#: public/partials/fontimator-myaccount-dashboard.php:155
 #, php-format
 msgid "%1$s for %2$s item"
 msgid_plural "%1$s for %2$s items"
 msgstr[0] "‫%1$s עבור רישיון אחד"
 msgstr[1] "‏‫%1$s עבור %2$s רישיונות"
 
-#: public/partials/fontimator-myaccount-dashboard.php:158
+#: public/partials/fontimator-myaccount-dashboard.php:165
 msgid "You have not made any orders yet."
 msgstr "אין לך שום הזמנות עדיין... אהם אהם!"
 
-#: public/partials/fontimator-myaccount-dashboard.php:164
+#: public/partials/fontimator-myaccount-dashboard.php:171
 msgid "To all your orders"
 msgstr "לכל ההזמנות שלך"
 
-#: public/partials/fontimator-myaccount-dashboard.php:168
+#: public/partials/fontimator-myaccount-dashboard.php:175
 msgid "Upgrade Fonts"
 msgstr "שדרוג פונטים"
 
-#: public/partials/fontimator-myaccount-dashboard.php:169
+#: public/partials/fontimator-myaccount-dashboard.php:176
 msgid "Recently Updated Fonts"
-msgstr "גירסאות חדשות של פונטים"
+msgstr "גרסאות חדשות של פונטים"
 
-#: public/partials/fontimator-myaccount-dashboard.php:172
+#: public/partials/fontimator-myaccount-dashboard.php:179
 msgctxt "Dashboard upgrades table column name"
 msgid "Font"
 msgstr "פונט"
 
-#: public/partials/fontimator-myaccount-dashboard.php:173
+#: public/partials/fontimator-myaccount-dashboard.php:180
 msgctxt "Dashboard upgrades table column name"
 msgid "Version"
-msgstr "גירסה"
+msgstr "גרסה"
 
-#: public/partials/fontimator-myaccount-dashboard.php:193
+#: public/partials/fontimator-myaccount-dashboard.php:200
 msgctxt "Dashboard recently upgraded fonts action button"
 msgid "Download"
 msgstr "הורדה"
 
-#: public/partials/fontimator-myaccount-dashboard.php:197
+#: public/partials/fontimator-myaccount-dashboard.php:204
 msgctxt "Dashboard recently upgraded fonts action button"
 msgid "Get it now"
 msgstr "לרכישה >"
 
-#: public/partials/fontimator-myaccount-dashboard.php:207
+#: public/partials/fontimator-myaccount-dashboard.php:214
 msgid "There are no newly-updated fonts."
 msgstr "לא התעדכנו פונטים בחודש האחרון."
 
-#: public/partials/fontimator-myaccount-dashboard.php:215
-msgid "To all your downloads"
-msgstr "לכל ההורדות שלך"
+#: public/partials/fontimator-myaccount-dashboard.php:222
+msgid "To the catalog"
+msgstr "אל הקטלוג"
 
-#: public/partials/fontimator-myaccount-dashboard.php:261
+#: public/partials/fontimator-myaccount-dashboard.php:269
 msgid "Return to shop"
 msgstr "אל קטלוג הפונטים"
 
-#: public/partials/fontimator-myaccount-dashboard.php:262
-msgid "Once you purchase some fonts, an awesome dashboard will be activated here."
-msgstr "לוח הבקרה המשוכלל יופיע פה אחרי הרכישה הראשונה שלך."
+#: public/partials/fontimator-myaccount-dashboard.php:270
+#, php-format
+msgid ""
+"Hey %s, Once you purchase some fonts, an awesome dashboard will be activated "
+"here."
+msgstr "היי %s, לוח הבקרה המשוכלל יופיע פה אחרי הרכישה הראשונה שלך."
+
+#: public/partials/shortcode-free-download.php:12
+#: public/partials/shortcode-free-download.php:54
+#: public/partials/shortcode-free-download.php:95
+#, php-format
+msgctxt "Free Download Title"
+msgid "Download Free License for %s:"
+msgstr "הורדת %s"
+
+#: public/partials/shortcode-free-download.php:42
+msgid "Please enter a valid email address and name to download the files."
+msgstr "אנא הכנס כתובת דוא\"ל חוקית ושם מלא כדי להוריד את הקבצים."
+
+#: public/partials/shortcode-free-download.php:55
+#, php-format
+msgid "Read our %1$sFree fonts EULA%2$s"
+msgstr "רישיון השימוש החינמי הוא ‫בכפוף ל%1$sתנאי השימוש%2$s."
+
+#: public/partials/shortcode-free-download.php:58
+msgctxt "Free Download Text Label"
+msgid "Your name"
+msgstr "על שם מי הרישיון? (שם מלא בעברית)"
+
+#: public/partials/shortcode-free-download.php:59
+msgctxt "Free Download Text Field"
+msgid "John Smith"
+msgstr "ישראל ישראלי"
+
+#: public/partials/shortcode-free-download.php:61
+msgctxt "Free Download Text Label"
+msgid "Your email"
+msgstr "כתובת האימייל העדכנית שלך"
+
+#: public/partials/shortcode-free-download.php:62
+msgctxt "Free Download Text Field"
+msgid "your@email.here"
+msgstr "האימייל@שלך.כאן"
+
+#: public/partials/shortcode-free-download.php:68
+#, php-format
+msgid ""
+"Your email is only for your license. This will not add you to a mailing list. If "
+"you would like to get updated %1$ssign up to our newsletter%2$s."
+msgstr ""
+"‫אנחנו צריכים את השם והאימייל שלך רק למטרת הרישום של רישיון השימוש. פרטיות זה דבר "
+"חשוב ו‫אנחנו  לא נעשה באימייל שלך כל שימוש אחר. אם בא לך להירשם לניוזלטר השווה "
+"שלנו %1$sכאן הלינק להרשמה%2$s."
+
+#: public/partials/shortcode-free-download.php:72
+#, php-format
+msgid ""
+"Please do not contact us about free fonts. All the info you might need can be "
+"found in our %1$sFAQ%2$s page."
+msgstr ""
+"אנחנו לא מספקים שירותי תמיכה עבור פונטים חינמיים. כל המידע שאתם צריכים נמצא "
+"בעמוד הזה ובעמוד %1$sהשאלות הנפוצות%2$s שלנו."
+
+#: public/partials/shortcode-free-download.php:75
+msgid ""
+"Your free license will be activated upon submitting your name and email address. "
+"Font usage without a license is a violation of copyright laws."
+msgstr ""
+"‫רישיון השימוש שלך בפונט החינמי יכנס לתוקף לאחר ‫מילוי שמך המלא וכתובת האימייל "
+"העדכנית שלך. במילוי ושליחה של טופס זה הינך מצהיר/ה כי כל הפרטים שהזנת נכונים "
+"ועדכניים וכי ידוע לך כי כל שימוש בפונטים כפוף לתנאי רישיון השימוש ולדיני זכויות "
+"יוצרים וקניין רוחני בארץ ובעולם."
+
+#: public/partials/shortcode-free-download.php:82
+#, php-format
+msgid "I have read the %1$sfree posters usage terms%2$s and I accept them."
+msgstr ""
+"קראתי את %1$sתנאי השימוש בפוסטרים%2$s והם מקובלים עלי.had an Academic License‬"
+
+#: public/partials/shortcode-free-download.php:84
+#, php-format
+msgid "I have read the %1$sfree fonts usage terms%2$s and I accept them."
+msgstr ""
+"‫‫<strong>חובה:</strong> קראתי את %1$sרישיון השימוש בפונטים החינמיים%2$s של אאא "
+"והם מקובלים עלי."
+
+#: public/partials/shortcode-free-download.php:91
+msgid "Subscribe me to the newsletter!"
+msgstr ""
+"‫<strong>לא חובה:</strong> אני רוצה להצטרף ל״טיפוגיק״ ולקבל עדכונים כשיש מבצעים "
+"שווים על הפונטים."
+
+#: public/partials/shortcode-free-download.php:98
+msgid "Thanks for downloading our font! Your download will begin shortly."
+msgstr "ההורדה שלך תתחיל מיד…"
+
+#: public/partials/shortcode-free-download.php:99
+msgid ""
+"Also, we just now sent you an email to approve your subsctiption to the Tipotip."
+msgstr "וגם, שלחנו לך עכשיו אימייל עם כפתור לאישור ההרשמה שלך&nbsp;לטיפוגיק."
 
 #. translators: %1$s: The percentage saved including % sign, %2$s: The full variation name
 #: public/partials/shortcode-sale-products.php:24
@@ -637,39 +933,48 @@ msgstr "ראובן קרסיק"
 msgid "https://alefalefalef.co.il/"
 msgstr "https://alefalefalef.co.il/"
 
-#~ msgid "Free Downloads"
-#~ msgstr "פונטים חינמיים שהורדת"
+#~ msgid "Man"
+#~ msgstr "גבר"
 
-#~ msgid "Please enter a valid email address and name to download the files."
-#~ msgstr "אנא הכנס כתובת דוא\"ל חוקית ושם מלא כדי להוריד את הקבצים."
+#~ msgid "Woman"
+#~ msgstr "אישה"
 
+#, php-format
+#~ msgid ""
+#~ "Hello, %1$s. You have purchased some weights of %2$s font before. You can "
+#~ "download the files in your <a href=\"%3$s\">Dashboard</a>."
+#~ msgstr ""
+#~ "‫%1$s, אם אתה מחפש את הקבצים והרישיונות של פונט %2$s שרכשת – כנס <a href=\"%3$s"
+#~ "\">לעמוד ההורדות</a> באיזור האישי שלך."
+
+#~ msgid "Weight"
+#~ msgstr "משקל"
+
+#~ msgctxt "Discount Reason"
+#~ msgid "Complete the family discount"
+#~ msgstr "מבצע השלמת משפחות"
+
+#, php-format
+#~ msgid "Dear %s, the family week is a great oppurtunity for lorem ipsum."
+#~ msgstr ""
+#~ "‫‫%1$s %2$s, לכבוד שבוע המשפחה 2020 יצאנו במבצע מיוחד לאיחוד משפחות של פונטים."
+#~ " ‫‫‫%3$s הנחה על ‫‫‫%4$s כדי להשלים את משפחת ‫‫‫%5$s."
+
+#~ msgid "To the subscription details"
+#~ msgstr "לפרטי המינוי"
+
+#, fuzzy
+#~| msgctxt "Free Download Title"
+#~| msgid "Download %s:"
 #~ msgctxt "Free Download Title"
-#~ msgid "Download %s:"
-#~ msgstr "הורדת %s"
-
-#~ msgctxt "Free Download Text Field"
-#~ msgid "Your name"
-#~ msgstr "על שם מי הרישיון?"
-
-#~ msgctxt "Free Download Text Field"
-#~ msgid "Your email"
-#~ msgstr "כתובת המייל העדכנית שלך"
-
-#~ msgid "I have read the %1$sfree fonts usage terms%2$s and I accept them."
-#~ msgstr "קראתי את %1$sתנאי השימוש%2$s בפונטים החינמיים של אאא והם מקובלים עלי."
-
-#~ msgid "Subscribe me to the newsletter!"
-#~ msgstr "רשמו אותי לניוזלטר!"
+#~ msgid "Download %s"
+#~ msgstr "הורדת רישיון שימוש ל%s"
 
 #~ msgid "Download Free Font"
 #~ msgstr "הורדת הפונט החינמי"
 
-#~ msgid ""
-#~ "Your free license will be activated upon submitting your name and email "
-#~ "address. Font usage without a license is a violation of copyright laws."
-#~ msgstr ""
-#~ "רישיון השימוש שלך ייכנס לתוקף לאחר מילוי שמך המלא וכתובת והאימייל העדכנית שלך. "
-#~ "שימוש בפונטים ללא רישיון מהווה הפרה של זכויות יוצרים והינו אסור על פי חוק."
+#~ msgid "End User License Agreement"
+#~ msgstr "הסכם רישיון שימוש בפונטים חינמיים של אאא"
 
 #~ msgid "To all purchased licenses"
 #~ msgstr "לכל הרישיונות שלך"
@@ -692,8 +997,8 @@ msgstr "https://alefalefalef.co.il/"
 #~ "Font file doesn't exist for %1$s, %2$s, %3$s. Please contact us and we'll "
 #~ "solve this problem in no-time :)"
 #~ msgstr ""
-#~ "קובץ הגופן אינו קיים עבור %1$s,%2$s,%3$s. צור איתנו קשר ואנו נפתור בעיה זו תוך "
-#~ "זמן קצר :)"
+#~ "קובץ הגופן אינו קיים עבור %1$s,%2$s,%3$s. צור איתנו קשר ואנו נפתור בעיה זו "
+#~ "תוך זמן קצר :)"
 
 #~ msgid "Product"
 #~ msgstr "מוצר"

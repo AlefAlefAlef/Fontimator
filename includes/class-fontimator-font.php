@@ -100,6 +100,9 @@ class Fontimator_Font extends WC_Product_Variable {
 
 	public function get_visible_weights( $return_format = 'id' ) {
 		$weights = $this->get_attributes()[ 'pa_' . FTM_WEIGHT_ATTRIBUTE ];
+		if ( ! $weights ) {
+			return null;
+		}
 		if ( 'id' === $return_format ) {
 			$all_weights = $weights['options'];
 			$family_weights = array(

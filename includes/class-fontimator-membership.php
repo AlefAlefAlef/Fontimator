@@ -96,6 +96,10 @@ class Fontimator_Membership extends WC_Subscription {
 		$diff = date_diff( $date, date_create() );
 		$diff_m = $diff->m + ($diff->y * 12);
 
+		if ( $this->get_license() === 'web-reseller' ) {
+			return $diff_m >= 31;
+		}
+
 		return $diff_m >= 11;
 	}
 

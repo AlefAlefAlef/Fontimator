@@ -53,12 +53,19 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 <div class="fontimator-myaccount-dashboard">
 	<div class="top">
 		<section class="dashbox dashbox-half" id="dash-welcome">
-			<h2 class="fontimator-timed-message-greeting" data-name="<strong><?php echo esc_attr( $current_user->first_name ); ?></strong>"><!-- Text here is generated automatically by the Fontimator --><?php printf( _x( 'Hello, %s!', 'Default greeting when time functions are not loaded yet.', 'fontimator' ), esc_attr( $current_user->first_name ) ); ?></h2>
+			<h2 class="fontimator-timed-message-greeting" data-name="<?php echo esc_attr( $current_user->first_name ); ?>"><!-- Text here is generated automatically by the Fontimator --><?php printf( _x( 'Hello, %s!', 'Default greeting when time functions are not loaded yet.', 'fontimator' ), esc_attr( $current_user->first_name ) ); ?></h2>
 			<p class="fontimator-timed-message-welcome"><!-- Text here is generated automatically by the Fontimator --></p>
 			<p>
-				<?php
+				<?php 
+					$gender_specific_action = Fontimator_I18n::genderize_string(
+						_x( 'you can', 'Gender-nuetral "you can" in dashboard', 'fontimator' ),
+						_x( 'you can', 'Male "you can" in dashboard', 'fontimator' ),
+						_x( 'you can', 'Female "you can" in dashboard', 'fontimator' )
+					);
+
 					printf(
-						__( 'From your account dashboard you can download your <a href="%1$s">font files</a>, view your <a href="%2$s">recent orders</a>, and <a href="%3$s">edit your password and account details</a>.', 'fontimator' ),
+						__( 'From your account dashboard %1$s can download your <a href="%2$s">font files</a>, view your <a href="%3$s">recent orders</a>, and <a href="%4$s">edit your password and account details</a>.', 'fontimator' ),
+						$gender_specific_action,
 						esc_url( wc_get_endpoint_url( 'downloads' ) ),
 						esc_url( wc_get_endpoint_url( 'orders' ) ),
 						esc_url( wc_get_endpoint_url( 'edit-account' ) )
@@ -78,17 +85,17 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 				<figure>
 					<div class="big"><?php echo count( $user_fonts ); ?></div>
 					<?php /* <figcaption><?php printf( _n( '(%d weight total)', '(%d weights total)', count( $user_weights ), 'fontimator' ), count( $user_weights ) ); ?></figcaption> */ ?>
-					<figcaption><?php printf( __( '(out of %d in the catalog)', 'fontimator' ), count( Fontimator::get_catalog_fonts() ) ); ?></figcaption>
+					<figcaption><?php printf( __( '(out of %d in the catalog)', 'fontimator' ), count( Fontimator_Query::get_catalog_fonts() ) ); ?></figcaption>
 				</figure>
 			<?php } ?>
-			<a class="more" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php _e( 'To the catalog', 'fontimator' ); ?></a>
+			<a class="more" href="<?php echo wc_get_endpoint_url( 'downloads' ); ?>"><?php _e( 'To all your downloads', 'fontimator' ); ?></a>
 		</section>
 
 		
 		<section class="dashbox dashbox-quarter dashbox-colored" id="dash-membership">
 			<h5><?php _ex( 'Your Membership', 'Dashboard membership dashbox title', 'fontimator' ); ?></h5>
 			<figure>
-				<div class="big"><i class="icon" data-icon="ø"></i></div>
+				<div class="big"><i class="icon" data-icon="<?php echo ( 'alefalefalef' == FTM_SITE_NAME ) ? 'ø' : 'א'; ?>"></i></div>
 				<figcaption>
 					<?php
 					if ( $subscription ) {
@@ -102,7 +109,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 			<?php
 			if ( $subscription ) {
 				?>
-				<a class="more" href="<?php echo $subscription->get_view_order_url(); ?>"><?php _e( 'To the subscription details', 'fontimator' ); ?></a>
+				<a class="more" href="<?php echo wc_get_endpoint_url( 'downloads' ); ?>"><?php _e( 'To all your downloads', 'fontimator' ); ?></a>
 				<?php
 			} else {
 				?>
@@ -212,7 +219,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 
 				?>
 			</table>
-			<a class="more" href="<?php echo wc_get_endpoint_url( 'downloads' ); ?>"><?php _e( 'To all your downloads', 'fontimator' ); ?></a>
+			<a class="more" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php _e( 'To the catalog', 'fontimator' ); ?></a>
 		</section>
 	</div>
 	<?php
@@ -258,8 +265,9 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 </div>
 <?php
 else :
+	
 	$link = sprintf( '<a href="%s" class="button wc-forward my-button">%s</a>', esc_url( wc_get_page_permalink( 'shop' ) ), esc_html__( 'Return to shop', 'fontimator' ) );
-	wc_add_notice( __( 'Once you purchase some fonts, an awesome dashboard will be activated here.', 'fontimator' ) . $link, 'error' );
+	wc_add_notice( sprintf( __( 'Hey %s, Once you purchase some fonts, an awesome dashboard will be activated here.', 'fontimator' ), esc_attr( $current_user->first_name ) ) . $link, 'error' );
 	wc_print_notices();
 	get_template_part( 'template-parts/empty-dude' );
 

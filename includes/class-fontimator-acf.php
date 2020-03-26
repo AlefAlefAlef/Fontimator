@@ -50,10 +50,12 @@ class Fontimator_ACF {
 			'fontimator-font-options',
 			'fontimator-font-price-formulas',
 			'fontimator-free-downloads',
+			'fontimator-complete-family',
 		);
 
-		if ( class_exists( 'WSMS' ) ) {
-			$this->field_groups[] = 'fontimator-wsms-gifts';
+		global $mc4wp_aaa;
+		if ( $mc4wp_aaa ) {
+			$this->field_groups[] = 'fontimator-mc-gifts';
 		}
 	}
 

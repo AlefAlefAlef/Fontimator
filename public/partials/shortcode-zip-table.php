@@ -99,7 +99,7 @@
 				?>
 				<tbody>
 					<tr>
-						<td class="title"><h3><a href="<?php echo get_permalink( $font->get_id() ); ?>"><?php echo $font->get_title(); ?></a> <?php edit_post_link('<i class="icon" data-icon="r"></i>'); ?></h3></td>
+						<td class="title"><h3><a href="<?php echo get_permalink( $font->get_id() ); ?>"><?php echo $font->get_title(); ?></a> <?php edit_post_link( '<i class="icon" data-icon="r"></i>', '', '', $font->get_id() ); ?></h3></td>
 						<?php
 						foreach ( $licenses as $license ) {
 							if ( 'variable-subscription' === $font->get_type() ) {

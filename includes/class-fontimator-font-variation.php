@@ -77,8 +77,16 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		$weight_clean = Zipomator::get_clean_weight( $this->weight );
 		$license_clean = Zipomator::get_clean_license( $this->license );
 
+		$downloads = $this->get_downloads();
+		if ( count( $downloads ) && reset( $downloads ) ) {
+			$old_download = reset( $downloads );
+			$download_id = $old_download->get_id();
+		} else {
+			$download_id = wp_generate_uuid4();
+		}
+
 		$zip_file = new WC_Product_Download();
-		$zip_file->set_id( wp_generate_uuid4() );
+		$zip_file->set_id( $download_id );
 		$zip_file->set_name( Zipomator::single_name( $this->family, $weight_clean, $license_clean, $this->get_version() ) . '.zip' );
 
 		$download_url = Zipomator::get_bundle_url( $this->family, $weight_clean, $this->license );
@@ -137,7 +145,7 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 	}
 
 	public function get_license_type() {
-		$license_parts = explode( '-', $this->license );
+		$license_parts = explode( '-', $this->license, 2 );
 		return $license_parts[0];
 	}
 
@@ -156,7 +164,7 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		}
 
 		if ( $this->license ) {
-			switch ( explode( '-', $this->license )[0] ) {
+			switch ( explode( '-', $this->license, 2 )[0] ) {
 				case 'web':
 					$license_name = __( 'web', 'fontimator' );
 					break;

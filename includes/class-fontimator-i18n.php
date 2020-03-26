@@ -26,6 +26,9 @@
  */
 class Fontimator_I18n {
 
+	const GENDER_NEUTRAL = 0,
+	      GENDER_MALE = 1,
+	      GENDER_FEMALE = 2;
 
 	/**
 	 * Load the plugin text domain for translation.
@@ -38,9 +41,41 @@ class Fontimator_I18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
-
 	}
 
+	/**
+	 * Get the appropriate string based on the current user's gender, or the neutral if gender is unknown
+	 *
+	 * @param string $nuetral
+	 * @param string $male
+	 * @param string $female
+	 * @return string
+	 */
+	public static function genderize_string( $nuetral, $male = null, $female = null ) {
+		switch ( self::get_user_gender() ) {
+			case self::GENDER_MALE:
+				if ( $male ) return $male;
+				break;
+			case self::GENDER_FEMALE:
+				if ( $female ) return $female;
+				break;
+			}
+			
+		return $nuetral;
+	}
 
+	/**
+	 * Gets the user gender and returns the appropriate enum constant
+	 *
+	 * @param string $user_email
+	 * @return int
+	 */
+	public static function get_user_gender( $user_email = null ) {
+		global $mc4wp_aaa;
+		if ( $mc4wp_aaa ) {
+			return $mc4wp_aaa->get_user_gender( $user_email );
+		}
+		return self::GENDER_NEUTRAL;
+	}
 
 }
