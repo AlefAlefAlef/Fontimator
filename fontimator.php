@@ -65,7 +65,13 @@ register_deactivation_hook( __FILE__, 'deactivate_fontimator' );
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-fontimator.php';
 
+
 /**
+ * Load the plugin update checker
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/lib/plugin-update-checker/plugin-update-checker.php';
+
+ /**
  * Begins execution of the plugin.
  *
  * Since everything within the plugin is registered via hooks,
@@ -79,6 +85,13 @@ function run_fontimator() {
 	$plugin = Fontimator::get_instance();
 	$plugin->run();
 
+
+	// Plugin Update Checker
+	$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+		'https://github.com/AlefAlefAlef/fontimator/',
+		__FILE__,
+		'fontimator'
+	);
 }
 
 add_action( 'init', 'run_fontimator' );
