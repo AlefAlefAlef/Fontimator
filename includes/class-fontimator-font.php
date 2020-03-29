@@ -98,7 +98,7 @@ class Fontimator_Font extends WC_Product_Variable {
 		return $acf->get_field( 'archived_weights', $this->id );
 	}
 
-	public function get_visible_weights( $return_format = 'id' ) {
+	public function get_visible_weights( $return_format = 'id', $include_family = false ) {
 		$weights = $this->get_attributes()[ 'pa_' . FTM_WEIGHT_ATTRIBUTE ];
 		if ( ! $weights ) {
 			return null;
@@ -122,7 +122,10 @@ class Fontimator_Font extends WC_Product_Variable {
 			$archived_weights = array();
 		}
 
-		$visible_weights = array_diff( $all_weights, $family_weights, $archived_weights );
+		$visible_weights = array_diff( $all_weights, $archived_weights );
+		if ( ! $include_family ) {
+			$visible_weights = array_diff( $visible_weights,  $family_weights );
+		}
 		array_multisort( $visible_weights, SORT_ASC ); //sort weights by weight
 		return $visible_weights;
 	}
