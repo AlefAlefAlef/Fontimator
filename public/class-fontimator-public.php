@@ -286,8 +286,12 @@ class Fontimator_Public {
 	 * @param Integer   $product_id     Product ID.
 	 * @param Boolean   $quantity       Quantity
 	 */
-	function validate_licenseapp_field( $passed, $product_id, $quantity, $variation_id ) {
-		$variation = new Fontimator_Font_Variation( $variation_id );
+	function validate_licenseapp_field( $passed, $product_id, $quantity, $variation_id = '' ) {
+		$variation = new Fontimator_Font_Variation( empty( $variation_id ) ? $product_id : $variation_id );
+		if ( ! $variation ) {
+			return $passed;
+		}
+
 		$is_licenseapp_required = in_array( $variation->get_license_type(), array( 'app', 'web' ) )
 			&& $variation->get_license() !== 'web-reseller';
 		if ( $is_licenseapp_required && empty( $_REQUEST['licenseapp'] ) ) {
