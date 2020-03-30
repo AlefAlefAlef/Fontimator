@@ -359,7 +359,7 @@ class Fontimator_Public {
 		return $old_display;
 	}
 
-	public function show_already_bought_notice() {
+	public static function show_already_bought_notice() {
 		global $product;
 		$gender_specific_yourelooking = Fontimator_I18n::genderize_string(
 			_x( 'you are looking', 'Gender-nuetral', 'fontimator' ),
