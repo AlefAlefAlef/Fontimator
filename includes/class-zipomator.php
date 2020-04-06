@@ -166,7 +166,7 @@ class Zipomator {
 	 * Serve the fonts catalog
 	 */
 	protected function serve_catalog() {
-		$specimen_filename_prefix = Fontimator::get_instance()->get_acf()->get_field( 'specimen_filename_prefix', 'options' );
+		$specimen_filename_prefix = Fontimator::acf()->get_field( 'specimen_filename_prefix', 'options' );
 		$fonts = wc_get_products(
 			array(
 				'type' => 'variable',

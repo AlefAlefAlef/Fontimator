@@ -171,7 +171,7 @@ class Fontimator_Public {
 				$fontprice_ratios = $font->get_fontprice_ratios();
 				$ratio = $fontprice_ratios['family'];
 				$discount = number_format( (1 - floatval( $ratio )) * 100 );
-				$display_family_discount_percentage = Fontimator::get_instance()->get_acf()->get_field( 'display_family_discount_percentage', 'options' );
+				$display_family_discount_percentage = Fontimator::acf()->get_field( 'display_family_discount_percentage', 'options' );
 				if ( 0 != $discount && $display_family_discount_percentage ) {
 					// translators: discount percentage
 					return $name . ' = ' . sprintf( __( '%d%% Discount', 'fontimator' ), $discount );
@@ -269,7 +269,7 @@ class Fontimator_Public {
 	 * Display licenseapp field on the front end
 	 */
 	public static function display_licenseapp_field() {
-		$license_info_page_link = Fontimator::get_instance()->get_acf()->get_field( 'license_info_page', 'options' );
+		$license_info_page_link = Fontimator::acf()->get_field( 'license_info_page', 'options' );
 		?>
 		<label for="licenseapp" class="licenseapp-field" style="display: none">
 			<span data-license="app"><?php _e( 'The app name:', 'fontimator' ); ?></span>

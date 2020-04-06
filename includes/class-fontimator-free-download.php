@@ -16,9 +16,7 @@ class Fontimator_Free_Download {
 			$download_url;
 
 	public function __construct( $download_id ) {
-
-		$acf = Fontimator::get_instance()->get_acf();
-		$downloads = $acf->get_field( 'ftm_free_downloads', 'options' );
+		$downloads = Fontimator::acf()->get_field( 'ftm_free_downloads', 'options' );
 
 		$download = null;
 		foreach ( $downloads as $download_i ) {

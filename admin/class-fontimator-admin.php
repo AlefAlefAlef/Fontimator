@@ -120,7 +120,7 @@ class Fontimator_Admin {
 		$time = date('d-m-Y_His');
 		$emails_file = fopen("/var/www/output/family_eligible_emails_$time.txt", 'a') or die("Unable to open file!");;//opens file in append mode
 
-		$acf = Fontimator::get_instance()->get_acf();
+		$acf = Fontimator::acf();
 		$limited_to_fonts = $acf->get_acf_field( 'complete_family_limit_fonts', 'options' );
 		$limit_days = $acf->get_acf_field( 'complete_family_limit_days_from_purchase', 'options' );
 

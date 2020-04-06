@@ -141,7 +141,7 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 	}
 
 	public function get_version() {
-		return Fontimator::get_instance()->get_acf()->get_field( 'font_version', $this->get_parent_id() );
+		return Fontimator::acf()->get_field( 'font_version', $this->get_parent_id() );
 	}
 
 	public function get_license_type() {

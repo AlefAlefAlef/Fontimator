@@ -488,6 +488,15 @@ class Fontimator {
 		return $this->acf;
 	}
 
+	/**
+	 * Alias to Fontimator->get_instance()->get_acf()
+	 *
+	 * @return Fontimator_ACF
+	 */
+	public static function acf() {
+		return self::get_instance()->get_acf();
+	}
+
 	public function get_attr_name( $type ) {
 		return $this->acf->get_field( $type . '_attribute', 'options' );
 	}

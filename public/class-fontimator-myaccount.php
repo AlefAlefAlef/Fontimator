@@ -189,7 +189,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 	public function font_version_for_download( $download ) {
 		$product_id = wp_get_post_parent_id( $download['product_id'] );
-		$acf        = Fontimator::get_instance()->get_acf();
+		$acf        = Fontimator::acf();
 
 		$font_version      = $acf->get_field( 'font_version', $product_id );
 		$font_release_year = $acf->get_field( 'font_release_year', $product_id );
@@ -365,7 +365,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		global $mc4wp_aaa;
 		if ( $mc4wp_aaa ) {
 			$merge_fields     = $mc4wp_aaa->get_user_merge_fields();
-			$font_gifts       = (array) Fontimator::get_instance()->get_acf()->get_field( 'mailchimp_font_gifts', 'options' );
+			$font_gifts       = (array) Fontimator::acf()->get_field( 'mailchimp_font_gifts', 'options' );
 			
 			if ( ! $merge_fields ) {
 				return $downloads;
@@ -514,7 +514,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function complete_family_banner( $family_name, $family_group ) {
-		$acf = Fontimator::get_instance()->get_acf();
+		$acf = Fontimator::acf();
 		if ( ! $acf->get_acf_field( 'complete_family_enabled', 'options' ) ) {
 			return;
 		}

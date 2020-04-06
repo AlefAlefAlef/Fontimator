@@ -53,7 +53,7 @@ class Fontimator_Font extends WC_Product_Variable {
 	 * @return array $fontprice_ratios The fontprice_ratios for this font
 	 */
 	public function get_fontprice_ratios() {
-		$acf = Fontimator::get_instance()->get_acf();
+		$acf = Fontimator::acf();
 		$global_ratios        = (array) $acf->get_field( 'fontprice_ratios', 'options' );
 		$font_specific_ratios = (array) $acf->get_acf_field( 'fontprice_ratios', $this->id );
 		$fontprice_ratios = array_merge(
@@ -67,7 +67,7 @@ class Fontimator_Font extends WC_Product_Variable {
 	 * Returns the weights included in familybasic, as defined in ACF.
 	 */
 	public function get_familybasic_weights( $return_format = 'id' ) {
-		$acf = Fontimator::get_instance()->get_acf();
+		$acf = Fontimator::acf();
 		$ids = $acf->get_field( 'familybasic_weights', $this->id );
 
 		if ( 'slug' === $return_format ) {
@@ -94,7 +94,7 @@ class Fontimator_Font extends WC_Product_Variable {
 	 * Returns the weights defined as "archived" in ACF.
 	 */
 	public function get_archived_weights() {
-		$acf = Fontimator::get_instance()->get_acf();
+		$acf = Fontimator::acf();
 		return $acf->get_field( 'archived_weights', $this->id );
 	}
 
@@ -115,7 +115,7 @@ class Fontimator_Font extends WC_Product_Variable {
 
 		}
 
-		$archived_weights = Fontimator::get_instance()->get_acf()->get_field( 'archived_weights', $this->id );
+		$archived_weights = Fontimator::acf()->get_field( 'archived_weights', $this->id );
 		if ( is_array( $archived_weights ) ) {
 			$archived_weights = wp_list_pluck( $archived_weights, 'id' === $return_format ? 'term_id' : 'slug' );
 		} else {

@@ -26,7 +26,7 @@ $missing_weights_variations_ids = array_map( function ( $weight_slug ) use ( &$f
 	return ( $variation = $font->get_specific_variation( $weight_slug, $license_to_buy ) ) ? $variation->get_id() : null;
 }, $not_purchased_weights );
 
-$discount_percent = Fontimator::get_instance()->get_acf()->get_acf_field( 'complete_family_discount_percent', 'options' );
+$discount_percent = Fontimator::acf()->get_acf_field( 'complete_family_discount_percent', 'options' );
 
 session_start();
 foreach ( $missing_weights_variations_ids as $variation_id ) { // Add discounts to session
