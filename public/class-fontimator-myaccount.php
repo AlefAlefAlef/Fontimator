@@ -104,15 +104,14 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function add_myaccount_notice_not_subscribed() {
-		global $mc4wp_aaa;
-		if ( $mc4wp_aaa ) {
+		if ( Fontimator::mc()->enabled() ) {
 			global $wp;
 			$request = explode( '/', $wp->request );
 			
 			if( ( end($request) == 'my-account' && is_account_page() ) ){  // If dashboard page
 
 				$user_info      = wp_get_current_user();
-				$is_subscribed     = $mc4wp_aaa->is_user_subscribed( $user_info->user_email );
+				$is_subscribed     = Fontimator::mc()->is_user_subscribed( $user_info->user_email );
 				
 				if ( ! $is_subscribed ) { // Not subscribed
 					$first_name     = $user_info->first_name;
@@ -362,9 +361,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function mc4wp_add_gifts_downloads_table( $downloads ) {
-		global $mc4wp_aaa;
-		if ( $mc4wp_aaa ) {
-			$merge_fields     = $mc4wp_aaa->get_user_merge_fields();
+		if ( Fontimator::mc()->enabled() ) {
+			$merge_fields     = Fontimator::mc()->get_user_merge_fields();
 			$font_gifts       = (array) Fontimator::acf()->get_field( 'mailchimp_font_gifts', 'options' );
 			
 			if ( ! $merge_fields ) {
@@ -417,10 +415,9 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function mc4wp_add_academic_downloads_table( $downloads ) {
-		global $mc4wp_aaa;
-		if ( $mc4wp_aaa ) {
-			$list_id          = $mc4wp_aaa->get_settings()['academic']['list_id'];
-			$merge_fields     = $mc4wp_aaa->get_user_merge_fields( $list_id );
+		if ( Fontimator::mc()->enabled() ) {
+			$list_id          = Fontimator::mc()->get_academic_list();
+			$merge_fields     = Fontimator::mc()->get_user_merge_fields( $list_id );
 			$academic_year    = (int) $merge_fields->YEAR;
 			$graduation_date  = new DateTime( $academic_year . '-12-31' );
 			$now              = new DateTime();
@@ -630,12 +627,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function add_gender_field_to_edit_account () {
-		global $mc4wp_aaa;
-		if ( ! $mc4wp_aaa ) {
+		if ( ! Fontimator::mc()->enabled() ) {
 			return false;
 		}
 
-		if ( ! $mc4wp_aaa->is_user_subscribed() ) {
+		if ( ! Fontimator::mc()->is_user_subscribed() ) {
 			return false;
 		}
 		
@@ -662,9 +658,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function save_gender_field_on_edit_account () {
-		global $mc4wp_aaa;
-		if( isset( $_POST['mailchimp_gender'] ) && $mc4wp_aaa ) {
-			$success = $mc4wp_aaa->update_user_gender($_POST['mailchimp_gender']);
+		if( isset( $_POST['mailchimp_gender'] ) && Fontimator::mc()->enabled() ) {
+			$success = Fontimator::mc()->update_user_gender($_POST['mailchimp_gender']);
 		}
 	}
 

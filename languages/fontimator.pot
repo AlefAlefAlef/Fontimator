@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2018-10-16 21:29+0300\n"
+"POT-Creation-Date: 2020-04-06 14:59+0300\n"
 "PO-Revision-Date: 2018-10-16 21:29+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
@@ -20,6 +20,11 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/class-fontimator-admin.php:227
+#, php-format
+msgid "Delete &#8220;%s&#8221; permanently"
+msgstr ""
 
 #: admin/class-fontimator-variations-helper.php:57
 msgid "Fontimator Tools:"
@@ -64,6 +69,11 @@ msgstr ""
 msgid "Fontimator: Ignore me!"
 msgstr ""
 
+#. Plugin Name of the plugin/theme
+#: includes/acf-config/fontimator-config.php:9
+msgid "The Fontimator"
+msgstr ""
+
 #: includes/acf-config/fontimator-config.php:29
 msgid "Save Fontimator Configuration"
 msgstr ""
@@ -72,129 +82,829 @@ msgstr ""
 msgid "Fontimator Configuration Saved"
 msgstr ""
 
+#: includes/class-fontimator-font-variation.php:163
+#, php-format
+msgid ", weight of %s"
+msgstr ""
+
+#: includes/class-fontimator-font-variation.php:169
+msgid "web"
+msgstr ""
+
+#: includes/class-fontimator-font-variation.php:172
+msgid "app"
+msgstr ""
+
+#: includes/class-fontimator-font-variation.php:175
+msgid "desktop"
+msgstr ""
+
+#: includes/class-fontimator-font-variation.php:179
+#, php-format
+msgid ", %s license"
+msgstr ""
+
+#: includes/class-fontimator-mc.php:65
+msgid "(no lists found, configure MC4WP first)"
+msgstr ""
+
+#: includes/class-fontimator-mc.php:84
+msgid "(Please save the page first)"
+msgstr ""
+
+#: includes/class-fontimator-mc.php:86
+msgid "(no fields found, configure MC4WP first)"
+msgstr ""
+
+#: includes/class-fontimator-mc.php:145 includes/class-fontimator-mc.php:169
+msgid "Man"
+msgstr ""
+
+#: includes/class-fontimator-mc.php:147 includes/class-fontimator-mc.php:173
+msgid "Woman"
+msgstr ""
+
+#: includes/class-fontimator-woocommerce.php:73
+msgid "From: "
+msgstr ""
+
+#: includes/class-fontimator-woocommerce.php:122
+msgid ""
+"We added all the right products to your cart. Now all that is left is to "
+"checkout!"
+msgstr ""
+
+#: includes/class-fontimator-woocommerce.php:239
+#, php-format
+msgid ""
+"Hello there, %3$s! Your account is almost ready - please reset your password "
+"%1$shere%2$s."
+msgstr ""
+
 #: includes/class-pdf-file.php:45
 msgid "There was an error generating the fonts catalog."
 msgstr ""
 
-#: includes/class-zipomator-font-package.php:97
+#: includes/class-zipomator-eula.php:152
 #, php-format
-msgid ""
-"Font file doesn't exist for %1$s, %2$s, %3$s. Please contact us and we'll "
-"solve this problem in no-time :)"
+msgid "End User License Agreement: %s"
 msgstr ""
 
-#: includes/class-zipomator.php:158
+#: includes/class-zipomator.php:211
 msgid ""
-"Zipomator Error: no parameters were passed. \n"
+"Zipomator Error: no parameters were passed.\n"
 "\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
 "\t\t\t\tand that your htaccess file is set up properly."
 msgstr ""
 
 #. translators: This is (probably) the name of the invalid font.
-#: includes/class-zipomator.php:170
+#: includes/class-zipomator.php:225
 #, php-format
 msgid "Zipomator Error: invalid amount of arguments in item: %s"
 msgstr ""
 
-#: includes/class-zipomator.php:191
-msgid ""
-"Zipomator Error: no membership license was passed. \n"
-"\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
-"\t\t\t\tand that your htaccess file is set up properly."
-msgstr ""
-
-#: includes/class-zipomator.php:217
+#: includes/class-zipomator.php:243
 msgid ""
 "Zipomator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:49
+#: includes/class-zipomator.php:268
+msgid ""
+"Zipomator Error: no membership license was passed.\n"
+"\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
+"\t\t\t\t\tand that your htaccess file is set up properly."
+msgstr ""
+
+#: includes/class-zipomator.php:296
+msgid ""
+"Zipomator Error: no variations were passed.\n"
+"\t\t\t\t\tPlease make sure you are trying to access via the correct URL,\n"
+"\t\t\t\t\tand that your htaccess file is set up properly."
+msgstr ""
+
+#: includes/class-zipomator.php:306
+#, php-format
+msgid ""
+"Invalid download link. Go to your <a href=\"%s\">Downloads Page</a> to "
+"download the font."
+msgstr ""
+
+#: includes/class-zipomator.php:319 includes/class-zipomator.php:334
+#: includes/class-zipomator.php:342
+#, php-format
+msgid "Zipomator Error: Invalid download link. (%s)"
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:54
+msgid "View details"
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:77
+#, php-format
+msgid "More information about %s"
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:128
+msgid "Check for updates"
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:213
+#, php-format
+msgctxt "the plugin title"
+msgid "The %s plugin is up to date."
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:215
+#, php-format
+msgctxt "the plugin title"
+msgid "A new version of the %s plugin is available."
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:217
+#, php-format
+msgctxt "the plugin title"
+msgid "Could not determine if updates are available for %s."
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:223
+#, php-format
+msgid "Unknown update checker status \"%s\""
+msgstr ""
+
+#: includes/lib/plugin-update-checker/Puc/v4p9/Vcs/PluginUpdateChecker.php:98
+msgid "There is no changelog available."
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:55
 msgid "Select some fonts using the small checkboxes first."
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:53
+#: public/class-fontimator-myaccount.php:63
 msgid ""
 "Are you sure? You can't re-enable the membership without purchasing it again."
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:77
-msgid "Product"
+#: public/class-fontimator-myaccount.php:95
+msgid "Recover password or old purchases"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:78
-msgid "Weight"
+#: public/class-fontimator-myaccount.php:123
+#, php-format
+msgid ""
+"Hold on, %1$s! You are not subscribed to our newsletter, and miss all the "
+"fun. <a href=\"%2$s\" target=\"_blank\">Subscribe Now!</a>"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:79
-msgid "Item"
+#: public/class-fontimator-myaccount.php:133
+msgid "Family"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:80
+#: public/class-fontimator-myaccount.php:134
+msgid "License"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:135
+msgid "Version"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:136
 msgid "Download"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:98
+#: public/class-fontimator-myaccount.php:157
+msgid "Your Academic License"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:165
 msgid "Your Newsletter Birthday Gift!"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:103
+#: public/class-fontimator-myaccount.php:170
 #, php-format
 msgid "Moved to %s"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:105
+#: public/class-fontimator-myaccount.php:170
+msgid "Fontimonim"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:172
 msgid "Archived"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:193
+#: public/class-fontimator-myaccount.php:214
+msgctxt "License column for free downloads (instead of ♾)"
+msgid "Free"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:320
 msgid ""
 "Fontimator Error: No fonts found. Are you sure you have WooCommerce products "
 "active?"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:259
+#: public/class-fontimator-myaccount.php:428
+#, php-format
+msgid ""
+"<strong>Please note:</strong> You had an Academic License until December "
+"31st, %s, but it is out of date."
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:448
+msgid "Cancel (unavailable during the first 32 months)"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:450
 msgid "Cancel (unavailable during the first year)"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:291
-msgid "Download Selected"
+#: public/class-fontimator-myaccount.php:481
+msgid "Updated your downloads list. We hope everything is here this time!"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:292
+#: public/class-fontimator-myaccount.php:494
 msgid "Select All"
 msgstr ""
 
-#: public/class-fontimator-myaccount.php:293
+#: public/class-fontimator-myaccount.php:495
 msgid "Unselect All"
 msgstr ""
 
-#. translators: discount percentage
+#: public/class-fontimator-myaccount.php:496
+msgid "Download Selected"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:611
+#, php-format
+msgid ""
+"Each time you download fonts from this page you agree to the "
+"<strong>current</strong> <a href='%s'>EULA</a>."
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:617
+#, php-format
+msgid ""
+"Missing something? If you have previously purchased a font license that "
+"isn't listed here, please <a href='%s'>click here</a> to refresh your "
+"downloads list."
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:641
+msgid "How would you like to be addressed?"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:644
+msgctxt "Gender field option in edit account form"
+msgid "As female"
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:645
+msgctxt "Gender field option in edit account form"
+msgid "As male"
+msgstr ""
+
+#: public/class-fontimator-public.php:81
+#, php-format
+msgid "Good Morning, %s."
+msgstr ""
+
+#: public/class-fontimator-public.php:82
+#, php-format
+msgid "Good Afternoon, %s."
+msgstr ""
+
+#: public/class-fontimator-public.php:83
+#, php-format
+msgid "Good Evening, %s."
+msgstr ""
+
+#: public/class-fontimator-public.php:84
+#, php-format
+msgid "Good Night, %s."
+msgstr ""
+
 #: public/class-fontimator-public.php:85
+#, php-format
+msgid "Good Shabbos, %s."
+msgstr ""
+
+#: public/class-fontimator-public.php:88
+msgid "How great to start the day with some stats about your purchases!"
+msgstr ""
+
+#: public/class-fontimator-public.php:89
+msgid ""
+"We hope you had your lunch, and you're ready to kick in with some stats "
+"about your fonts!"
+msgstr ""
+
+#: public/class-fontimator-public.php:90
+msgid "Still in the office? How about some typography before sleep?"
+msgstr ""
+
+#: public/class-fontimator-public.php:91
+msgid "Working late? We got all your font information in one place."
+msgstr ""
+
+#: public/class-fontimator-public.php:100
+msgctxt "The website address field placeholder"
+msgid "example.com"
+msgstr ""
+
+#: public/class-fontimator-public.php:101
+msgctxt "The app name field placeholder"
+msgid "App Name"
+msgstr ""
+
+#: public/class-fontimator-public.php:128
+msgid "Inspecting Elements Ey?!"
+msgstr ""
+
+#: public/class-fontimator-public.php:134
+#, php-format
+msgid ""
+"Hi! We see you're interested in the behind the scenes of our site. That's "
+"great! Some of the code can even be found at %1$sour github%2$s and the "
+"%3$sColophon Page%4$s."
+msgstr ""
+
+#: public/class-fontimator-public.php:140
+msgid ""
+"We just wanted to remind you that downloading font files from our site is a "
+"criminal offence and a violation of intelectual property."
+msgstr ""
+
+#: public/class-fontimator-public.php:143
+msgid "Happy inspecting."
+msgstr ""
+
+#: public/class-fontimator-public.php:149
+#, php-format
+msgid ""
+"More information can be found in our %1$sEnd-User License Agreement%2$s "
+"page, and feel free to contact us for any issues."
+msgstr ""
+
+#: public/class-fontimator-public.php:159
+msgctxt "Close button on popups"
+msgid "Close"
+msgstr ""
+
+#. translators: discount percentage
+#: public/class-fontimator-public.php:177
 #, php-format
 msgid "%d%% Discount"
 msgstr ""
 
-#: public/class-fontimator-public.php:113
+#: public/class-fontimator-public.php:205
 msgid "Choose an option"
 msgstr ""
 
-#: public/class-fontimator-public.php:143
+#: public/class-fontimator-public.php:235
 #, php-format
 msgid "%s Licenses:"
 msgstr ""
 
-#: public/partials/shortcode-zip-table.php:45
-msgid "Font Name × Licenses"
+#: public/class-fontimator-public.php:275
+msgid "The app name:"
 msgstr ""
 
-#: public/partials/shortcode-zip-table.php:109
+#: public/class-fontimator-public.php:276
+msgid "The website address:"
+msgstr ""
+
+#: public/class-fontimator-public.php:277
+msgid ""
+"Every web/app license is purchased per one app/website. If you need it for "
+"two different websites, you must purchase it twice."
+msgstr ""
+
+#: public/class-fontimator-public.php:300
+msgid "Please enter a website URL/app name for this license"
+msgstr ""
+
+#: public/class-fontimator-public.php:326
+#: public/class-fontimator-public.php:340
+msgid "License For"
+msgstr ""
+
+#: public/class-fontimator-public.php:369
+msgctxt "Gender-nuetral"
+msgid "you are looking"
+msgstr ""
+
+#: public/class-fontimator-public.php:370
+msgctxt "Male"
+msgid "you are looking"
+msgstr ""
+
+#: public/class-fontimator-public.php:371
+msgctxt "Female"
+msgid "you are looking"
+msgstr ""
+
+#: public/class-fontimator-public.php:374
+msgctxt "Gender-nuetral \"Enter\""
+msgid "Enter"
+msgstr ""
+
+#: public/class-fontimator-public.php:375
+msgctxt "Male \"Enter\""
+msgid "Enter"
+msgstr ""
+
+#: public/class-fontimator-public.php:376
+msgctxt "Female \"Enter\""
+msgid "Enter"
+msgstr ""
+
+#: public/class-fontimator-public.php:384
 #, php-format
-msgid "Weight: %s"
+msgid ""
+"Hello, %1$s. If %2$s for the files and licenses of font %3$s you have "
+"purchased - %4$s to the %5$sDownloads page%6$s."
 msgstr ""
 
-#. Plugin Name of the plugin/theme
-msgid "The Fontimator"
+#: public/class-fontimator-public.php:434
+msgid ""
+"Click here to copy the link to this cart, which you can send to your client "
+"or save for later."
+msgstr ""
+
+#: public/class-fontimator-public.php:434
+msgid "Link to cart was copied!"
+msgstr ""
+
+#: public/class-fontimator-public.php:435
+msgid "Share a link to this cart"
+msgstr ""
+
+#: public/class-fontimator-public.php:479
+msgctxt "Gender-nuetral agree"
+msgid "agree"
+msgstr ""
+
+#: public/class-fontimator-public.php:480
+msgctxt "Male agree"
+msgid "agree"
+msgstr ""
+
+#: public/class-fontimator-public.php:481
+msgctxt "Female agree"
+msgid "agree"
+msgstr ""
+
+#: public/class-fontimator-public.php:485
+#, php-format
+msgid "I have read and %1$s to the ‫‫‫%2$s"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:36
+msgctxt "Discount Reason"
+msgid "Family Reunite discount"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:45
+msgid "Why separate family members?"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:49
+#, php-format
+msgctxt "Gender-nuetral \"Dear %s\" in dashboard"
+msgid "Dear %s"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:50
+#, php-format
+msgctxt "Male \"Dear %s\" in dashboard"
+msgid "Dear %s"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:51
+#, php-format
+msgctxt "Female \"Dear %s\" in dashboard"
+msgid "Dear %s"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:55
+#, php-format
+msgid ""
+"%1$s, The holiday season is a great time to reunite font families. For a "
+"limited time only, we offer you a %2$s%% discount on %3$s so you can now "
+"complete font %4$s. This way you won't leave any weight behind!"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:58
+#, php-format
+msgid "the weight you are missing"
+msgid_plural "the %s weights you are missing"
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:63
+msgid "Add the missing weights to my cart!"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:68
+msgid "More info:"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:70
+msgid "About the famliy reunion sale"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:73
+#, php-format
+msgid "Font %s specimen"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:75
+msgid "AlefAlefAef on Facebook"
+msgstr ""
+
+#: public/partials/fontimator-downloads-complete-family-banner.php:77
+msgid "Join our Newsletter"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:31
+msgid "Downloads"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:51
+msgid "Membership License"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:54
+msgid "Academic License"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:57
+msgid "Archive"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:60
+msgid "Gifts"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:63
+msgid "Free Downloads"
+msgstr ""
+
+#: public/partials/fontimator-downloads-table.php:66
+msgid "Reseller Membership License"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:56
+#, php-format
+msgctxt "Default greeting when time functions are not loaded yet."
+msgid "Hello, %s!"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:61
+msgctxt "Gender-nuetral \"you can\" in dashboard"
+msgid "you can"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:62
+msgctxt "Male \"you can\" in dashboard"
+msgid "you can"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:63
+msgctxt "Female \"you can\" in dashboard"
+msgid "you can"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:67
+#, php-format
+msgid ""
+"From your account dashboard %1$s can download your <a href=\"%2$s\">font "
+"files</a>, view your <a href=\"%3$s\">recent orders</a>, and <a href=\"%4$s"
+"\">edit your password and account details</a>."
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:78
+msgid "Fonts you've purchased:"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:82
+msgid "(You have a membership)"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:88
+#, php-format
+msgid "(out of %d in the catalog)"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:91
+#: public/partials/fontimator-myaccount-dashboard.php:112
+msgid "To all your downloads"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:96
+msgctxt "Dashboard membership dashbox title"
+msgid "Your Membership"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:102
+#, php-format
+msgid "Will renew on %s"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:104
+msgid "You don't have an active membership. :("
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:116
+msgid "Learn more about memberships"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:125
+msgid "Recent Activity"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:126
+msgid "Your Last Orders"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:129
+msgctxt "Dashboard last orders table column name"
+msgid "Order"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:130
+msgctxt "Dashboard last orders table column name"
+msgid "Date"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:131
+msgctxt "Dashboard last orders table column name"
+msgid "Total"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:132
+msgctxt "Dashboard last orders table column name"
+msgid "Status"
+msgstr ""
+
+#. translators: 1: formatted order total 2: total order items
+#: public/partials/fontimator-myaccount-dashboard.php:155
+#, php-format
+msgid "%1$s for %2$s item"
+msgid_plural "%1$s for %2$s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:165
+msgid "You have not made any orders yet."
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:171
+msgid "To all your orders"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:175
+msgid "Upgrade Fonts"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:176
+msgid "Recently Updated Fonts"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:179
+msgctxt "Dashboard upgrades table column name"
+msgid "Font"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:180
+msgctxt "Dashboard upgrades table column name"
+msgid "Version"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:200
+msgctxt "Dashboard recently upgraded fonts action button"
+msgid "Download"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:204
+msgctxt "Dashboard recently upgraded fonts action button"
+msgid "Get it now"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:214
+msgid "There are no newly-updated fonts."
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:222
+msgid "To the catalog"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:269
+msgid "Return to shop"
+msgstr ""
+
+#: public/partials/fontimator-myaccount-dashboard.php:270
+#, php-format
+msgid ""
+"Hey %s, Once you purchase some fonts, an awesome dashboard will be activated "
+"here."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:12
+#: public/partials/shortcode-free-download.php:54
+#: public/partials/shortcode-free-download.php:95
+#, php-format
+msgctxt "Free Download Title"
+msgid "Download Free License for %s:"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:42
+msgid "Please enter a valid email address and name to download the files."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:55
+#, php-format
+msgid "Read our %1$sFree fonts EULA%2$s"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:58
+msgctxt "Free Download Text Label"
+msgid "Your name"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:59
+msgctxt "Free Download Text Field"
+msgid "John Smith"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:61
+msgctxt "Free Download Text Label"
+msgid "Your email"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:62
+msgctxt "Free Download Text Field"
+msgid "your@email.here"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:68
+#, php-format
+msgid ""
+"Your email is only for your license. This will not add you to a mailing "
+"list. If you would like to get updated %1$ssign up to our newsletter%2$s."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:72
+#, php-format
+msgid ""
+"Please do not contact us about free fonts. All the info you might need can "
+"be found in our %1$sFAQ%2$s page."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:75
+msgid ""
+"Your free license will be activated upon submitting your name and email "
+"address. Font usage without a license is a violation of copyright laws."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:82
+#, php-format
+msgid "I have read the %1$sfree posters usage terms%2$s and I accept them."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:84
+#, php-format
+msgid "I have read the %1$sfree fonts usage terms%2$s and I accept them."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:91
+msgid "Subscribe me to the newsletter!"
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:98
+msgid "Thanks for downloading our font! Your download will begin shortly."
+msgstr ""
+
+#: public/partials/shortcode-free-download.php:99
+msgid ""
+"Also, we just now sent you an email to approve your subsctiption to the "
+"Tipotip."
+msgstr ""
+
+#. translators: %1$s: The percentage saved including % sign, %2$s: The full variation name
+#: public/partials/shortcode-sale-products.php:24
+#, php-format
+msgid "%1$s discount on font %2$s"
+msgstr ""
+
+#: public/partials/shortcode-sale-products.php:35
+#, php-format
+msgid "Only till %s"
+msgstr ""
+
+#: public/partials/shortcode-zip-table.php:64
+msgid "Font Name × Licenses"
 msgstr ""
 
 #. Plugin URI of the plugin/theme

@@ -6,7 +6,7 @@ acf_add_options_page(
 		'page_title' => 'Fontimator Configuration',
 
 		/* (string) The title displayed in the wp-admin sidebar. Defaults to page_title */
-		'menu_title' => 'Fontimator',
+		'menu_title' => __( 'The Fontimator', 'fontimator'),
 
 		/* (string) The URL slug used to uniquely identify this options page.
 		Defaults to a url friendly version of menu_title */

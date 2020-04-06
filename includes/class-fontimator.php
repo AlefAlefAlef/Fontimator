@@ -47,6 +47,15 @@ class Fontimator {
 	 * @var      Fontimator_ACF    $acf
 	 */
 	protected $acf;
+	
+	/**
+	 * The MailChimp instance.
+	 *
+	 * @since    2.4.0
+	 * @access   protected
+	 * @var      Fontimator_MC    $mc
+	 */
+	protected $mc;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -90,6 +99,11 @@ class Fontimator {
 		}
 
 		$this->load_includes();
+
+		$this->loader = new Fontimator_Loader();
+		$this->acf = new Fontimator_ACF();
+		$this->mc = new Fontimator_MC();
+
 		$this->define_constants();
 		$this->define_plugin_dependencies();
 		$this->set_locale();
@@ -141,6 +155,11 @@ class Fontimator {
 		 * The class responsible for defining all ACF fields and defaults.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-acf.php';
+		
+		/**
+		 * The class responsible for all MailChimp interactions and integrations.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-mc.php';
 
 		/**
 		 * The classes that extend WooCommerce functionality.
@@ -185,9 +204,6 @@ class Fontimator {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-fontimator-public.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-fontimator-myaccount.php';
-
-		$this->loader = new Fontimator_Loader();
-		$this->acf = new Fontimator_ACF();
 
 	}
 
@@ -242,13 +258,26 @@ class Fontimator {
 	}
 
 	private function define_global_hooks() {
-		global $mc4wp_aaa;
+		// ACF
+		$this->loader->add_action( 'wp_loaded', $this->acf, 'config' );
 
+		// Zipomator
 		$zipomator = new Zipomator();
 		$zipomator->add_rewrite_rules();
 		$this->loader->add_filter( 'query_vars', $zipomator, 'query_vars', 30, 2 );
 		$this->loader->add_action( 'parse_request', $zipomator, 'parse_request' );
+		
+		// MailChimp
+		if ($this->mc->enabled()) {
+			// ACF fields
+			$this->loader->add_action( 'acf/init', $this->mc, 'set_private_config' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_main_list', 		$this->mc, 'populate_acf_field_with_mailchimp_lists' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_academic_list', $this->mc, 'populate_acf_field_with_mailchimp_lists' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_gender_merge_field', 			$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_subscribed_merge_field', 	$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
+		}
 
+		// WooCommerce
 		$fontimator_woocommerce = new Fontimator_WooCommerce();
 
 		// Add variations from ftm-add-to-cart
@@ -259,7 +288,7 @@ class Fontimator {
 		$this->loader->add_filter( 'woocommerce_is_sold_individually', $fontimator_woocommerce, '_return_true' );
 
 		// Forgot password hack to sign up users on the fly
-		if ( $mc4wp_aaa ) {
+		if ( $this->mc->enabled() ) {
 			remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_lost_password' ), 20 ); // Replace with ours
 			$this->loader->add_action( 'wp_loaded', $fontimator_woocommerce, 'process_lost_password', 20 );
 			$this->loader->add_filter( 'authenticate', $fontimator_woocommerce, 'check_email_mailchimp_on_login', 90, 3 );
@@ -384,9 +413,7 @@ class Fontimator {
 	 * @since    2.0.0
 	 * @access   private
 	 */
-	private function define_myaccount_hooks() {
-		global $mc4wp_aaa;
-		
+	private function define_myaccount_hooks() {		
 		// Resource: https://businessbloomer.com/woocommerce-visual-hook-guide-account-pages/
 
 		$myaccount = new Fontimator_MyAccount( $this->get_plugin_name(), $this->get_version() );
@@ -436,7 +463,7 @@ class Fontimator {
 		$this->loader->add_action( 'woocommerce_after_account_downloads', $myaccount, 'add_message_after_downloads' );
 		
 		// Add gender to edit account page
-		if ( $mc4wp_aaa ) {
+		if ( $this->mc->enabled() ) {
 			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_gender_field_to_edit_account' );
 			$this->loader->add_action( 'woocommerce_save_account_details', $myaccount, 'save_gender_field_on_edit_account' );
 		}
@@ -454,7 +481,6 @@ class Fontimator {
 	 */
 	public function run() {
 		$this->loader->run();
-		$this->acf->config();
 	}
 
 	/**
@@ -491,10 +517,31 @@ class Fontimator {
 	/**
 	 * Alias to Fontimator->get_instance()->get_acf()
 	 *
+	 * @since     2.4.0
 	 * @return Fontimator_ACF
 	 */
 	public static function acf() {
 		return self::get_instance()->get_acf();
+	}
+
+	/**
+	 * The reference to the class that deals with MailChimp.
+	 *
+	 * @since     2.4.0
+	 * @return    Fontimator_MC
+	 */
+	public function get_mc() {
+		return $this->mc;
+	}
+	
+	/**
+	 * Alias to Fontimator->get_instance()->get_mc()
+	 *
+	 * @since     2.4.0
+	 * @return Fontimator_MC
+	 */
+	public static function mc() {
+		return self::get_instance()->get_mc();
 	}
 
 	public function get_attr_name( $type ) {

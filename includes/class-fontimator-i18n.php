@@ -71,9 +71,8 @@ class Fontimator_I18n {
 	 * @return int
 	 */
 	public static function get_user_gender( $user_email = null ) {
-		global $mc4wp_aaa;
-		if ( $mc4wp_aaa ) {
-			return $mc4wp_aaa->get_user_gender( $user_email );
+		if ( Fontimator::mc()->enabled() ) {
+			return Fontimator::mc()->get_user_gender( $user_email );
 		}
 		return self::GENDER_NEUTRAL;
 	}

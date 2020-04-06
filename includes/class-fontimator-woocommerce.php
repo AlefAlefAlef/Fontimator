@@ -178,17 +178,16 @@ class Fontimator_WooCommerce {
 			}
 
 			// Fontimator Hack:
-			global $mc4wp_aaa;
 			$login = isset( $_POST['user_login'] ) ? sanitize_user( wp_unslash( $_POST['user_login'] ) ) : '';
 			if ( is_email( $login ) && ! get_user_by( 'email', $login ) ) {
 				// Check if email exists in MailChimp.
-				if ( $mc4wp_aaa ) {
+				if ( Fontimator::mc()->enabled() ) {
 					remove_action( 'profile_update', array( 'MC4WP_Ecommerce_Object_Observer', 'on_user_update' ) ); // Don't update mailchimp fname lname when user is created!
-					$merge_fields = $mc4wp_aaa->get_user_merge_fields( null, $login );
+					$merge_fields = Fontimator::mc()->get_user_merge_fields( null, $login );
 					if ( ! $merge_fields ) {
 						// Maybe in the academic list? *hoping*
-						$list_id = $mc4wp_aaa->get_settings()['academic']['list_id'];
-						$merge_fields = $mc4wp_aaa->get_user_merge_fields( $list_id, $login );
+						$list_id = Fontimator::mc()->get_academic_list();
+						$merge_fields = Fontimator::mc()->get_user_merge_fields( $list_id, $login );
 					}
 					if ( $merge_fields ) { // Subscribed to either one!
 						$first_name = $merge_fields->FNAME;
@@ -229,13 +228,12 @@ class Fontimator_WooCommerce {
 
 	public static function check_email_mailchimp_on_login( $user, $email, $password ) {
 		if ( is_email( $email ) && ! get_user_by( 'email', $email ) ) {
-			global $mc4wp_aaa;
-			if ( $mc4wp_aaa ) {
-				$merge_fields = $mc4wp_aaa->get_user_merge_fields( null, $email );
+			if ( Fontimator::mc()->enabled() ) {
+				$merge_fields = Fontimator::mc()->get_user_merge_fields( null, $email );
 				if ( ! $merge_fields ) {
 					// Maybe in the academic list? *hoping*
-					$list_id = $mc4wp_aaa->get_settings()['academic']['list_id'];
-					$merge_fields = $mc4wp_aaa->get_user_merge_fields( $list_id, $login );
+					$list_id = Fontimator::mc()->get_academic_list();
+					$merge_fields = Fontimator::mc()->get_user_merge_fields( $list_id, $login );
 				}
 				if ( $merge_fields ) { // Subscribed to either one!
 					wc_add_notice( sprintf( __( 'Hello there, %3$s! Your account is almost ready - please reset your password %1$shere%2$s.', 'fontimator' ), '<a href="' . wc_lostpassword_url() . '">', '</a>', $merge_fields->FNAME ), 'success' );

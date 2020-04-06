@@ -108,7 +108,6 @@ class Fontimator_Admin {
 		if ( ! strpos($screen->id, "fontimator-config") == true || ! isset( $_GET['generate_complete_family_eligible_list'] ) ) {
 			return;
 		}
-		global $mc4wp_aaa;
 
 		// Settings for long requests
 		ini_set('max_execution_time', 6000); // 6000 seconds = 100 minutes
@@ -143,8 +142,8 @@ class Fontimator_Admin {
 			// Skip if not subscribed
 			$userdata = get_userdata($customer_id);
 			$user_email = $userdata->user_email;
-			if ( $mc4wp_aaa ) {
-				if ( ! $mc4wp_aaa->is_user_subscribed( $user_email ) ) {
+			if ( Fontimator::mc()->enabled() ) {
+				if ( ! Fontimator::mc()->is_user_subscribed( $user_email ) ) {
 					continue;
 				}
 			}

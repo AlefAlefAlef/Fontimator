@@ -177,5 +177,6 @@ acf_add_local_field_group(
 		'hide_on_screen' => '',
 		'active' => 1,
 		'description' => '',
+		'width' => '50%',
 	)
 );

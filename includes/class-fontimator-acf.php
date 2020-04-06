@@ -49,16 +49,19 @@ class Fontimator_ACF {
 			'fontimator-options',
 			'fontimator-font-options',
 			'fontimator-font-price-formulas',
+			'fontimator-mailchimp',
 			'fontimator-free-downloads',
 			'fontimator-complete-family',
+			'fontimator-mc-gifts',
 		);
-
-		global $mc4wp_aaa;
-		if ( $mc4wp_aaa ) {
-			$this->field_groups[] = 'fontimator-mc-gifts';
-		}
 	}
 
+	/**
+	 * Hooked on acf/init
+	 * @since 2.4.0
+	 *
+	 * @return void
+	 */
 	public function config() {
 		$this->load_options_pages();
 		$this->load_field_groups();
@@ -105,7 +108,7 @@ class Fontimator_ACF {
 		return null;
 	}
 
-	public function get_field( $field, $context = null ) {
+	public function get_field( $field, $context = 'options' ) {
 		if ( null !== $this->get_acf_field( $field, $context ) ) {
 			return $this->get_acf_field( $field, $context );
 		}
