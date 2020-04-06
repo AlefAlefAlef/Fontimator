@@ -106,7 +106,7 @@ class Fontimator_Public {
 
 	public function devtools_detect_notice() {
 		if ( current_user_can( 'administrator' ) ) {
-			// return;
+			return;
 		}
 
 		$github_link = 'http://github.com/alefalefalef';

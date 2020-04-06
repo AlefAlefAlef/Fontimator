@@ -1,3 +1,29 @@
+/**
+ * Resources:
+ * 
+ * With window.innerWidth / firebug:
+ *  https://github.com/sindresorhus/devtools-detect
+ * 
+ * With debugger:
+ *  https://dev.to/composite/a-simple-way-to-detect-devtools-2ag0
+ *  https://github.com/kinging123/devtools-detector
+ * 
+ * With object getter:
+ *  https://jsfiddle.net/evnrorea/
+ *  https://yon.fun/detect-chrome-dev-tools/
+ * 
+ * With function.toString:
+ *  https://stackoverflow.com/a/7809413/2588319
+ * 
+ * 
+ * With RequestAnimationFrame:
+ *  https://stackoverflow.com/a/48287643/2588319
+ *  https://jsfiddle.net/gcdfs3oo/44/
+ * 
+ * Bug discussion on Chromium:
+ *  https://bugs.chromium.org/p/chromium/issues/detail?id=672625
+ */
+
 (function() {
 	function fireEvent(isOpen) {
 		window.dispatchEvent(
@@ -7,38 +33,17 @@
 				}
 			})
 		);
-	}
-    function detectDevTool(allow) {
-		if (window.disableDevToolsDetection) {
-			return;
-		}
-        if (isNaN(+allow)) {
-            allow = 100;
-        }
-        var start = +new Date();
-        debugger;
-        var end = +new Date();
-        if (isNaN(start) || isNaN(end) || end - start > allow) {
+    }
+
+    var element = new Image();
+    Object.defineProperty(element, 'id', {
+        get: function () {
             fireEvent(true);
-        } else {
-			fireEvent(false);
-		}
-    }
-    if (window.attachEvent) {
-        if (
-            document.readyState === "complete" ||
-            document.readyState === "interactive"
-            ) {
-                detectDevTool();
-                window.attachEvent("onresize", detectDevTool);
-                window.attachEvent("onmousemove", detectDevTool);
-                window.attachEvent("onfocus", detectDevTool);
-                window.attachEvent("onblur", detectDevTool);
-            } else {
-                setTimeout(argument.callee, 0);
-            }
-    } else {
-        window.addEventListener("resize", detectDevTool);
-        window.addEventListener("mousemove", detectDevTool);
-    }
+        }
+    });
+
+    requestAnimationFrame(function check() {
+        console.dir(element);
+        requestAnimationFrame(check);
+    });
 })();

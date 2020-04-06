@@ -106,9 +106,9 @@
 		// DevTools detect
 		// Get notified when it's opened/closed or orientation changes
 		window.addEventListener('devtoolschange', event => {
+			console.clear();
 			if (event.detail.isOpen) {
 				$('#devtools-pop-up').slideDown(100).parent().show();
-				window.disableDevToolsDetection = true;
 			} else {
 				$('#devtools-pop-up').hide().parent().hide();
 			}
