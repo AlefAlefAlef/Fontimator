@@ -155,7 +155,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 								printf( _n( '%1$s for %2$s item', '%1$s for %2$s items', $order->get_item_count(), 'fontimator' ), $order->get_formatted_order_total(), $order->get_item_count() );
 								?>
 							</td>
-							<td><a class="icon" href="<?php echo $order->get_view_order_url(); ?>"><?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></a></td>
+							<td><a class="button" href="<?php echo $order->get_view_order_url(); ?>"><?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></a></td>
 						</tr>
 						<?php
 					}
@@ -197,11 +197,11 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 							<?php
 							if ( in_array( $font->get_id(), $user_fonts ) ) {
 								?>
-								<td><a class="icon" href="<?php echo wc_get_endpoint_url( 'downloads' ); ?>"><?php _ex( 'Download', 'Dashboard recently upgraded fonts action button', 'fontimator' ); ?></a></td>
+								<td><a class="button" href="<?php echo wc_get_endpoint_url( 'downloads' ); ?>"><?php _ex( 'Download', 'Dashboard recently upgraded fonts action button', 'fontimator' ); ?></a></td>
 								<?php
 							} else {
 								?>
-								<td><a class="icon" href="<?php echo $font->get_permalink(); ?>"><?php _ex( 'Get it now', 'Dashboard recently upgraded fonts action button', 'fontimator' ); ?></a></td>
+								<td><a class="button" href="<?php echo $font->get_permalink(); ?>"><?php _ex( 'Get it now', 'Dashboard recently upgraded fonts action button', 'fontimator' ); ?></a></td>
 								<?php
 							}
 							?>
