@@ -417,8 +417,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	public function mc4wp_add_academic_downloads_table( $downloads ) {
 		if ( Fontimator::mc()->enabled() ) {
 			$academic_year = Fontimator::mc()->get_academic_license_year();
-			if ( ! $academic_year ) {
-				return;
+			if ( ! is_numeric( $academic_year ) ) {
+				return $downloads;
 			}
 
 			$graduation_date  = new DateTime( $academic_year . '-12-31' );
@@ -665,4 +665,86 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 	}
 
+
+	/**
+	 * Adds the URL rewrite for the email preferences tab
+	 *
+	 * @since 4.2.2
+	 */
+	public function add_email_preferences_tab_rewrite() {
+		add_rewrite_endpoint( 'email-preferences', EP_ROOT | EP_PAGES );
+	}
+
+	/**
+	 * Adds the query var for the email preferences tab
+	 *
+	 * @since 4.2.2
+	 */
+	public function add_email_preferences_tab_query_var( $vars ) {
+		$vars[] = 'email-preferences';
+    return $vars;
+	}
+
+	/**
+	 * Adds the menu item for the email preferences tab
+	 *
+	 * @since 4.2.2
+	 */
+	public function add_email_preferences_tab_menu_item( $items ) {
+		if ( ! Fontimator::mc()->is_user_subscribed() ) {
+			return $items;
+		}
+
+		$position = 4;
+
+		return array_slice($items, 0, $position, true) +
+    	array(
+				'email-preferences' => __( 'Email Preferences', 'fontimator' )
+				) +
+    	array_slice($items, $position, count($items)-$position, true);
+	}
+
+	/**
+	 * Prints the content for the email preferences tab
+	 *
+	 * @since 4.2.2
+	 */
+	public function email_preferences_tab_content() {
+		include trailingslashit( plugin_dir_path( __FILE__ ) ) . 'partials/fontimator-myaccount-email-preferences.php';
+	}
+
+	/**
+	 * Save the email preferences and redirect back to the my account page.
+	 * Code from WC_Form_Handler->save_account_details()
+	 */
+	public static function save_email_preferences() {
+		$nonce_value = wc_get_var( $_REQUEST['save-email-preferences-nonce'], wc_get_var( $_REQUEST['_wpnonce'], '' ) ); // @codingStandardsIgnoreLine.
+
+		if ( ! wp_verify_nonce( $nonce_value, 'save_email_preferences' ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['action'] ) || 'save_email_preferences' !== $_POST['action'] ) {
+			return;
+		}
+
+		wc_nocache_headers();
+
+		$updated_interests = array();
+
+		$valid_interests = array_keys( Fontimator::mc()->get_preference_options() );
+
+		foreach ( $valid_interests as $id ) {
+			if ( 'on' === $_POST['interests'][ $id ] ) {
+				$updated_interests[ $id ] = true;
+			} else {
+				$updated_interests[ $id ] = false;
+			}
+		}
+	
+		// save the preferences
+		Fontimator::mc()->update_user_groups( $updated_interests );
+
+		wc_add_notice( __( 'Email preferences were updated successfully.', 'fontimator' ) );
+	}
 }

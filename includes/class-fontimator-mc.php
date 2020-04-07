@@ -35,16 +35,13 @@ class Fontimator_MC {
     $this->main_list = $acf->get_field('ftm_main_list');
     $this->subscribe_groups = $acf->get_field('ftm_subscribe_groups');
     $this->academic_group = $acf->get_field('ftm_academic_group');
+    $this->preferences_group = $acf->get_field('ftm_preferences_group');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
     $this->subscribed_field = $acf->get_field('ftm_subscribed_merge_field');
   }
 
   public function enabled() {
     return class_exists('MC4WP_MailChimp');
-  }
-
-  public function get_academic_group() {
-    return $this->academic_group;
   }
 
   /**
@@ -277,7 +274,13 @@ class Fontimator_MC {
 		try {
       $member = $api->get_list_member( $list_id, $user_email );
 			if ( $member ) {
-        return $member->interests;
+        $result = array();
+        foreach ( $member->interests as $interest_id => $active ) {
+          if ( $active ) {
+            $result[] = $interest_id;
+          }
+        }
+        return $result;
 			}
 			
 		} catch (\Throwable $th) {
@@ -314,8 +317,8 @@ class Fontimator_MC {
     $academic_groups = $academic_group_cat->interests;
     
     $groups = $this->get_user_groups( $user_email );
-		foreach ( (array) $groups as $group => $active ) {
-      if ( $active && in_array( $group, array_keys( (array) $academic_groups ) ) ) {
+		foreach ( (array) $groups as $group ) {
+      if ( in_array( $group, array_keys( (array) $academic_groups ) ) ) {
         return $academic_groups[ $group ];
       }
     }
@@ -436,5 +439,55 @@ class Fontimator_MC {
 		}
 
 		return false;
+  }
+  
+  /**
+   * Get all the subgroups of the preferences group
+   *
+   * @return boolean
+   */
+  public function get_preference_options() {
+	  if ( ! $this->preferences_group ) {
+      return false;
+    }
+
+    // Find academic group cat in all groups
+    foreach ( (array) $this->mc4wp_mailchimp->get_list_interest_categories($this->main_list) as $group_cat ) {
+      if ( $group_cat->id == $this->preferences_group ) {
+        $preferences_group_cat = $group_cat;
+        break;
+      }
+    }
+
+    if ( ! $preferences_group_cat ) {
+      return false;
+    }
+
+    return $preferences_group_cat->interests;
+	}
+  
+  /**
+   * Set the user groups
+   *
+   * @return boolean
+   */
+  public function update_user_groups( $groups_to_change, $list_id = null, $user_email = null ) {
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
+
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
+
+    try {
+      $api = mc4wp_get_api_v3();
+      $api->update_list_member( $list_id, $user_email, array(
+        'interests' => $groups_to_change,
+      ) );
+    } catch (\Throwable $th) {
+      return false;
+    }
+    return true;
 	}
 }

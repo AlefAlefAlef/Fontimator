@@ -125,7 +125,31 @@ acf_add_local_field_group(array(
 			'label' => 'Academic Group',
 			'name' => 'ftm_academic_group',
 			'type' => 'select',
-			'instructions' => 'The group category that contains academic license students. It should only contain sub-interests of <b>graduation years</b>.',
+			'instructions' => 'The group category that contains academic license students. It should only contain sub-interests of <b>graduation years</b>.<b>Any non-numeric sub-category will be treated as cancelled.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array(
+			),
+			'default_value' => array(
+			),
+			'allow_null' => 1,
+			'multiple' => 0,
+			'ui' => 0,
+			'return_format' => 'value',
+			'ajax' => 0,
+			'placeholder' => '',
+		),
+		array(
+			'key' => 'field_5e8aff7e3076f',
+			'label' => 'Preferences Group',
+			'name' => 'ftm_preferences_group',
+			'type' => 'select',
+			'instructions' => 'The group category that users can choose their association to in their account dashbord.',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array(
