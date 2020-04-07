@@ -33,7 +33,8 @@ class Fontimator_MC {
   public function set_private_config() {
     $acf = Fontimator::acf();
     $this->main_list = $acf->get_field('ftm_main_list');
-    $this->academic_list = $acf->get_field('ftm_academic_list');
+    $this->subscribe_groups = $acf->get_field('ftm_subscribe_groups');
+    $this->academic_group = $acf->get_field('ftm_academic_group');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
     $this->subscribed_field = $acf->get_field('ftm_subscribed_merge_field');
   }
@@ -42,8 +43,8 @@ class Fontimator_MC {
     return class_exists('MC4WP_MailChimp');
   }
 
-  public function get_academic_list() {
-    return $this->academic_list;
+  public function get_academic_group() {
+    return $this->academic_group;
   }
 
   /**
@@ -95,6 +96,96 @@ class Fontimator_MC {
   }
 
   /**
+   * Filters an ACF field to display all MailChimp interest groups from the main list as options
+   *
+   * @since 2.4.2
+   * @param array $field
+   * @return array $field
+   */
+  public function populate_acf_field_with_mailchimp_groups( $acf_field ) {
+    $choices = array();
+    $groups = $this->mc4wp_mailchimp->get_list_interest_categories($this->main_list);
+    if ( ! $this->main_list ) {
+      $choices[] = __( '(Please save the page first)', 'fontimator' );
+    } else if ( ! count($groups) ) {
+      $choices[] = __( '(no groups found, configure MC4WP first)', 'fontimator' );
+    } else {
+      foreach ( $groups as $group_category ) {
+        foreach ($group_category->interests as $id => $group) {
+          $choices[$id] = sprintf( '%s >> %s', $group_category->title, $group);
+        }
+      }
+    }
+    
+    $acf_field['choices'] = $choices;
+    return $acf_field;
+  }
+
+  /**
+   * Filters an ACF field to display all MailChimp interest group categories from the main list as options
+   *
+   * @since 2.4.2
+   * @param array $field
+   * @return array $field
+   */
+  public function populate_acf_field_with_mailchimp_group_categories( $acf_field ) {
+    $choices = array();
+    $groups = $this->mc4wp_mailchimp->get_list_interest_categories($this->main_list);
+    if ( ! $this->main_list ) {
+      $choices[] = __( '(Please save the page first)', 'fontimator' );
+    } else if ( ! count($groups) ) {
+      $choices[] = __( '(no groups found, configure MC4WP first)', 'fontimator' );
+    } else {
+      foreach ( $groups as $group_category ) {
+        $choices[$group_category->id] = sprintf( '%s (%s)', $group_category->title, implode( ', ', array_values( $group_category->interests ) ));
+      }
+    }
+    
+    $acf_field['choices'] = $choices;
+    return $acf_field;
+  }
+
+  /**
+   * Filters an ACF field to display all MailChimp Tags from the main list as options
+   *
+   * @since 2.4.2
+   * @param array $field
+   * @return array $field
+   */
+  public function populate_acf_field_with_mailchimp_tags( $acf_field ) {
+    $choices = array();
+    $tags = mc4wp_get_api_v3()->get_list_segments( $this->main_list, array(
+      'type' => 'static',
+      'count' => 1000,
+    ) )->segments;
+    if ( ! $this->main_list ) {
+      $choices[] = __( '(Please save the page first)', 'fontimator' );
+    } else if ( ! count( (array) $tags ) ) {
+      $choices[] = __( '(no tags found, configure MC4WP first)', 'fontimator' );
+    } else {
+      foreach ( $tags as $tag ) {
+        $choices[$tag->id] = sprintf( '%s (%d)', $tag->name, $tag->member_count );
+      }
+    }
+    
+    $acf_field['choices'] = $choices;
+    return $acf_field;
+  }
+
+  /**
+   * Adds the subscriber to the defined groups
+   *
+   * @param MC4WP_MailChimp_Subscriber $subscriber
+   * @return MC4WP_MailChimp_Subscriber
+   */
+  public function add_subscriber_to_groups( MC4WP_MailChimp_Subscriber $subscriber ) {
+    foreach ( (array) $this->subscribe_groups as $group_id ) {
+      $subscriber->interests[ $group_id ] = true;
+    }
+    return $subscriber;
+  }
+
+  /**
 	 * Get all merge fields of a user, or false if not subscribed
 	 *
 	 * @param string $list_id or null for main list
@@ -126,7 +217,111 @@ class Fontimator_MC {
 		}
 
 		return null;
+  }
+  
+  /**
+	 * Get all tags of a user, or false if not subscribed
+	 *
+	 * @param string $list_id or null for main list
+	 * @param string $user_email or null for current user
+	 * @return array<stdClass>
+	 */
+	public function get_user_tags( $list_id = null, $user_email = null ) {
+		if ( ! is_user_logged_in() && ! $user_email ) {
+			return null;
+		}
+
+		if ( ! $user_email ) {
+			$user_email = strtolower( wp_get_current_user()->user_email );
+		}
+
+		if ( ! $list_id ) {
+			$list_id = $this->main_list;
+		}
+
+		$api = mc4wp_get_api_v3();
+		try {
+			$member = $api->get_list_member_tags( $list_id, $user_email );
+			if ( $member ) {
+				return $member->tags;
+			}
+			
+		} catch (\Throwable $th) {
+			return false;
+		}
+
+		return null;
 	}
+  
+  /**
+	 * Get all tags of a user, or false if not subscribed
+	 *
+	 * @param string $list_id or null for main list
+	 * @param string $user_email or null for current user
+	 * @return array<stdClass>
+	 */
+	public function get_user_groups( $list_id = null, $user_email = null ) {
+		if ( ! is_user_logged_in() && ! $user_email ) {
+      return null;
+		}
+    
+		if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+		}
+    
+		if ( ! $list_id ) {
+      $list_id = $this->main_list;
+		}
+    
+		$api = mc4wp_get_api_v3();
+		try {
+      $member = $api->get_list_member( $list_id, $user_email );
+			if ( $member ) {
+        return $member->interests;
+			}
+			
+		} catch (\Throwable $th) {
+      return false;
+		}
+    
+		return null;
+	}
+
+
+  /**
+	 * Checks if user has the academic tag
+	 *
+	 * @param string $user_email (or null for current user)
+	 * @return bool
+	 */
+	public function get_academic_license_year( $user_email = null ) {
+		if ( ! $this->academic_group ) {
+      return false;
+    }
+
+    // Find academic group cat in all groups
+    foreach ( (array) $this->mc4wp_mailchimp->get_list_interest_categories($this->main_list) as $group_cat ) {
+      if ( $group_cat->id == $this->academic_group ) {
+        $academic_group_cat = $group_cat;
+        break;
+      }
+    }
+
+    if ( ! $academic_group_cat ) {
+      return false;
+    }
+
+    $academic_groups = $academic_group_cat->interests;
+    
+    $groups = $this->get_user_groups( $user_email );
+		foreach ( (array) $groups as $group => $active ) {
+      if ( $active && in_array( $group, array_keys( (array) $academic_groups ) ) ) {
+        return $academic_groups[ $group ];
+      }
+    }
+    
+		return false;
+  }
 
   /**
 	 * Gets the gender of a user, based on the mailchimp MERGE field

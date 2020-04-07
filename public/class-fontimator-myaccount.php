@@ -416,9 +416,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 	public function mc4wp_add_academic_downloads_table( $downloads ) {
 		if ( Fontimator::mc()->enabled() ) {
-			$list_id          = Fontimator::mc()->get_academic_list();
-			$merge_fields     = Fontimator::mc()->get_user_merge_fields( $list_id );
-			$academic_year    = (int) $merge_fields->YEAR;
+			$academic_year = Fontimator::mc()->get_academic_license_year();
+			if ( ! $academic_year ) {
+				return;
+			}
+
 			$graduation_date  = new DateTime( $academic_year . '-12-31' );
 			$now              = new DateTime();
 			if ( $graduation_date > $now ) {

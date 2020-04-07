@@ -160,6 +160,7 @@ class Fontimator {
 		 * The class responsible for all MailChimp interactions and integrations.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-mc.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mc4wp-woocommerce-integration.php';
 
 		/**
 		 * The classes that extend WooCommerce functionality.
@@ -272,9 +273,13 @@ class Fontimator {
 			// ACF fields
 			$this->loader->add_action( 'acf/init', $this->mc, 'set_private_config' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_main_list', 		$this->mc, 'populate_acf_field_with_mailchimp_lists' );
-			$this->loader->add_filter( 'acf/load_field/name=ftm_academic_list', $this->mc, 'populate_acf_field_with_mailchimp_lists' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_academic_group', $this->mc, 'populate_acf_field_with_mailchimp_group_categories' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_gender_merge_field', 			$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_subscribed_merge_field', 	$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_subscribe_groups', 	$this->mc, 'populate_acf_field_with_mailchimp_groups' );
+
+			// Subscribe to the correct group
+			$this->loader->add_filter( 'mc4wp_subscriber_data', $this->mc, 'add_subscriber_to_groups' );
 		}
 
 		// WooCommerce
