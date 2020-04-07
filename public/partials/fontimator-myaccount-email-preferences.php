@@ -18,6 +18,8 @@ if ( ! $options ) {
 ?>
 <form class="woocommerce-EmailPreferencesForm edit-account" action="" method="post">
 
+  <h3><?php _e( 'Let\'s stay in touch!', 'fontimator' ); ?></h3>
+  <p class="newsletter-text"><?php _e( 'Every once in a while we send emails with updates about new fonts, special discounts & offers, tips for designers, free stuff and a lot of inspiration. We don\'t spam, and we will never give away your details to strangers.', 'fontimator' ); ?></p>
   <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
     <span><?php _e( 'Which updates would you like to receive?', 'fontimator' ); ?></span>
     <?php
