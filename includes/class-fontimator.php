@@ -276,11 +276,14 @@ class Fontimator {
 			$this->loader->add_filter( 'acf/load_field/name=ftm_academic_group', $this->mc, 'populate_acf_field_with_mailchimp_group_categories' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_preferences_group', $this->mc, 'populate_acf_field_with_mailchimp_group_categories' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_gender_merge_field', 			$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
-			$this->loader->add_filter( 'acf/load_field/name=ftm_subscribed_merge_field', 	$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_subscription_tag_obj', 	$this->mc, 'populate_acf_field_with_mailchimp_tags' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_subscribe_groups', 	$this->mc, 'populate_acf_field_with_mailchimp_groups' );
 
 			// Subscribe to the correct group
 			$this->loader->add_filter( 'mc4wp_subscriber_data', $this->mc, 'add_subscriber_to_groups' );
+
+			// Sync subscriptions
+			$this->loader->add_action( 'woocommerce_subscription_status_updated', $this->mc, 'update_subscription_status', 10, 3 );
 		}
 
 		// WooCommerce
@@ -348,6 +351,7 @@ class Fontimator {
 
 		// Custom actions in admin
 		$this->loader->add_action( 'current_screen', $plugin_admin, 'maybe_generate_complete_family_eligible_emails_list' );
+		$this->loader->add_action( 'current_screen', $plugin_admin, 'maybe_sync_retroactively_all_subscriptions' );
 
 		$variations_helper = new Fontimator_Variations_Helper( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $variations_helper, 'enqueue_scripts' );
@@ -361,7 +365,6 @@ class Fontimator {
 		$this->loader->add_action( 'woocommerce_save_product_variation', $variations_helper, 'save_ignore_checkbox_value' );
 
 		$this->loader->add_action( 'edit_user_profile', $variations_helper, 'add_delete_user_link', 90 );
-
 	}
 
 	/**

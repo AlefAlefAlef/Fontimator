@@ -90,11 +90,66 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'field_5e8affff3076c',
-			'label' => 'Subscribed Merge Field',
-			'name' => 'ftm_subscribed_merge_field',
+			'key' => 'ftm_subscription_tag_obj2',
+			'label' => 'Fonts Subscription Tag',
+			'name' => 'ftm_subscription_tag_obj',
 			'type' => 'select',
-			'instructions' => 'The merge field to sync subscribed status to, on the main list',
+			'instructions' => 'The tag to sync subscribed status to, on the main list',
+			'required' => 0,
+			'conditional_logic' => array(
+				array(
+					array(
+						'field' => 'field_5e8afe813076a',
+						'operator' => '!=empty',
+					),
+				),
+			),
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array(
+			),
+			'default_value' => array(
+			),
+			'allow_null' => 1,
+			'multiple' => 0,
+			'ui' => 0,
+			'return_format' => 'array',
+			'ajax' => 0,
+			'placeholder' => '',
+    ),
+    array(
+			'key' => 'sync_retroactively_all_subscriptions',
+			'label' => 'Retroactive Sync',
+			'name' => 'sync_retroactively_all_subscriptions',
+			'type' => 'message',
+			'instructions' => 'Will remove the tag from all users without the subscription and add it to the ones with it.',
+			'required' => 0,
+			'conditional_logic' => array(
+				array(
+					array(
+						'field' => 'ftm_subscription_tag_obj',
+						'operator' => '!=empty',
+					),
+				),
+			),
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'message' => '<a class="button-secondary" onclick="return confirm(\'Are you sure? This will override the selected tag\')" href="admin.php?page=fontimator-config&sync_retroactively_all_subscriptions=1">Sync all subscriptions to the selected list</a><br /><small>Log file will be saved in <code>/var/www/output/</code></small>',
+			'new_lines' => '',
+			'esc_html' => 0,
+		),
+		array(
+			'key' => 'field_5e8aff7e2076b',
+			'label' => 'Academic Group',
+			'name' => 'ftm_academic_group',
+			'type' => 'select',
+			'instructions' => 'The group category that contains academic license students. It should only contain sub-interests of <b>graduation years</b>.<b>Any non-numeric sub-category will be treated as cancelled.</b>',
 			'required' => 0,
 			'conditional_logic' => array(
 				array(
@@ -121,37 +176,20 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'field_5e8aff7e3076b',
-			'label' => 'Academic Group',
-			'name' => 'ftm_academic_group',
-			'type' => 'select',
-			'instructions' => 'The group category that contains academic license students. It should only contain sub-interests of <b>graduation years</b>.<b>Any non-numeric sub-category will be treated as cancelled.',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array(
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'choices' => array(
-			),
-			'default_value' => array(
-			),
-			'allow_null' => 1,
-			'multiple' => 0,
-			'ui' => 0,
-			'return_format' => 'value',
-			'ajax' => 0,
-			'placeholder' => '',
-		),
-		array(
-			'key' => 'field_5e8aff7e3076f',
+			'key' => 'field_5e8aff7e3073f',
 			'label' => 'Preferences Group',
 			'name' => 'ftm_preferences_group',
 			'type' => 'select',
 			'instructions' => 'The group category that users can choose their association to in their account dashbord.',
 			'required' => 0,
-			'conditional_logic' => 0,
+			'conditional_logic' => array(
+				array(
+					array(
+						'field' => 'field_5e8afe813076a',
+						'operator' => '!=empty',
+					),
+				),
+			),
 			'wrapper' => array(
 				'width' => '',
 				'class' => '',

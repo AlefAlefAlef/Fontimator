@@ -37,7 +37,30 @@ class Fontimator_MC {
     $this->academic_group = $acf->get_field('ftm_academic_group');
     $this->preferences_group = $acf->get_field('ftm_preferences_group');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
-    $this->subscribed_field = $acf->get_field('ftm_subscribed_merge_field');
+  }
+
+  public function get_subscription_tag( $format = 'array' ) {
+    $tag = Fontimator::acf()->get_field('ftm_subscription_tag_obj');
+    if ( $tag ) {
+      switch ( $format ) {
+        case 'label':
+        case 'name':
+          return $tag[ 'label' ];
+        break;
+
+        case 'value':
+        case 'id':
+          return $tag[ 'value' ];
+        break;
+
+        case 'array':
+        default:
+          return $tag;
+        break;  
+      }
+    }
+
+    return null;
   }
 
   public function enabled() {
@@ -161,7 +184,8 @@ class Fontimator_MC {
       $choices[] = __( '(no tags found, configure MC4WP first)', 'fontimator' );
     } else {
       foreach ( $tags as $tag ) {
-        $choices[$tag->id] = sprintf( '%s (%d)', $tag->name, $tag->member_count );
+        // Using tag->name here because API only accepts names and not IDs for tags
+        $choices[$tag->id] = $tag->name; // Must be the name without any additions because it is saved and used.
       }
     }
     
@@ -489,5 +513,120 @@ class Fontimator_MC {
       return false;
     }
     return true;
+  }
+  
+  /**
+   * Switch a user tag on or off
+   *
+   * @param string $tag_name The actual name of the tag (notice: not the ID)
+   * @param boolean $new_status
+   * @param string $user_email or null for current user
+   * @param string $list_id or null for main list
+   * @return boolean
+   */
+  public function set_user_tag( $tag_name, $new_status, $user_email = null, $list_id = null ) {
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
+
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
+
+    try {
+      $api = mc4wp_get_api_v3();
+      $api->update_list_member_tags( $list_id, $user_email, array(
+        'tags' => array(
+          array( 
+            'name' => $tag_name,
+            'status' => $new_status ? 'active' : 'inactive',
+          ),
+        )
+      ) );
+    } catch (\Throwable $th) {
+      return false;
+    }
+    return true;
+  }
+  
+
+
+  /**
+	 * Set subscriber status
+	 *
+	 * @param string $email
+	 * @param bool $new_status
+	 * @return bool Success
+	 */
+	public function set_subscription_tag( $email, $new_status ) {
+    $tag_name = $this->get_subscription_tag( 'name' );
+		if ($tag_name) {
+      return $this->set_user_tag( $tag_name, $new_status, $email );
+    }
+    return false;
 	}
+
+  /**
+   * Fires on any subscription status change to update the MC tag
+   *
+   * @param WC_Subscription $subscription
+   * @param string $new_status
+   * @param string $old_status
+   * @return void
+   */
+  public function update_subscription_status( $subscription, $new_status, $old_status ) {
+    $email = $subscription->get_billing_email();
+		if ( 'active' === $new_status ) {
+			$merge_code = 'on';
+			$success = $this->set_subscription_tag( $email, true );
+		} else {
+			$merge_code = 'off';
+			$success = $this->set_subscription_tag( $email, false );
+		}
+
+  
+    if ( ! $success ) {
+      WC_Admin_Notices::add_custom_notice(
+        "ftm_sync_subscription_error_{$email}",
+        // TRANSLATORS: %$1s: User email, %2$s: new status
+        sprintf( __( 'ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s', 'fontimator' ), $email, $merge_code )
+      );
+    }
+  }
+
+  /**
+   * Update subscribers in bulk on a segment or tag
+   *
+   * @param string $tag_id
+   * @param array $members_to_add
+   * @param array $members_to_remove
+   * @param string $list_id or null for the main list
+   * @return array counts of the removed & added emails
+   */
+  public function bulk_update_tag_subscribers( $tag_id, $members_to_add = array(), $members_to_remove = array(), $list_id = null ) {
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
+
+    try {
+      $resource = sprintf( '/lists/%s/segments/%s', $list_id, $tag_id );
+      $data = array(
+        'members_to_add' => $members_to_add,
+        'members_to_remove' => $members_to_remove,
+      );
+      $response = mc4wp_get_api_v3()->get_client()->post( $resource, $data );
+      
+      function map_member_to_email( $member ) {
+        return $member->email_address;
+      }
+
+      return array(
+        'added' => array_map( 'map_member_to_email', $response->members_added ),
+        'removed' => array_map( 'map_member_to_email', $response->members_removed ),
+      );
+    } catch (\Throwable $th) {
+      return $th;
+    }
+		return true;
+  }
 }

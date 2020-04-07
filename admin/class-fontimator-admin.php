@@ -221,6 +221,60 @@ class Fontimator_Admin {
 		die();
 	}
 
+	public function maybe_sync_retroactively_all_subscriptions ( $screen ) {
+		if ( ! strpos($screen->id, "fontimator-config") == true || ! isset( $_GET['sync_retroactively_all_subscriptions'] ) ) {
+			return;
+		}
+		
+		// Settings for long requests
+		ini_set('max_execution_time', 6000); // 6000 seconds = 100 minutes
+		ob_end_flush();
+		ob_implicit_flush( true );
+		ob_end_flush();
+
+		// Use file
+		$time = date('d-m-Y_His');
+		$log_file = fopen("/var/www/output/sync_retroactively_all_subscriptions_$time.txt", 'a') or die("Unable to open file!");;//opens file in append mode
+
+		$actives = array();
+		$inactives = array();
+
+		$args = array(
+			'subscriptions_per_page' => -1,
+		);
+		$subscriptions = wcs_get_subscriptions( $args );
+		foreach ( $subscriptions as $subscription ) {
+			$email = $subscription->get_billing_email();
+			if ( ! $email ) {
+				continue; // Apparently that can happen
+			}
+
+			$status = $subscription->get_status();
+
+			if ( 'active' === $status ) {
+				$actives[] = $email;
+			} else {
+				$inactives[] = $email;
+			}
+			
+		}
+		
+		// If a user has both active and inactive subscriptions, we want to add him but not remove him.
+		if ( $in_both = array_unique( array_intersect( $actives, $inactives ) ) ) {
+			$inactives = array_diff( $inactives, $in_both ); // Remove the mutual from the inactives
+		}
+
+		$tag_id = Fontimator::mc()->get_subscription_tag( 'id' );
+		$api_results = Fontimator::mc()->bulk_update_tag_subscribers( $tag_id, $actives, $inactives );
+
+		var_dump( $api_results );
+		
+		fwrite($log_file, "API Response:\n" . var_export( $api_results, true ));
+		fwrite($log_file, "#### DONE ####\n");
+		fclose($log_file);
+		die();
+	}
+
 	public function add_delete_user_link($user_object) {
 		if ( ! is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'delete_user', $user_object->ID ) ) {
 			echo "<a class='button button-link-delete' href='" . wp_nonce_url( "users.php?action=delete&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . 
