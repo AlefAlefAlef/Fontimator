@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) or exit;
 Fontimator::mc()->is_user_subscribed() or exit;
 
-$options = Fontimator::mc()->get_preference_options();
+$options = Fontimator::mc()->interest_groups;
 $user_groups = Fontimator::mc()->get_user_groups();
 
 if ( ! $options ) {
@@ -24,11 +24,13 @@ if ( ! $options ) {
     <span><?php _e( 'Which updates would you like to receive?', 'fontimator' ); ?></span>
     <?php
     
-    foreach ( $options as $key => $option ) {
+    foreach ( $options as $option ) {
+      $group_id = $option['ftm_interest_group'];
+      $label = $option['ftm_interest_label'];
       ?>
       <label class="form-full-checkbox">
-        <input type="checkbox" name="interests[<?php echo $key; ?>]" <?php echo ( in_array( $key, $user_groups ) ) ? 'checked' : ''; ?> />
-        <?php echo $option; ?>
+        <input type="checkbox" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
+        <?php echo $label; ?>
       </label>
       <?php
     }

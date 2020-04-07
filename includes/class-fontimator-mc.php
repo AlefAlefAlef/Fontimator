@@ -35,7 +35,7 @@ class Fontimator_MC {
     $this->main_list = $acf->get_field('ftm_main_list');
     $this->subscribe_groups = $acf->get_field('ftm_subscribe_groups');
     $this->academic_group = $acf->get_field('ftm_academic_group');
-    $this->preferences_group = $acf->get_field('ftm_preferences_group');
+    $this->interest_groups = $acf->get_field('ftm_interests_groups');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
   }
 
@@ -465,30 +465,6 @@ class Fontimator_MC {
 		return false;
   }
   
-  /**
-   * Get all the subgroups of the preferences group
-   *
-   * @return boolean
-   */
-  public function get_preference_options() {
-	  if ( ! $this->preferences_group ) {
-      return false;
-    }
-
-    // Find academic group cat in all groups
-    foreach ( (array) $this->mc4wp_mailchimp->get_list_interest_categories($this->main_list) as $group_cat ) {
-      if ( $group_cat->id == $this->preferences_group ) {
-        $preferences_group_cat = $group_cat;
-        break;
-      }
-    }
-
-    if ( ! $preferences_group_cat ) {
-      return false;
-    }
-
-    return $preferences_group_cat->interests;
-	}
   
   /**
    * Set the user groups
