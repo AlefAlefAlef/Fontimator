@@ -94,7 +94,7 @@ function run_fontimator() {
 }
 
 /**
- * Priority 4 here is to proceed the acf/init hook
- * @since 2.4.0
+ * after_setup_theme here is to proceed the acf/init hook and the MC4WP integration checking
+ * @since 2.4.2
  */
-add_action( 'init', 'run_fontimator', 4 );
+add_action( 'after_setup_theme', 'run_fontimator', 1 );

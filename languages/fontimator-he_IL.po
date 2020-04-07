@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2020-04-06 14:59+0300\n"
-"PO-Revision-Date: 2020-04-06 15:02+0300\n"
+"POT-Creation-Date: 2020-04-07 15:48+0300\n"
+"PO-Revision-Date: 2020-04-07 15:48+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -106,23 +106,34 @@ msgstr "דסקטופ"
 msgid ", %s license"
 msgstr ", רישיון %s"
 
-#: includes/class-fontimator-mc.php:65
+#: includes/class-fontimator-mc.php:63
 msgid "(no lists found, configure MC4WP first)"
 msgstr "(לא נמצאו רשימות, הגדר תחילה את MC4WP)"
 
-#: includes/class-fontimator-mc.php:84
+#: includes/class-fontimator-mc.php:82 includes/class-fontimator-mc.php:106
+#: includes/class-fontimator-mc.php:132 includes/class-fontimator-mc.php:159
 msgid "(Please save the page first)"
 msgstr "(אנא שמור קודם את הדף)"
 
-#: includes/class-fontimator-mc.php:86
+#: includes/class-fontimator-mc.php:84
 msgid "(no fields found, configure MC4WP first)"
 msgstr "(לא נמצאו שדות, הגדר תחילה את MC4WP)"
 
-#: includes/class-fontimator-mc.php:145 includes/class-fontimator-mc.php:169
+#: includes/class-fontimator-mc.php:108 includes/class-fontimator-mc.php:134
+msgid "(no groups found, configure MC4WP first)"
+msgstr "(לא נמצאו קבוצות, הגדר תחילה את MC4WP)"
+
+#: includes/class-fontimator-mc.php:161
+msgid "(no tags found, configure MC4WP first)"
+msgstr "(לא נמצאו תגיות, הגדר תחילה את MC4WP)"
+
+#: includes/class-fontimator-mc.php:344 includes/class-fontimator-mc.php:368
+#: includes/class-mc4wp-woocommerce-integration.php:170
 msgid "Man"
 msgstr "גבר"
 
-#: includes/class-fontimator-mc.php:147 includes/class-fontimator-mc.php:173
+#: includes/class-fontimator-mc.php:346 includes/class-fontimator-mc.php:372
+#: includes/class-mc4wp-woocommerce-integration.php:174
 msgid "Woman"
 msgstr "אישה"
 
@@ -145,6 +156,62 @@ msgid ""
 msgstr ""
 "אהלן %3$s! עדיין לא הגדרת סיסמה... כדי לגשת לאיזור האישי, %1$sיש ללחוץ כאן%2$s לאיפוס "
 "הסיסמה."
+
+#: includes/class-mc4wp-woocommerce-integration.php:50
+msgid "MailChimp Groups"
+msgstr "קבוצות MailChimp"
+
+#: includes/class-mc4wp-woocommerce-integration.php:75
+#: public/class-fontimator-myaccount.php:643
+msgid "How would you like to be addressed?"
+msgstr "איך לפנות אליך?"
+
+#: includes/class-mc4wp-woocommerce-integration.php:78
+#: public/class-fontimator-myaccount.php:646
+msgctxt "Gender field option in edit account form"
+msgid "As female"
+msgstr "לשון נקבה"
+
+#: includes/class-mc4wp-woocommerce-integration.php:79
+#: public/class-fontimator-myaccount.php:647
+msgctxt "Gender field option in edit account form"
+msgid "As male"
+msgstr "לשון זכר"
+
+#: includes/class-mc4wp-woocommerce-integration.php:86
+msgid "When should we celebrate your birthday?"
+msgstr "מתי לחגוג לך יום הולדת?"
+
+#: includes/class-mc4wp-woocommerce-integration.php:87
+msgid "required"
+msgstr "חובה"
+
+#: includes/class-mc4wp-woocommerce-integration.php:98
+msgctxt "Mailchimp birthday day field plaeholder"
+msgid "Day"
+msgstr "יום"
+
+#: includes/class-mc4wp-woocommerce-integration.php:101
+msgctxt "Mailchimp birthday field seperator"
+msgid " of"
+msgstr " ב־"
+
+#: includes/class-mc4wp-woocommerce-integration.php:106
+msgctxt "Mailchimp birthday month field plaeholder"
+msgid "Month"
+msgstr "חודש"
+
+#: includes/class-mc4wp-woocommerce-integration.php:131
+msgid "Missing gender"
+msgstr "רגע, לפנות אליך בלשון זכר או נקבה?"
+
+#: includes/class-mc4wp-woocommerce-integration.php:135
+msgid "Missing birthday day"
+msgstr "באיזה יום נולדת?"
+
+#: includes/class-mc4wp-woocommerce-integration.php:139
+msgid "Missing birthday month"
+msgstr "באיזה חודש נולדת?"
 
 #: includes/class-pdf-file.php:45
 msgid "There was an error generating the fonts catalog."
@@ -244,7 +311,7 @@ msgstr "לא ניתן לבדוק אם יש עדכונים ל %s."
 #: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:223
 #, php-format
 msgid "Unknown update checker status \"%s\""
-msgstr ""
+msgstr "סטטוס עדכון לא ידוע של \"%s\""
 
 #: includes/lib/plugin-update-checker/Puc/v4p9/Vcs/PluginUpdateChecker.php:98
 msgid "There is no changelog available."
@@ -318,7 +385,7 @@ msgid ""
 "Fontimator Error: No fonts found. Are you sure you have WooCommerce products active?"
 msgstr "שגיאת פוֹנטִימָטוֹר: לא נמצאו גופנים. האם אתה בטוח שיש לך מוצרי WooCommerce פעילים?"
 
-#: public/class-fontimator-myaccount.php:428
+#: public/class-fontimator-myaccount.php:430
 #, php-format
 msgid ""
 "<strong>Please note:</strong> You had an Academic License until December 31st, %s, "
@@ -327,33 +394,33 @@ msgstr ""
 "‫<strong>רישיונות עבר:</strong> היה לך רישיון שימוש אקדמי בספריית הפונטים שלנו שהסתיים "
 "ב־31 בדצמבר %s."
 
-#: public/class-fontimator-myaccount.php:448
+#: public/class-fontimator-myaccount.php:450
 msgid "Cancel (unavailable during the first 32 months)"
 msgstr "ביטול (לא זמין במהלך 3 השנים הראשונות)"
 
-#: public/class-fontimator-myaccount.php:450
+#: public/class-fontimator-myaccount.php:452
 msgid "Cancel (unavailable during the first year)"
 msgstr "ביטול (לא זמין במהלך השנה הראשונה)"
 
-#: public/class-fontimator-myaccount.php:481
+#: public/class-fontimator-myaccount.php:483
 msgid "Updated your downloads list. We hope everything is here this time!"
 msgstr ""
 "רשימת ההורדות שלך עודכנה. אם רכשת רישיונות שלא מופיעים פה, כדאי לך <a href=\"/contact"
 "\" target-=\"_blank\">לכתוב לנו</a> כדי שנסדר את זה."
 
-#: public/class-fontimator-myaccount.php:494
+#: public/class-fontimator-myaccount.php:496
 msgid "Select All"
 msgstr "לסמן הכל"
 
-#: public/class-fontimator-myaccount.php:495
+#: public/class-fontimator-myaccount.php:497
 msgid "Unselect All"
 msgstr "לסמן כלום"
 
-#: public/class-fontimator-myaccount.php:496
+#: public/class-fontimator-myaccount.php:498
 msgid "Download Selected"
 msgstr "הורדת קבצים מסומנים"
 
-#: public/class-fontimator-myaccount.php:611
+#: public/class-fontimator-myaccount.php:613
 #, php-format
 msgid ""
 "Each time you download fonts from this page you agree to the <strong>current</strong> "
@@ -361,7 +428,7 @@ msgid ""
 msgstr ""
 "כל הורדה של פונטים מעמוד זה מותנית בהסכמה ל<a href='%s'>תנאי השימוש</a> העדכניים."
 
-#: public/class-fontimator-myaccount.php:617
+#: public/class-fontimator-myaccount.php:619
 #, php-format
 msgid ""
 "Missing something? If you have previously purchased a font license that isn't listed "
@@ -370,19 +437,13 @@ msgstr ""
 "אם רכשת רישיון שימוש שלא מופיע פה, אפשר <a href='%s'>ללחוץ כאן</a> כדי לרענן את "
 "הרשימה."
 
-#: public/class-fontimator-myaccount.php:641
-msgid "How would you like to be addressed?"
-msgstr "איך לפנות אליך?"
+#: public/class-fontimator-myaccount.php:702
+msgid "Email Preferences"
+msgstr "העדפות מיילים"
 
-#: public/class-fontimator-myaccount.php:644
-msgctxt "Gender field option in edit account form"
-msgid "As female"
-msgstr "לשון נקבה"
-
-#: public/class-fontimator-myaccount.php:645
-msgctxt "Gender field option in edit account form"
-msgid "As male"
-msgstr "לשון זכר"
+#: public/class-fontimator-myaccount.php:748
+msgid "Email preferences were updated successfully."
+msgstr "העדפות המיילים שלך עודכנו בהצלחה."
 
 #: public/class-fontimator-public.php:81
 #, php-format
@@ -853,6 +914,31 @@ msgstr "אל קטלוג הפונטים"
 msgid ""
 "Hey %s, Once you purchase some fonts, an awesome dashboard will be activated here."
 msgstr "היי %s, לוח הבקרה המשוכלל יופיע פה אחרי הרכישה הראשונה שלך."
+
+#: public/partials/fontimator-myaccount-email-preferences.php:15
+msgid "There was a problem loading this page, please let us know."
+msgstr "הייתה בעיה בטעינת הדף הזה... :( אם יש לך דקה, נשמח לשמוע על זה ממך במייל."
+
+#: public/partials/fontimator-myaccount-email-preferences.php:22
+msgid "Let's stay in touch!"
+msgstr "בוא נישאר בקשר!"
+
+#: public/partials/fontimator-myaccount-email-preferences.php:23
+msgid ""
+"Every once in a while we send emails with updates about new fonts, special discounts "
+"& offers, tips for designers, free stuff and a lot of inspiration. We don't spam, and "
+"we will never give away your details to strangers."
+msgstr ""
+"בכל כמה זמן אנחנו שולחים מיילים עם עדכוני פונטים חדשים, מבצעים מיוחדים, טיפים "
+"למעצבים, חינמיים והמון השראה. אנחנו לא מספימים ואף פעם לא נמסור את הפרטים שלך לזרים."
+
+#: public/partials/fontimator-myaccount-email-preferences.php:24
+msgid "Which updates would you like to receive?"
+msgstr "על מה בא לך לשמוע מאיתנו?"
+
+#: public/partials/fontimator-myaccount-email-preferences.php:41
+msgid "Save email preferences"
+msgstr "עדכון העדפות מיילים"
 
 #: public/partials/shortcode-free-download.php:12
 #: public/partials/shortcode-free-download.php:54

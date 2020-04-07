@@ -25,3 +25,11 @@
 	font-size: 1.3em;
 	cursor: pointer;
 }
+
+.woocommerce-EmailPreferencesForm .form-full-checkbox {
+	margin-right: 2em;
+}
+
+.woocommerce-EmailPreferencesForm .newsletter-text {
+	max-width: 38em;
+}
