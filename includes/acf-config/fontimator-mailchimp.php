@@ -178,7 +178,7 @@ acf_add_local_field_group(array(
 		array(
 			'key' => 'field_5e8ce5531cf36',
 			'label' => 'Interests Groups',
-			'name' => 'ftm_interests_groups',
+			'name' => 'ftm_interest_groups',
 			'type' => 'repeater',
 			'instructions' => 'Each row represents a group the user can subscribe or unsubscribe to in their dashboard.',
 			'required' => 0,

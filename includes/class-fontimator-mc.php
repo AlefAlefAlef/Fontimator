@@ -35,7 +35,7 @@ class Fontimator_MC {
     $this->main_list = $acf->get_field('ftm_main_list');
     $this->subscribe_groups = $acf->get_field('ftm_subscribe_groups');
     $this->academic_group = $acf->get_field('ftm_academic_group');
-    $this->interest_groups = $acf->get_field('ftm_interests_groups');
+    $this->interest_groups = $acf->get_field('ftm_interest_groups');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
   }
 
