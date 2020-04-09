@@ -386,7 +386,7 @@ class Fontimator_Public {
 						$gender_specific_yourelooking,
 						$product->get_name(), 
 						$gender_specific_enter,
-						'<a href="' . esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) . 'downloads' ) . '">',
+						'<a class="button b-small b-inline" href="' . esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) . 'downloads' ) . '">',
 						'</a>'
 				);
 				echo '</div>';

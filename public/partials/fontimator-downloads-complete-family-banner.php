@@ -59,7 +59,7 @@ $add_missing_weights_to_cart_url = esc_url_raw( add_query_arg( 'ftm-add-to-cart'
 				$font->get_title()
 			) ); ?>
 		</p>
-		<a class="button" href="<?php echo $add_missing_weights_to_cart_url; ?>">
+		<a class="button b-retro" href="<?php echo $add_missing_weights_to_cart_url; ?>">
 			<i class="icon" data-icon="Ý"></i> <?php _e( 'Add the missing weights to my cart!', 'fontimator' ); ?>
 		</a>
 	</div>
