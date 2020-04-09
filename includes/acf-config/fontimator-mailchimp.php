@@ -4,7 +4,7 @@ acf_add_local_field_group(array(
 	'title' => 'MailChimp Settings',
 	'fields' => array(
 		array(
-			'key' => 'field_5e8afe813076a',
+			'key' => 'ftm_main_list',
 			'label' => 'Main List',
 			'name' => 'ftm_main_list',
 			'type' => 'select',
@@ -28,7 +28,7 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'field_5e8b00403076d',
+			'key' => 'ftm_gender_merge_field',
 			'label' => 'Gender Merge Field',
 			'name' => 'ftm_gender_merge_field',
 			'type' => 'select',
@@ -37,7 +37,7 @@ acf_add_local_field_group(array(
 			'conditional_logic' => array(
 				array(
 					array(
-						'field' => 'field_5e8afe813076a',
+						'field' => 'ftm_main_list',
 						'operator' => '!=empty',
 					),
 				),
@@ -59,7 +59,7 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'field_5e8b00403073e',
+			'key' => 'ftm_subscribe_groups',
 			'label' => 'Website Group',
 			'name' => 'ftm_subscribe_groups',
 			'type' => 'select',
@@ -68,7 +68,7 @@ acf_add_local_field_group(array(
 			'conditional_logic' => array(
 				array(
 					array(
-						'field' => 'field_5e8afe813076a',
+						'field' => 'ftm_main_list',
 						'operator' => '!=empty',
 					),
 				),
@@ -90,7 +90,7 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'ftm_subscription_tag_obj2',
+			'key' => 'ftm_subscription_tag_obj',
 			'label' => 'Fonts Subscription Tag',
 			'name' => 'ftm_subscription_tag_obj',
 			'type' => 'select',
@@ -99,7 +99,7 @@ acf_add_local_field_group(array(
 			'conditional_logic' => array(
 				array(
 					array(
-						'field' => 'field_5e8afe813076a',
+						'field' => 'ftm_main_list',
 						'operator' => '!=empty',
 					),
 				),
@@ -145,7 +145,7 @@ acf_add_local_field_group(array(
 			'esc_html' => 0,
 		),
 		array(
-			'key' => 'field_5e8aff7e2076b',
+			'key' => 'ftm_academic_group',
 			'label' => 'Academic Group',
 			'name' => 'ftm_academic_group',
 			'type' => 'select',
@@ -154,7 +154,7 @@ acf_add_local_field_group(array(
 			'conditional_logic' => array(
 				array(
 					array(
-						'field' => 'field_5e8afe813076a',
+						'field' => 'ftm_main_list',
 						'operator' => '!=empty',
 					),
 				),
@@ -176,7 +176,7 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'field_5e8ce5531cf36',
+			'key' => 'ftm_interest_groups',
 			'label' => 'Interests Groups',
 			'name' => 'ftm_interest_groups',
 			'type' => 'repeater',
@@ -185,7 +185,7 @@ acf_add_local_field_group(array(
 			'conditional_logic' => array(
 				array(
 					array(
-						'field' => 'field_5e8afe813076a',
+						'field' => 'ftm_main_list',
 						'operator' => '!=empty',
 					),
 				),
@@ -195,14 +195,14 @@ acf_add_local_field_group(array(
 				'class' => '',
 				'id' => '',
 			),
-			'collapsed' => 'field_5e8ce58f1cf37',
+			'collapsed' => 'ftm_interest_group',
 			'min' => 0,
 			'max' => 0,
 			'layout' => 'table',
 			'button_label' => 'Another group',
 			'sub_fields' => array(
 				array(
-					'key' => 'field_5e8ce58f1cf37',
+					'key' => 'ftm_interest_group',
 					'label' => 'Group',
 					'name' => 'ftm_interest_group',
 					'type' => 'select',
@@ -226,7 +226,7 @@ acf_add_local_field_group(array(
 					'placeholder' => '',
 				),
 				array(
-					'key' => 'field_5e8ce5d11cf38',
+					'key' => 'ftm_interest_label',
 					'label' => 'Label',
 					'name' => 'ftm_interest_label',
 					'type' => 'text',
