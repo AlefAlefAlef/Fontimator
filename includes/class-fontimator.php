@@ -111,7 +111,9 @@ class Fontimator {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_myaccount_hooks();
-
+		
+		// Must run after define_constants()
+		$this->acf->config();
 	}
 
 	public static function get_instance() {
@@ -259,9 +261,6 @@ class Fontimator {
 	}
 
 	private function define_global_hooks() {
-		// ACF
-		$this->loader->add_action( 'wp_loaded', $this->acf, 'config' );
-
 		// Zipomator
 		$zipomator = new Zipomator();
 		$zipomator->add_rewrite_rules();
