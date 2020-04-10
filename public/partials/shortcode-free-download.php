@@ -14,28 +14,15 @@ $download    = new Fontimator_Free_Download( $download_id );
 
 	if ( isset( $_POST['download-id'] ) && $_POST['download-id'] === $download_id ) {
 
-
 		if ( $_POST['download-user-name'] && $_POST['download-user-email'] && 'on' === $_POST['download-terms'] ) {
-			if ( 'on' === $_POST['download-newsletter'] && function_exists( 'mc4wp_get_api' ) && is_email( $_POST['download-user-email'] ) ) {
-				$list_id       = '339375dbbe'; // Freefonts list
+			if ( Fontimator::mc()->enabled() && 'on' === $_POST['download-newsletter'] && is_email( $_POST['download-user-email'] ) ) {
 				$email         = $_POST['download-user-email'];
-				$api           = mc4wp_get_api();
 				$exploded_name = explode( ' ', $_POST['download-user-name'] );
 				$first_name    = array_shift( $exploded_name );
 				$last_name     = implode( ' ', $exploded_name );
-
-				$api->subscribe(
-					$list_id,
-					$email,
-					array(
-						'FNAME' => $first_name,
-						'LNAME' => $last_name,
-					),
-					null,
-					true // This is double opt-in for TipoTip
-				);
-
+				Fontimator::mc()->add_subscriber_to_freefonts_group( $email, $first_name, $last_name );
 			}
+
 			$download->register_download( $_POST['download-user-name'], $_POST['download-user-email'] );
 			wp_redirect( $download->get_url() );
 		} else {
@@ -85,7 +72,7 @@ $download    = new Fontimator_Free_Download( $download_id );
 			<?php } ?>
 		</label>
 
-		<?php if ( 'poster' != $download_type ) { ?>
+		<?php if ( Fontimator::mc()->enabled() && 'poster' != $download_type ) { ?>
 			<label>
 				<input type="checkbox" name="download-newsletter" class="tipotip-checkbox">
 				<?php _e( 'Subscribe me to the newsletter!', 'fontimator' ); ?>

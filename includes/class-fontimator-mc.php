@@ -35,6 +35,7 @@ class Fontimator_MC {
     $this->main_list = $acf->get_field('ftm_main_list');
     $this->subscribe_groups = $acf->get_field('ftm_subscribe_groups');
     $this->academic_group = $acf->get_field('ftm_academic_group');
+    $this->freefonts_group = $acf->get_field('ftm_freefonts_group');
     $this->interest_groups = $acf->get_field('ftm_interest_groups');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
     $this->subscription_sync_group = $acf->get_field('ftm_subscription_sync_group');
@@ -640,5 +641,73 @@ class Fontimator_MC {
 
     $response = $this->batch_request( $operations );
     return $response;
+  }
+
+  /**
+  * Add or update (!) a member to a Mailchimp list. PATCHED to support the skip_merge_validation query param
+  * @link https://github.com/ibericode/mailchimp-for-wordpress/pull/682 GITHUB PULL REQUEST. When merged, revert to the real plugin API
+  *
+  * @link https://developer.mailchimp.com/documentation/mailchimp/reference/lists/members/#create-post_lists_list_id_members
+  *
+  * @param string $list_id
+  * @param array $args
+  * @param bool $skip_merge_validation
+  *
+  * @return object
+  * @throws MC4WP_API_Exception
+  */
+  public function add_list_member( $list_id, array $args, $skip_merge_validation = false ) {
+    $subscriber_hash = mc4wp_get_api_v3()->get_subscriber_hash( $args['email_address'] );
+    $resource        = sprintf( '/lists/%s/members/%s', $list_id, $subscriber_hash );
+    
+    if ( $skip_merge_validation ) {
+      $resource = add_query_arg( array( 'skip_merge_validation' => 'true' ), $resource );
+    }
+    
+    // make sure we're sending an object as the Mailchimp schema requires this
+    if ( isset( $args['merge_fields'] ) ) {
+      $args['merge_fields'] = (object) $args['merge_fields'];
+    }
+    
+    if ( isset( $args['interests'] ) ) {
+      $args['interests'] = (object) $args['interests'];
+    }
+    
+    // "put" updates the member if it's already on the list... take notice
+    $data = mc4wp_get_api_v3()->get_client()->put( $resource, $args );
+    return $data;
+  }
+  
+  /**
+   * Add a user to the freefonts group and subscribe if not yet subscribed
+   *
+   * @param string $user_email
+   * @param string $first_name
+   * @param string $last_name
+   * @return bool success
+   */
+  public function add_subscriber_to_freefonts_group( $user_email, $first_name, $last_name ) {
+    $list_id = $this->freefonts_group;
+    if ( ! $list_id || ! $this->main_list ) {
+      return false;
+    }
+
+    try {
+      $this->add_list_member( $this->main_list, array(
+        'email_address' =>  $user_email,
+        'status_if_new' => 'pending',
+        'interests' => array(
+          $list_id => true,
+        ),
+        'merge_fields' => array(
+          'FNAME' => $first_name,
+          'LNAME' => $last_name,
+        ),
+      ), true );
+    } catch (\Throwable $th) {
+      var_dump($th);die();
+      return false;
+    }
+    return true;
   }
 }

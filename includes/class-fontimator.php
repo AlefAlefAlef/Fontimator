@@ -273,6 +273,7 @@ class Fontimator {
 			$this->loader->add_action( 'acf/init', $this->mc, 'set_private_config' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_main_list', 		$this->mc, 'populate_acf_field_with_mailchimp_lists' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_academic_group', $this->mc, 'populate_acf_field_with_mailchimp_group_categories' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_freefonts_group', $this->mc, 'populate_acf_field_with_mailchimp_groups' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_interest_group', $this->mc, 'populate_acf_field_with_mailchimp_groups' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_gender_merge_field', 			$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_subscription_sync_group', 	$this->mc, 'populate_acf_field_with_mailchimp_groups' );

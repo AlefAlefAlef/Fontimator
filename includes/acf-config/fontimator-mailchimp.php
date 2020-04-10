@@ -176,6 +176,37 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
+			'key' => 'ftm_freefonts_group',
+			'label' => 'Free Fonts Group',
+			'name' => 'ftm_freefonts_group',
+			'type' => 'select',
+			'instructions' => 'The group category that users get subscribed to once they download a free font.',
+			'required' => 0,
+			'conditional_logic' => array(
+				array(
+					array(
+						'field' => 'ftm_main_list',
+						'operator' => '!=empty',
+					),
+				),
+			),
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array(
+			),
+			'default_value' => array(
+			),
+			'allow_null' => 1,
+			'multiple' => 0,
+			'ui' => 0,
+			'return_format' => 'value',
+			'ajax' => 0,
+			'placeholder' => '',
+		),
+		array(
 			'key' => 'ftm_interest_groups',
 			'label' => 'Interests Groups',
 			'name' => 'ftm_interest_groups',
