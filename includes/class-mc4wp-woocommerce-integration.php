@@ -41,28 +41,6 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 		if (file_exists($file)) {
 			include $file;
 		}
-
-		// Groups
-		?>
-		<table class="form-table">
-			<tr valign="top">
-				<th scope="row">
-					<?php _e( 'MailChimp Groups', 'fontimator' ); ?>
-				</th>
-				<td>
-					<select name="mc4wp_integrations[<?php echo $integration->slug; ?>][groups]">
-						<?php
-
-						foreach ( $position_options as $value => $label ) {
-							printf( '<option value="%s" %s>%s</option>', esc_attr( $value ), selected( $value, $opts['position'], false ), esc_html( $label ) );
-						}
-						?>
-
-					</select>
-				</td>
-			</tr>
-		</table>
-		<?php
 	}
 
 	public function print_merge_fields() {

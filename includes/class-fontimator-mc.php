@@ -613,6 +613,8 @@ class Fontimator_MC {
   /**
    * Update subscribers in bulk on a group
    * 
+   * @link https://rudrastyh.com/mailchimp-api/batches.html
+   * 
    * @param string $group_id
    * @param array $members_to_update Array of email addresses as keys and boolean (add or remove) as value
    * @param string $list_id or null for the main list
