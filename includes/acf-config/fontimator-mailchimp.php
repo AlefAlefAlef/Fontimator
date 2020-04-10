@@ -90,11 +90,11 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
-			'key' => 'ftm_subscription_tag_obj',
-			'label' => 'Fonts Subscription Tag',
-			'name' => 'ftm_subscription_tag_obj',
+			'key' => 'ftm_subscription_sync_group',
+			'label' => 'Fonts Subscription Group',
+			'name' => 'ftm_subscription_sync_group',
 			'type' => 'select',
-			'instructions' => 'The tag to sync subscribed status to, on the main list',
+			'instructions' => 'The group to sync memberships to, on the main list',
 			'required' => 0,
 			'conditional_logic' => array(
 				array(
@@ -130,7 +130,7 @@ acf_add_local_field_group(array(
 			'conditional_logic' => array(
 				array(
 					array(
-						'field' => 'ftm_subscription_tag_obj',
+						'field' => 'ftm_subscription_sync_group',
 						'operator' => '!=empty',
 					),
 				),
@@ -140,7 +140,7 @@ acf_add_local_field_group(array(
 				'class' => '',
 				'id' => '',
 			),
-			'message' => '<a class="button-secondary" onclick="return confirm(\'Are you sure? This will override the selected tag\')" href="admin.php?page=fontimator-config&sync_retroactively_all_subscriptions=1">Sync all subscriptions to the selected list</a><br /><small>Log file will be saved in <code>/var/www/output/</code></small>',
+			'message' => '<a class="button-secondary" onclick="return confirm(\'Are you sure? This will override the selected group\')" href="admin.php?page=fontimator-config&sync_retroactively_all_subscriptions=1">Sync all subscriptions to the selected list</a><br /><small>Log file will be saved in <code>/var/www/output/</code></small>',
 			'new_lines' => '',
 			'esc_html' => 0,
 		),

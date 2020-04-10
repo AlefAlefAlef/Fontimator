@@ -236,7 +236,7 @@ class Fontimator_Admin {
 		$time = date('d-m-Y_His');
 		$log_file = fopen("/var/www/output/sync_retroactively_all_subscriptions_$time.txt", 'a') or die("Unable to open file!");;//opens file in append mode
 
-		$actives = array();
+		$members_to_update = array();
 		$inactives = array();
 
 		$args = array(
@@ -252,21 +252,24 @@ class Fontimator_Admin {
 			$status = $subscription->get_status();
 
 			if ( 'active' === $status ) {
-				$actives[] = $email;
+				$members_to_update[ $email ] = true;
 			} else {
 				$inactives[] = $email;
 			}
 			
 		}
 		
-		// If a user has both active and inactive subscriptions, we want to add him but not remove him.
-		if ( $in_both = array_unique( array_intersect( $actives, $inactives ) ) ) {
-			$inactives = array_diff( $inactives, $in_both ); // Remove the mutual from the inactives
+		foreach ( $inactives as $inactive ) {
+			// If a user has both active and inactive subscriptions, we want to add him but not remove him.
+			if ( ! in_array( $inactive, array_keys( $members_to_update ) ) ) {
+				$members_to_update[ $inactive ] = false;
+			}
 		}
 
-		$tag_id = Fontimator::mc()->get_subscription_tag( 'id' );
-		$api_results = Fontimator::mc()->bulk_update_tag_subscribers( $tag_id, $actives, $inactives );
+		$group_id = Fontimator::mc()->subscription_sync_group;
+		$api_results = Fontimator::mc()->bulk_update_group_subscribers( $group_id, $members_to_update );
 
+		echo '<h1>Note to self: read the response, GET `/batches/{batch_id}`, take the URL from _links field and GET it with the API key using POSTMAN or something. There there is a ZIP file you can download with all the responses.</h1>';
 		var_dump( $api_results );
 		
 		fwrite($log_file, "API Response:\n" . var_export( $api_results, true ));

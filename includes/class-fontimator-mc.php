@@ -37,30 +37,7 @@ class Fontimator_MC {
     $this->academic_group = $acf->get_field('ftm_academic_group');
     $this->interest_groups = $acf->get_field('ftm_interest_groups');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
-  }
-
-  public function get_subscription_tag( $format = 'array' ) {
-    $tag = Fontimator::acf()->get_field('ftm_subscription_tag_obj');
-    if ( $tag ) {
-      switch ( $format ) {
-        case 'label':
-        case 'name':
-          return $tag[ 'label' ];
-        break;
-
-        case 'value':
-        case 'id':
-          return $tag[ 'value' ];
-        break;
-
-        case 'array':
-        default:
-          return $tag;
-        break;  
-      }
-    }
-
-    return null;
+    $this->subscription_sync_group = $acf->get_field('ftm_subscription_sync_group');
   }
 
   public function enabled() {
@@ -534,10 +511,12 @@ class Fontimator_MC {
 	 * @param bool $new_status
 	 * @return bool Success
 	 */
-	public function set_subscription_tag( $email, $new_status ) {
-    $tag_name = $this->get_subscription_tag( 'name' );
-		if ($tag_name) {
-      return $this->set_user_tag( $tag_name, $new_status, $email );
+	public function set_subscription_group( $email, $new_status ) {
+    $group_id = $this->subscription_sync_group;
+		if ($group_id) {
+      return $this->update_user_groups( array(
+        $group_id => $new_status,
+      ), null, $email );
     }
     return false;
 	}
@@ -554,10 +533,10 @@ class Fontimator_MC {
     $email = $subscription->get_billing_email();
 		if ( 'active' === $new_status ) {
 			$merge_code = 'on';
-			$success = $this->set_subscription_tag( $email, true );
+			$success = $this->set_subscription_group( $email, true );
 		} else {
 			$merge_code = 'off';
-			$success = $this->set_subscription_tag( $email, false );
+			$success = $this->set_subscription_group( $email, false );
 		}
 
   
@@ -572,12 +551,14 @@ class Fontimator_MC {
 
   /**
    * Update subscribers in bulk on a segment or tag
+   * 
+   * @link https://mailchimp.com/developer/reference/lists/list-segments/#post_/lists/-list_id-/segments/-segment_id-
    *
    * @param string $tag_id
    * @param array $members_to_add
    * @param array $members_to_remove
    * @param string $list_id or null for the main list
-   * @return array counts of the removed & added emails
+   * @return array removed & added emails
    */
   public function bulk_update_tag_subscribers( $tag_id, $members_to_add = array(), $members_to_remove = array(), $list_id = null ) {
     if ( ! $list_id ) {
@@ -591,18 +572,73 @@ class Fontimator_MC {
         'members_to_remove' => $members_to_remove,
       );
       $response = mc4wp_get_api_v3()->get_client()->post( $resource, $data );
-      
-      function map_member_to_email( $member ) {
-        return $member->email_address;
-      }
 
-      return array(
-        'added' => array_map( 'map_member_to_email', $response->members_added ),
-        'removed' => array_map( 'map_member_to_email', $response->members_removed ),
-      );
     } catch (\Throwable $th) {
       return $th;
     }
-		return true;
+        
+    function map_member_to_email( $member ) {
+      return $member->email_address;
+    }
+
+    return array(
+      'added' => array_map( 'map_member_to_email', $response->members_added ),
+      'removed' => array_map( 'map_member_to_email', $response->members_removed ),
+    );
+  }
+
+
+  /**
+   * Send a batch API operation
+   *
+   * @link https://mailchimp.com/developer/reference/batch-operations/
+   * 
+   * @param array $operations array of operations containing method, path and body
+   * @return Throwable|stdClass Response
+   */
+  public function batch_request( array $operations ) {
+    try {
+      $data = array(
+        'operations' => $operations,
+      );
+      $response = mc4wp_get_api_v3()->get_client()->post( '/batches', $data );
+    } catch (\Throwable $th) {
+      return $th;
+    }
+
+    return $response;
+  }
+
+  /**
+   * Update subscribers in bulk on a group
+   * 
+   * @param string $group_id
+   * @param array $members_to_update Array of email addresses as keys and boolean (add or remove) as value
+   * @param string $list_id or null for the main list
+   * @return Throwable|null
+   */
+  public function bulk_update_group_subscribers( $group_id, $members_to_update = array(), $list_id = null ) {
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
+
+    $operations = array();
+
+    foreach ( $members_to_update as $email_address => $update_action ) {
+      $subscriber_hash = mc4wp_get_api_v3()->get_subscriber_hash( $email_address );
+		  $resource        = sprintf( '/lists/%s/members/%s', $list_id, $subscriber_hash );
+      $operations[] = array(
+        'method' => 'PATCH',
+        'path' => $resource,
+        'body' => json_encode( array(
+          'interests' => array(
+            $group_id => $update_action,
+          ),
+        ) ),
+      );
+    }
+
+    $response = $this->batch_request( $operations );
+    return $response;
   }
 }
