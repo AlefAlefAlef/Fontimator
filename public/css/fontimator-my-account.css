@@ -65,6 +65,7 @@
 	    -ms-user-select: text;
 					user-select: text;
 	cursor: pointer;
+	display: block;
 }
 
 .woocommerce-EmailPreferencesForm .newsletter-text {

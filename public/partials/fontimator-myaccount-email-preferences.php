@@ -27,11 +27,28 @@ if ( ! $options ) {
       
       foreach ( $options as $option ) {
         $group_id = $option['ftm_interest_group'];
+        $icon = $option['ftm_interest_icon'];
         $label = $option['ftm_interest_label'];
+        $description = $option['ftm_interest_description'];
+        $frequency = $option['ftm_interest_frequency'];
         ?>
         <label class="form-full-checkbox">
           <input type="checkbox" class="ios-checkbox" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
-          <?php echo $label; ?>
+          <?php if ( $icon ) { ?>
+            <i class="icon" data-icon="<?php echo esc_attr($icon); ?>"></i>
+          <?php } ?>
+          
+          <?php if ( $label ) { ?>
+            <span class="title"><?php echo $label; ?></span>
+          <?php } ?>
+
+          <?php if ( $description ) { ?>
+            <span class="description">— <?php echo $description; ?></span>
+          <?php } ?>
+
+          <?php if ( $frequency ) { ?>
+            <span class="frequency" data-icon="Ó"><?php echo $frequency; ?></span>
+          <?php } ?>
         </label>
         <?php
       }
