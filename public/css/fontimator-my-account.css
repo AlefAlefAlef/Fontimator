@@ -26,8 +26,45 @@
 	cursor: pointer;
 }
 
-.woocommerce-EmailPreferencesForm .form-full-checkbox {
-	margin-right: 2em;
+/*
+ * iOS Checkboxes
+ */
+.ios-ui-select {
+  background: #f5f5f3;
+  border: none;
+  height: 36px;
+  background: #dddddd;
+  border-radius: 18px;
+  width: 60px;
+  -webkit-transition: all 0.3s ease-in-out;
+          transition: all 0.3s ease-in-out;
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+  display: inline-block; }
+  .ios-ui-select.checked {
+    box-shadow: inset 0 0 0 36px #6ddc5f; }
+    .ios-ui-select.checked .inner {
+      left: 27px; }
+  .ios-ui-select .inner {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 100%;
+    background: white;
+    -webkit-transition: all 350ms cubic-bezier(0, 0.89, 0.44, 1);
+            transition: all 350ms cubic-bezier(0, 0.89, 0.44, 1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.1); }
+
+
+.woocommerce-EmailPreferencesForm label.form-full-checkbox {
+	-webkit-user-select: text;
+	   -moz-user-select: text;
+	    -ms-user-select: text;
+					user-select: text;
+	cursor: pointer;
 }
 
 .woocommerce-EmailPreferencesForm .newsletter-text {

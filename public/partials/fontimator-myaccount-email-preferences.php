@@ -30,7 +30,7 @@ if ( ! $options ) {
         $label = $option['ftm_interest_label'];
         ?>
         <label class="form-full-checkbox">
-          <input type="checkbox" class="ios" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
+          <input type="checkbox" class="ios-checkbox" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
           <?php echo $label; ?>
         </label>
         <?php
