@@ -22,19 +22,21 @@ if ( ! $options ) {
   <p class="newsletter-text"><?php _e( 'Every once in a while we send emails with updates about new fonts, special discounts & offers, tips for designers, free stuff and a lot of inspiration. We don\'t spam, and we will never give away your details to strangers.', 'fontimator' ); ?></p>
   <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
     <span><?php _e( 'Which updates would you like to receive?', 'fontimator' ); ?></span>
-    <?php
-    
-    foreach ( $options as $option ) {
-      $group_id = $option['ftm_interest_group'];
-      $label = $option['ftm_interest_label'];
-      ?>
-      <label class="form-full-checkbox">
-        <input type="checkbox" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
-        <?php echo $label; ?>
-      </label>
+    <div class="interest-groups">
       <?php
-    }
-    ?>
+      
+      foreach ( $options as $option ) {
+        $group_id = $option['ftm_interest_group'];
+        $label = $option['ftm_interest_label'];
+        ?>
+        <label class="form-full-checkbox">
+          <input type="checkbox" class="ios" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
+          <?php echo $label; ?>
+        </label>
+        <?php
+      }
+      ?>
+    </div>
   </p>
   <div class="clear"></div>
 
