@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2020-04-10 15:11+0300\n"
-"PO-Revision-Date: 2020-04-10 15:15+0300\n"
+"PO-Revision-Date: 2020-04-11 16:58+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -141,7 +141,7 @@ msgstr "אישה"
 #, php-format
 msgid ""
 "ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s"
-msgstr ""
+msgstr "שגיאה: הפונטימטור לא הצליח להגדיר את השדות של משתמש %1$s אל %2$s"
 
 #: includes/class-fontimator-woocommerce.php:73
 msgid "From: "
@@ -186,38 +186,38 @@ msgstr "לשון זכר"
 
 #: includes/class-mc4wp-woocommerce-integration.php:86
 msgid "When should we celebrate your birthday?"
-msgstr ""
+msgstr "מתי יום ההולדת שלך?"
 
 #: includes/class-mc4wp-woocommerce-integration.php:87
 msgid "required"
-msgstr ""
+msgstr "שדה חובה"
 
 #: includes/class-mc4wp-woocommerce-integration.php:98
 msgctxt "Mailchimp birthday day field plaeholder"
 msgid "Day"
-msgstr ""
+msgstr "יום"
 
 #: includes/class-mc4wp-woocommerce-integration.php:101
 msgctxt "Mailchimp birthday field seperator"
 msgid " of"
-msgstr ""
+msgstr " ב־"
 
 #: includes/class-mc4wp-woocommerce-integration.php:106
 msgctxt "Mailchimp birthday month field plaeholder"
 msgid "Month"
-msgstr ""
+msgstr "חודש"
 
 #: includes/class-mc4wp-woocommerce-integration.php:131
 msgid "Missing gender"
-msgstr ""
+msgstr "חסר מגדר"
 
 #: includes/class-mc4wp-woocommerce-integration.php:135
 msgid "Missing birthday day"
-msgstr ""
+msgstr "‫חסר יום הולדת (יום)"
 
 #: includes/class-mc4wp-woocommerce-integration.php:139
 msgid "Missing birthday month"
-msgstr ""
+msgstr "חסר יום הולדת (חודש)"
 
 #: includes/class-pdf-file.php:45
 msgid "There was an error generating the fonts catalog."
@@ -286,12 +286,12 @@ msgstr "שגיאת זיפומטור: קישור הורדה לא תקין. (%s)"
 
 #: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:54
 msgid "View details"
-msgstr ""
+msgstr "פרטים נוספים"
 
 #: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:77
 #, php-format
 msgid "More information about %s"
-msgstr ""
+msgstr "עוד מידע על %s"
 
 #: includes/lib/plugin-update-checker/Puc/v4p9/Plugin/Ui.php:128
 msgid "Check for updates"
@@ -904,7 +904,7 @@ msgstr "הורדה"
 #: public/partials/fontimator-myaccount-dashboard.php:204
 msgctxt "Dashboard recently upgraded fonts action button"
 msgid "Get it now"
-msgstr "לרכישה >"
+msgstr "לעמוד הפונט"
 
 #: public/partials/fontimator-myaccount-dashboard.php:214
 msgid "There are no newly-updated fonts."
