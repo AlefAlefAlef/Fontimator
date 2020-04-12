@@ -48,7 +48,7 @@ class Fontimator_ACF {
 		$this->field_groups = array(
 			'fontimator-options',
 			'fontimator-font-options',
-			'fontimator-font-price-formulas',
+			array( 'fontimator-font-price-formulas', 'wp_loaded' ),
 			'fontimator-mailchimp',
 			'fontimator-free-downloads',
 			'fontimator-complete-family',
@@ -118,7 +118,13 @@ class Fontimator_ACF {
 	protected function load_field_groups() {
 		if ( $this->is_enabled ) {
 			foreach ( $this->field_groups as $field_group ) {
-				require_once plugin_dir_path( __FILE__ ) . 'acf-config/' . $field_group . '.php';
+				if ( is_array( $field_group ) && count( $field_group ) === 2 ) { // Allow inclusion in hooks
+					add_action( $field_group[1], function () use ($field_group) {
+						require_once plugin_dir_path( __FILE__ ) . 'acf-config/' . $field_group[0] . '.php';
+					});
+				} else {
+					require_once plugin_dir_path( __FILE__ ) . 'acf-config/' . $field_group . '.php';
+				}
 			}
 		}
 	}
