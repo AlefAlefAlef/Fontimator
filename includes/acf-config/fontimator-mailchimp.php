@@ -1,4 +1,11 @@
 <?php
+acf_add_options_sub_page(array(
+	'page_title'  => __('MailChimp Settings', 'fontimator'),
+	'menu_title'  => _x('MailChimp', 'Fontimator submenu item in admin', 'fontimator'),
+	'parent_slug' => 'fontimator-config',
+	'menu_slug' => 'fontimator-mailchimp',
+));
+
 acf_add_local_field_group(array(
 	'key' => 'group_5e8afe690b6bd',
 	'title' => 'MailChimp Settings',
@@ -140,7 +147,7 @@ acf_add_local_field_group(array(
 				'class' => '',
 				'id' => '',
 			),
-			'message' => '<a class="button-secondary" onclick="return confirm(\'Are you sure? This will override the selected group\')" href="admin.php?page=fontimator-config&sync_retroactively_all_subscriptions=1">Sync all subscriptions to the selected list</a><br /><small>Log file will be saved in <code>/var/www/output/</code></small>',
+			'message' => '<a class="button-secondary" onclick="return confirm(\'Are you sure? This will override the selected group!\')" href="admin.php?page=fontimator-config&sync_retroactively_all_subscriptions=1">Sync all subscriptions to the selected list</a><br /><small>Log file will be saved in <code>/var/www/output/</code></small>',
 			'new_lines' => '',
 			'esc_html' => 0,
 		),
@@ -340,7 +347,7 @@ acf_add_local_field_group(array(
 			array(
 				'param' => 'options_page',
 				'operator' => '==',
-				'value' => 'fontimator-config',
+				'value' => 'fontimator-mailchimp',
 			),
 		),
 	),

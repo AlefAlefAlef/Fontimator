@@ -1,4 +1,10 @@
 <?php
+acf_add_options_sub_page(array(
+	'page_title'  => __('Free Downloads', 'fontimator'),
+	'menu_title'  => _x('Free Fonts', 'Fontimator submenu item in admin', 'fontimator'),
+	'parent_slug' => 'fontimator-config',
+	'menu_slug' => 'fontimator-free-downloads',
+));
 
 acf_add_local_field_group(
 	array(
@@ -89,7 +95,7 @@ acf_add_local_field_group(
 				array(
 					'param' => 'options_page',
 					'operator' => '==',
-					'value' => 'fontimator-config',
+					'value' => 'fontimator-free-downloads',
 				),
 			),
 		),

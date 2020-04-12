@@ -31,5 +31,7 @@ acf_add_options_page(
 		/* (string) The message shown above the form on submit. Added in v5.6.0. */
 		'updated_message'   => __( 'Fontimator Configuration Saved', 'fontimator' ),
 
+		/* Don't redirect to subpage */
+		'redirect' => false,
 	)
 );

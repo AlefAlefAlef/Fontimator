@@ -117,11 +117,11 @@ acf_add_local_field_group(
 				array(
 					'param' => 'options_page',
 					'operator' => '==',
-					'value' => 'fontimator-config',
+					'value' => 'fontimator-mailchimp',
 				),
 			),
 		),
-		'menu_order' => 10,
+		'menu_order' => 20,
 		'position' => 'normal',
 		'style' => 'default',
 		'label_placement' => 'top',
