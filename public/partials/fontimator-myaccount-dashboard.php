@@ -122,13 +122,12 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 
 	<div class="tables">
 		<section class="dashbox dashbox-half" id="dash-recent-purchses">
-			<h5><?php _e( 'Recent Activity', 'fontimator' ); ?></h5>
 			<h4><?php _e( 'Your Last Orders', 'fontimator' ); ?></h4>
 			<table class="feat-tnum">
 				<tr>
 					<th><?php _ex( 'Order', 'Dashboard last orders table column name', 'fontimator' ); ?></th>
 					<th><?php _ex( 'Date', 'Dashboard last orders table column name', 'fontimator' ); ?></th>
-					<th><?php _ex( 'Total', 'Dashboard last orders table column name', 'fontimator' ); ?></th>
+					<th><?php _ex( 'Licenses', 'Dashboard last orders table column name', 'fontimator' ); ?></th>
 					<th><?php _ex( 'Status', 'Dashboard last orders table column name', 'fontimator' ); ?></th>
 				</tr>
 				<?php
@@ -138,7 +137,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 						// 'status' => 'completed',
 						'type' => 'shop_order',
 						// 'order' => 'DESC',
-						'limit'  => 4,
+						'limit'  => 5,
 						'customer_id' => get_current_user_id(),
 					)
 				);
@@ -152,7 +151,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 							<td>
 								<?php
 								/* translators: 1: formatted order total 2: total order items */
-								printf( _n( '%1$s for %2$s item', '%1$s for %2$s items', $order->get_item_count(), 'fontimator' ), $order->get_formatted_order_total(), $order->get_item_count() );
+								printf( _n( '%s items', '%s items', $order->get_item_count(), 'fontimator' ), $order->get_item_count() );
 								?>
 							</td>
 							<td><a class="button b-fullwidth" href="<?php echo $order->get_view_order_url(); ?>"><?php echo esc_html( wc_get_order_status_name( $order->get_status() ) ); ?></a></td>
@@ -172,12 +171,12 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 		</section>
 
 		<section class="dashbox dashbox-half" id="dash-recent-versions">
-			<h5><?php _e( 'Upgrade Fonts', 'fontimator' ); ?></h5>
 			<h4><?php _e( 'Recently Updated Fonts', 'fontimator' ); ?></h4>
 			<table class="feat-tnum">
 				<tr>
 					<th><?php _ex( 'Font', 'Dashboard upgrades table column name', 'fontimator' ); ?></th>
 					<th><?php _ex( 'Version', 'Dashboard upgrades table column name', 'fontimator' ); ?></th>
+					<th><?php _ex( 'Updated date', 'Dashboard upgrades table column name', 'fontimator' ); ?></th>
 					<th></th>
 				</tr>
 
@@ -185,6 +184,9 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 				$last_updated_fonts = wc_get_products(
 					array(
 						'category' => 'nr',
+						'numberposts' => '5',
+						'orderby' => 'modified',
+						'order' => 'DESC',
 					)
 				);
 
@@ -194,6 +196,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 						<tr>
 							<td><a href="<?php echo $font->get_permalink(); ?>"><?php echo $font->get_title(); ?></a></td>
 							<td><?php the_field( 'font_version', $font->get_id() ); ?></td>
+							<td><?php echo get_the_modified_date( 'F Y', $font->get_id() ); ?></td>
 							<?php
 							if ( in_array( $font->get_id(), $user_fonts ) ) {
 								?>
