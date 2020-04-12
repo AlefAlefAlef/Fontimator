@@ -113,7 +113,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				$user_info      = wp_get_current_user();
 				$is_subscribed     = Fontimator::mc()->is_user_subscribed( $user_info->user_email );
 				
-				if ( $is_subscribed ) { // Not subscribed
+				if ( ! $is_subscribed ) { // Not subscribed
 					$first_name     = $user_info->first_name;
 					if ( 'fontimonim' === FTM_SITE_NAME ) {
 						$subscribe_link = sprintf( 'https://us2.list-manage.com/subscribe?MERGE0=%1$s&MERGE1=%2$s&MERGE2=%3$s&u=768a22048620e253477cb794b&id=d34ade0131', urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
