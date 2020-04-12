@@ -28,10 +28,17 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 	 */
 	public function add_hooks()
 	{
-		parent::add_hooks();
-		add_action( 'mc4wp_admin_after_' . $this->slug . '_integration_settings', array( $this, 'admin_after' ) );
-		add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ) );
-		add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
+		// Postponse to later when MC API is ready
+		add_action( 'wp_loaded', function() {
+
+			// Skip if user already subscribed
+			if ( ! Fontimator::mc()->is_user_subscribed() ) {
+				parent::add_hooks();
+			}
+			add_action( 'mc4wp_admin_after_' . $this->slug . '_integration_settings', array( $this, 'admin_after' ) );
+			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ) );
+			add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
+		} );
 	}
 	
 	public function admin_after() {
