@@ -257,6 +257,19 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				$groups[ $font_family ][] = $download;
 			}
 		}
+
+		// Sort alphabetically
+		$groups_to_sort_abc = array( 'archive', 'gift', 'academic', 'membership', 'free' );
+		foreach ( $groups as $group_name => $group_items ) {
+			if ( in_array( $group_name, $groups_to_sort_abc ) ) {
+				usort( $group_items, function ( $a, $b ) {
+					return $a['product_name'] <=> $b['product_name'];
+				} );
+			$groups[$group_name] = $group_items;
+			}
+		}
+
+		// Reorder
 		$archive_group = $groups['archive'];
 		$free_group = $groups['free'];
 		$gift_group = $groups['gift'];
