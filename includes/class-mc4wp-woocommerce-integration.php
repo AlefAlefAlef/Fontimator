@@ -75,9 +75,13 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 					),
 					'placeholder' => _x( 'Day', 'Mailchimp birthday day field plaeholder', 'fontimator' ),
 				] );
+				?>
 
-				_ex( ' of', 'Mailchimp birthday field seperator', 'fontimator' );
+				<span class="of">
+					<?php _ex( ' of', 'Mailchimp birthday field seperator', 'fontimator' ); ?>
+				</span>
 
+				<?php
 				echo woocommerce_form_field( 'mc4wp_merge_bday_month', [
 					'type' => 'select',
 					'required' => true,
