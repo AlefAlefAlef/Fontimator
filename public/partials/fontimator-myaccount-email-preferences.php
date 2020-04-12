@@ -57,18 +57,21 @@ if ( ! $options ) {
         <input type="checkbox" class="ios-checkbox" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
           
         <i class="icon" data-icon="<?php echo esc_attr($icon ?: 'ñ'); ?>"></i>
-        
-        <?php if ( $label ) { ?>
-          <span class="title"><?php echo $label; ?></span>
-        <?php } ?>
 
-        <?php if ( $description ) { ?>
-          <span class="description">— <?php echo $description; ?></span>
-        <?php } ?>
+        <div class="texts">
+          <?php if ( $label ) { ?>
+            <span class="title"><?php echo $label; ?></span>
+          <?php } ?>
 
-        <?php if ( $frequency ) { ?>
-          <span class="frequency icon" data-icon="Ó"><?php echo $frequency; ?></span>
-        <?php } ?>
+          <?php if ( $description ) { ?>
+            <span class="description"><?php echo $description; ?></span>
+          <?php } ?>
+
+          <?php if ( $frequency ) { ?>
+            <span class="frequency icon" data-icon="Ó"><?php echo $frequency; ?></span>
+          <?php } ?>
+        </div>
+
       </label>
       <?php
     } 
