@@ -44,6 +44,8 @@
 
     requestAnimationFrame(function check() {
         console.dir(element);
-        requestAnimationFrame(check);
+        if (!window.disableDevToolsCheck) {
+            requestAnimationFrame(check);
+        }
     });
 })();

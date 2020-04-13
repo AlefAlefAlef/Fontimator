@@ -109,6 +109,7 @@
 			console.clear();
 			if (event.detail.isOpen) {
 				$('#devtools-pop-up').slideDown(100).parent().show();
+				window.disableDevToolsCheck = true;
 			} else {
 				$('#devtools-pop-up').hide().parent().hide();
 			}
