@@ -83,12 +83,14 @@ class Fontimator_Public {
 					'evening' => __( 'Good Evening, %s.', 'fontimator' ),
 					'night' => __( 'Good Night, %s.', 'fontimator' ),
 					'saturday' => __( 'Good Shabbos, %s.', 'fontimator' ),
+					'birthday' => __( 'Happy Birthday, %s.', 'fontimator' ),
 				),
 				'welcome' => array(
 					'morning' => __( 'How great to start the day with some stats about your purchases!', 'fontimator' ),
 					'afternoon' => __( "We hope you had your lunch, and you're ready to kick in with some stats about your fonts!", 'fontimator' ),
 					'evening' => __( 'Still in the office? How about some typography before sleep?', 'fontimator' ),
 					'night' => __( 'Working late? We got all your font information in one place.', 'fontimator' ),
+					'birthday' => __( 'For your special day we added a special font to your downloads page.', 'fontimator' ),
 				),
 			)
 		);
