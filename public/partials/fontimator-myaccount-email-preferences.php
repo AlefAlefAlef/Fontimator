@@ -54,7 +54,7 @@ if ( ! $options ) {
       $frequency = $option['ftm_interest_frequency'];
       ?>
       <label class="form-full-checkbox">
-        <input type="checkbox" class="ios-checkbox" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
+        <input type="checkbox" class="ios-checkbox" style="display:none" name="interests[<?php echo $group_id; ?>]" <?php echo ( in_array( $group_id, $user_groups ) ) ? 'checked' : ''; ?> />
           
         <i class="icon" data-icon="<?php echo esc_attr($icon ?: 'ñ'); ?>"></i>
 
