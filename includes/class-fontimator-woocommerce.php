@@ -184,12 +184,7 @@ class Fontimator_WooCommerce {
 				if ( Fontimator::mc()->enabled() ) {
 					remove_action( 'profile_update', array( 'MC4WP_Ecommerce_Object_Observer', 'on_user_update' ) ); // Don't update mailchimp fname lname when user is created!
 					$merge_fields = Fontimator::mc()->get_user_merge_fields( null, $login );
-					if ( ! $merge_fields ) {
-						// Maybe in the academic list? *hoping*
-						$list_id = Fontimator::mc()->get_academic_list();
-						$merge_fields = Fontimator::mc()->get_user_merge_fields( $list_id, $login );
-					}
-					if ( $merge_fields ) { // Subscribed to either one!
+					if ( $merge_fields ) { // Subscribed
 						$first_name = $merge_fields->FNAME;
 						$last_name = $merge_fields->LNAME ?: '';
 						$default_password = wp_generate_password();
@@ -230,12 +225,7 @@ class Fontimator_WooCommerce {
 		if ( is_email( $email ) && ! get_user_by( 'email', $email ) ) {
 			if ( Fontimator::mc()->enabled() ) {
 				$merge_fields = Fontimator::mc()->get_user_merge_fields( null, $email );
-				if ( ! $merge_fields ) {
-					// Maybe in the academic list? *hoping*
-					$list_id = Fontimator::mc()->get_academic_list();
-					$merge_fields = Fontimator::mc()->get_user_merge_fields( $list_id, $login );
-				}
-				if ( $merge_fields ) { // Subscribed to either one!
+				if ( $merge_fields ) { // Subscribed
 					wc_add_notice( sprintf( __( 'Hello there, %3$s! Your account is almost ready - please reset your password %1$shere%2$s.', 'fontimator' ), '<a href="' . wc_lostpassword_url() . '">', '</a>', $merge_fields->FNAME ), 'success' );
 					return new WP_Error();
 				}
