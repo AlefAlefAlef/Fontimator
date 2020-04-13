@@ -646,41 +646,6 @@ class Fontimator_MC {
   }
 
   /**
-  * Add or update (!) a member to a Mailchimp list. PATCHED to support the skip_merge_validation query param
-  * @link https://github.com/ibericode/mailchimp-for-wordpress/pull/682 GITHUB PULL REQUEST. When merged, revert to the real plugin API
-  *
-  * @link https://developer.mailchimp.com/documentation/mailchimp/reference/lists/members/#create-post_lists_list_id_members
-  *
-  * @param string $list_id
-  * @param array $args
-  * @param bool $skip_merge_validation
-  *
-  * @return object
-  * @throws MC4WP_API_Exception
-  */
-  public function add_list_member( $list_id, array $args, $skip_merge_validation = false ) {
-    $subscriber_hash = mc4wp_get_api_v3()->get_subscriber_hash( $args['email_address'] );
-    $resource        = sprintf( '/lists/%s/members/%s', $list_id, $subscriber_hash );
-    
-    if ( $skip_merge_validation ) {
-      $resource = add_query_arg( array( 'skip_merge_validation' => 'true' ), $resource );
-    }
-    
-    // make sure we're sending an object as the Mailchimp schema requires this
-    if ( isset( $args['merge_fields'] ) ) {
-      $args['merge_fields'] = (object) $args['merge_fields'];
-    }
-    
-    if ( isset( $args['interests'] ) ) {
-      $args['interests'] = (object) $args['interests'];
-    }
-    
-    // "put" updates the member if it's already on the list... take notice
-    $data = mc4wp_get_api_v3()->get_client()->put( $resource, $args );
-    return $data;
-  }
-  
-  /**
    * Add a user to the freefonts group and subscribe if not yet subscribed
    *
    * @param string $user_email
@@ -695,7 +660,7 @@ class Fontimator_MC {
     }
 
     try {
-      $this->add_list_member( $this->main_list, array(
+      mc4wp_get_api_v3()->add_list_member( $this->main_list, array(
         'email_address' =>  $user_email,
         'status_if_new' => 'pending',
         'interests' => array(
@@ -707,7 +672,6 @@ class Fontimator_MC {
         ),
       ), true );
     } catch (\Throwable $th) {
-      var_dump($th);die();
       return false;
     }
     return true;
