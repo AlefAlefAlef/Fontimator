@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2020-04-13 11:43+0300\n"
-"PO-Revision-Date: 2020-04-16 10:00+0300\n"
+"PO-Revision-Date: 2020-04-16 13:56+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -1041,7 +1041,7 @@ msgstr ""
 #: public/partials/shortcode-free-download.php:78
 msgid "Subscribe me to the newsletter!"
 msgstr ""
-"‫<strong>לא חובה:</strong> אני רוצה להצטרף ל״טיפוגיק״ ולקבל עדכונים כשיש מבצעים שווים על הפונטים."
+"‫<strong>לא חובה:</strong> אני רוצה להצטרף לניוזלטר של אאא ולקבל עדכונים כשיש מבצעים על הפונטים."
 
 #: public/partials/shortcode-free-download.php:85
 msgid "Thanks for downloading our font! Your download will begin shortly."
