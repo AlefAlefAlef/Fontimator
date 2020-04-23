@@ -50,7 +50,7 @@ class Fontimator_WooCommerce {
 		unset( $fields['billing_state'] );
 		unset( $fields['billing_postcode'] );
 		unset( $fields['billing_city'] );
-		unset( $fields['billing_country'] );
+		//unset( $fields['billing_country'] );
 		return $fields;
 	}
 
