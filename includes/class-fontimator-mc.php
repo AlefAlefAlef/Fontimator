@@ -694,4 +694,22 @@ class Fontimator_MC {
     </div>
   <?php 
   }
+
+  /**
+   * Check if today is the user's birthday
+   *
+   * @param string $email_address
+   * @return boolean
+   */
+  public function is_user_birthday( $email_address = null ) {
+    $merge_fields = $this->get_user_merge_fields(null, $email_address);
+    if ( $merge_fields && $merge_fields->BDAY ) {
+      $today = date( 'm/d' );
+      if ( $today === $merge_fields->BDAY ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

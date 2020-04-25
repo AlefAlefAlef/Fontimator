@@ -53,8 +53,13 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 <div class="fontimator-myaccount-dashboard">
 	<div class="top">
 		<section class="dashbox dashbox-half" id="dash-welcome">
-			<h2 class="fontimator-timed-message-greeting" data-name="<?php echo esc_attr( $current_user->first_name ); ?>"><!-- Text here is generated automatically by the Fontimator --><?php printf( _x( 'Hello, %s!', 'Default greeting when time functions are not loaded yet.', 'fontimator' ), esc_attr( $current_user->first_name ) ); ?></h2>
-			<p class="fontimator-timed-message-welcome"><!-- Text here is generated automatically by the Fontimator --></p>
+			<?php if ( Fontimator::mc()->is_user_birthday() ) { ?>
+				<h2><?php printf( __( 'Happy Birthday, %s.', 'fontimator' ), $current_user->first_name ); ?></h2>
+				<p><?php _e( 'For your special day we added a special font to your downloads page.', 'fontimator' ); ?></p>
+			<?php } else { ?>
+				<h2 class="fontimator-timed-message-greeting" data-name="<?php echo esc_attr( $current_user->first_name ); ?>"><!-- Text here is generated automatically by the Fontimator --><?php printf( _x( 'Hello, %s!', 'Default greeting when time functions are not loaded yet.', 'fontimator' ), esc_attr( $current_user->first_name ) ); ?></h2>
+				<p class="fontimator-timed-message-welcome"><!-- Text here is generated automatically by the Fontimator --></p>
+			<?php } ?>
 			<p>
 				<?php 
 					$gender_specific_action = Fontimator_I18n::genderize_string(
