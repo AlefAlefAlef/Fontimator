@@ -676,4 +676,22 @@ class Fontimator_MC {
     }
     return true;
   }
+
+
+  public function print_newsletter_banner() {
+    $user_info = wp_get_current_user();
+    $first_name = $user_info->first_name;
+    if ( 'fontimonim' === FTM_SITE_NAME ) {
+      $subscribe_link = sprintf( 'https://us2.list-manage.com/subscribe?MERGE0=%1$s&MERGE1=%2$s&MERGE2=%3$s&u=768a22048620e253477cb794b&id=d34ade0131', urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
+    } else {
+      $subscribe_link = sprintf( get_permalink(7857), urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
+    }
+    ?>
+    <div class="nl-signup-banner">
+      <h3><?php _e( 'Sign up to our Newsletter!', 'fontimator' ); ?></h3>
+      <p><?php printf( __( '%s, Join over 5,000 VIP members to get updates and special deals only availabe via email.', 'fontimator' ), $first_name ); ?></p>
+      <a class="button" href="<?php echo esc_url( $subscribe_link ); ?>" target="_blank"><?php _e( 'Subscribe Now!', 'fontimator' ); ?></a>
+    </div>
+  <?php 
+  }
 }

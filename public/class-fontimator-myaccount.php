@@ -109,24 +109,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			$request = explode( '/', $wp->request );
 			
 			if( ( end($request) == 'my-account' && is_account_page() ) ){  // If dashboard page
-
-				$user_info      = wp_get_current_user();
-				$is_subscribed     = Fontimator::mc()->is_user_subscribed( $user_info->user_email );
+				$is_subscribed     = Fontimator::mc()->is_user_subscribed();
 				
 				if ( ! $is_subscribed ) { // Not subscribed
-					$first_name     = $user_info->first_name;
-					if ( 'fontimonim' === FTM_SITE_NAME ) {
-						$subscribe_link = sprintf( 'https://us2.list-manage.com/subscribe?MERGE0=%1$s&MERGE1=%2$s&MERGE2=%3$s&u=768a22048620e253477cb794b&id=d34ade0131', urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
-					} else {
-						$subscribe_link = sprintf( get_permalink(7857), urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
-					}
-					?>
-					<div class="nl-signup-banner">
-						<h3><?php _e( 'Sign up to our Newsletter!', 'fontimator' ); ?></h3>
-						<p><?php printf( __( '%s, Join over 5,000 VIP members to get updates and special deals only availabe via email.', 'fontimator' ), $first_name ); ?></p>
-						<a class="button" href="<?php echo esc_url( $subscribe_link ); ?>" target="_blank"><?php _e( 'Subscribe Now!', 'fontimator' ); ?></a>
-					</div>
-				<?php }
+					Fontimator::mc()->print_newsletter_banner();
+				}
 			}
 		}
 	}
@@ -709,10 +696,6 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	 * @since 4.2.2
 	 */
 	public function add_email_preferences_tab_menu_item( $items ) {
-		if ( ! Fontimator::mc()->is_user_subscribed() ) {
-			return $items;
-		}
-
 		$position = 4;
 
 		return array_slice($items, 0, $position, true) +

@@ -6,10 +6,11 @@
  */
 
 defined( 'ABSPATH' ) or exit;
-Fontimator::mc()->is_user_subscribed() or exit;
 
 $options = Fontimator::mc()->interest_groups;
 $user_groups = Fontimator::mc()->get_user_groups();
+
+if ( Fontimator::mc()->is_user_subscribed() ):
 
 if ( ! $options ) {
   echo __( 'There was a problem loading this page, please let us know.', 'fontimator' );
@@ -84,3 +85,9 @@ if ( ! $options ) {
 		<input type="hidden" name="action" value="save_email_preferences" />
 	</p>
 </form>
+
+<?php
+else: // Is user subscribed
+  Fontimator::mc()->print_newsletter_banner();
+endif;
+?>
