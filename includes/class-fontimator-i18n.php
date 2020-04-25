@@ -77,4 +77,13 @@ class Fontimator_I18n {
 		return self::GENDER_NEUTRAL;
 	}
 
+	public static function is_abroad_user( $ip_address = '', $homeland = 'IL' ) {
+		$location = WC_Geolocation::geolocate_ip( $ip_address, true, false );
+		if ( $location['country'] && $location['country'] != $homeland ) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
