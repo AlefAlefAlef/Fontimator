@@ -81,7 +81,7 @@ $download    = new Fontimator_Free_Download( $download_id );
 
 		<button type="submit" class="button b-icon-before b-medium" data-icon="x"><?php printf( _x( 'Download Free License for %s:', 'Free Download Title', 'fontimator' ), $download->get_name() ); ?></button>
 		<div class="success-overlay">
-			<h3>☺</h3>
+			<h3><span>☺</span></h3>
 			<p><?php _e( 'Thanks for downloading our font! Your download will begin shortly.', 'fontimator' ); ?></p>
 			<p class="tipotip-message"><?php _e( 'Also, we just now sent you an email to approve your subsctiption to the Tipotip.', 'fontimator' ); ?></p>
 			<button class="close">&times;</button>
