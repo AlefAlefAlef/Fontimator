@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2020-04-13 11:43+0300\n"
-"PO-Revision-Date: 2020-04-20 13:23+0300\n"
+"PO-Revision-Date: 2020-04-25 18:23+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -1049,7 +1049,7 @@ msgstr "ההורדה שלך תתחיל מיד…"
 
 #: public/partials/shortcode-free-download.php:86
 msgid "Also, we just now sent you an email to approve your subsctiption to the Tipotip."
-msgstr "וגם, הוספנו אותך לרשימת התפוצה של&nbsp;הטיפוגיק!"
+msgstr "וגם, שלחנו לך עכשיו אימייל עם קישור לאישור ההרשמה שלך לרשימת&nbsp;התפוצה!"
 
 #. translators: %1$s: The percentage saved including % sign, %2$s: The full variation name
 #: public/partials/shortcode-sale-products.php:24
