@@ -698,14 +698,20 @@ class Fontimator_MC {
   /**
    * Check if today is the user's birthday
    *
+   * @param int $days_before Return true if today is x days before the birthday as well
+   * @param int $days_after Return true if today is x days after the birthday as well
    * @param string $email_address
    * @return boolean
    */
-  public function is_user_birthday( $email_address = null ) {
+  public function is_user_birthday( $days_before = 0, $days_after = 0, $email_address = null ) {
     $merge_fields = $this->get_user_merge_fields(null, $email_address);
     if ( $merge_fields && $merge_fields->BDAY ) {
-      $today = date( 'm/d' );
-      if ( $today === $merge_fields->BDAY ) {
+      $today = date( 'Y-m-d' );
+
+      $min = date('Y-m-d', strtotime( sprintf( '%s/%s -%d day', $merge_fields->BDAY, date('Y'), $days_before ) ));
+      $max = date('Y-m-d', strtotime( sprintf( '%s/%s +%d day', $merge_fields->BDAY, date('Y'), $days_after ) ));
+
+      if ( $min <= $today && $max >= $today ) {
         return true;
       }
     }
