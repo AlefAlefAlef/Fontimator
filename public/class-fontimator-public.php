@@ -404,7 +404,9 @@ class Fontimator_Public {
 			return;
 		}
 		$adjust_size = get_field( 'font_adjust_size', $font_id );
+		$_adjust_lineheight = get_field( 'font_adjust_lineheight', $font_id );
 		$adjust_lineheight_of_box = get_field( 'font_adjust_lineheight_of_box', $font_id );
+		$adjust_lineheight = ( !empty($adjust_lineheight_of_box) && '' != $adjust_lineheight_of_box ) ? $adjust_lineheight_of_box : $_adjust_lineheight;
 		$weight_alef = (get_field( 'font_weight_alef', $font_id )) ? get_field( 'font_weight_alef', $font_id )->slug : '400-regular';
 
 		simple_font_face( $family, $weight_alef );
@@ -413,7 +415,7 @@ class Fontimator_Public {
 			class="font-name-with-preview font-name-<?php echo $family; ?>"
 			style="font-family: <?php echo $family; ?>;
 				font-size:<?php echo 1.4 * $adjust_size; ?>em;
-				line-height:<?php echo 0.7 * $adjust_lineheight_of_box; ?>em;
+				line-height:<?php echo 0.7 * $adjust_lineheight; ?>em;
 				height:<?php echo 0.7 / $adjust_size; ?>em;
 				z-index: 1;
 				font-weight:<?php echo get_weight_number( $weight_alef ); ?>;">
