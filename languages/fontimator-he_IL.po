@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2020-04-13 11:43+0300\n"
-"PO-Revision-Date: 2020-04-25 18:23+0300\n"
+"PO-Revision-Date: 2020-05-02 14:55+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -1030,7 +1030,7 @@ msgstr ""
 #: public/partials/shortcode-free-download.php:69
 #, php-format
 msgid "I have read the %1$sfree posters usage terms%2$s and I accept them."
-msgstr "קראתי את %1$sתנאי השימוש בפוסטרים%2$s והם מקובלים עלי.had an Academic License‬"
+msgstr "קראתי את %1$sתנאי השימוש בפוסטרים%2$s והם מקובלים עלי."
 
 #: public/partials/shortcode-free-download.php:71
 #, php-format
