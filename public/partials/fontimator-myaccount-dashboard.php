@@ -53,7 +53,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 <div class="fontimator-myaccount-dashboard">
 	<div class="top">
 		<section class="dashbox dashbox-half" id="dash-welcome">
-			<?php if ( Fontimator::mc()->is_user_birthday( 2, 1 ) ) { ?>
+			<?php if ( Fontimator::mc()->is_user_birthday( 1, 1 ) ) { ?>
 				<h2><?php printf( __( 'Happy Birthday, %s.', 'fontimator' ), $current_user->first_name ); ?></h2>
 				<p><?php _e( 'For your special day we added a special font to your downloads page.', 'fontimator' ); ?></p>
 			<?php } else { ?>
