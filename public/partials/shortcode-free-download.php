@@ -9,7 +9,7 @@ $download    = new Fontimator_Free_Download( $download_id );
 
 <section class="fontimator-free-download" id="ftm-free-download-<?php echo $download_id; ?>">
 
-	<a class="open button b-fullwidth b-big b-icon-before" href="#" data-icon="☆"><?php printf( _x( 'Download Free License for %s:', 'Free Download Title', 'fontimator' ), $download->get_name() ); ?></a>
+	<a class="open button b-fullwidth b-big b-outline b-icon-before" href="#" data-icon="☆"><?php printf( _x( 'Download Free License for %s:', 'Free Download Title', 'fontimator' ), $download->get_name() ); ?></a>
 	<?php
 
 	if ( isset( $_POST['download-id'] ) && $_POST['download-id'] === $download_id ) {
