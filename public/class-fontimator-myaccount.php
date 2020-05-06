@@ -633,6 +633,16 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		echo '</div>';
 	}
 
+	public function birthday_message_on_downlaods_page() {
+		if ( 'fontimonim' !== FTM_SITE_NAME ) {
+			echo '<div class="birthday-song-box"><iframe id="youtube-birthday" 
+				width="280" height="210" 
+				src="https://www.youtube.com/embed/bYb2UOo1YqE?start=50&autoplay=1&modestbranding=1&mute=2&origin=&widget_referrer=" 
+				frameborder="0" 
+				allow="autoplay; encrypted-media" allowfullscreen></iframe></div>';
+		}
+	}
+
 	public function add_gender_field_to_edit_account () {
 		if ( ! Fontimator::mc()->enabled() ) {
 			return false;

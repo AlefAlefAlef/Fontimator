@@ -115,3 +115,19 @@
 .woocommerce-EmailPreferencesForm .newsletter-text {
 	max-width: 38em;
 }
+
+.birthday-song-box{
+	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fff+0,000000+35,000000+65,fff+100 */
+	background: #fff; /* Old browsers */
+	background: -moz-linear-gradient(left,  #fff 0%, #bbb 40%, #bbb 60%, #fff 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left,  #fff 0%,#bbb 40%,#bbb 60%,#fff 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right,  #fff 0%,#bbb 40%,#bbb 60%,#fff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#fff',GradientType=1 ); /* IE6-9 */
+	margin: 2.7em 0 1.8em;
+	background: black;
+}
+.birthday-song-box iframe{
+	margin: 0 auto;
+	display: block;
+	width: 100%;
+}

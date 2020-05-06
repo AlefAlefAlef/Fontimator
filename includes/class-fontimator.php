@@ -470,6 +470,9 @@ class Fontimator {
 
 		// Add footnotes
 		$this->loader->add_action( 'woocommerce_after_account_downloads', $myaccount, 'add_message_after_downloads' );
+
+		// Birthday messege on downloads page
+		$this->loader->add_action( 'woocommerce_before_account_downloads', $myaccount, 'birthday_message_on_downlaods_page' );
 		
 		// Add gender to edit account page & MailChimp Tab
 		if ( $this->mc->enabled() ) {
