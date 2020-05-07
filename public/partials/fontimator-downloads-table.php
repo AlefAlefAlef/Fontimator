@@ -45,7 +45,7 @@ $downloads = Fontimator_MyAccount::group_downloads_by_family( $downloads );
 					<tr class="font-family-header">
 						<td class="icon-cell"></td>
 						<td colspan="<?php echo count( wc_get_account_downloads_columns() ) - 1; ?>">
-							<?php
+							<span class="font_title"><?php
 							if ( 'membership' === $family_name ) {
 								echo '<i class="icon" data-icon="ø"></i> ';
 								_e( 'Membership License', 'fontimator' );
@@ -68,7 +68,7 @@ $downloads = Fontimator_MyAccount::group_downloads_by_family( $downloads );
 								$first_download = reset( $family_group );
 								Fontimator_Public::print_with_font_preview( $first_download['product_name'], wp_get_post_parent_id( $first_download['product_id'] ) );
 							}
-							?>
+							?></span>
 						</td>
 					</tr>
 					<?php

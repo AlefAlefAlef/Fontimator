@@ -14,3 +14,12 @@
 	display: none;
 	z-index: 100;
 }
+.font-family-header .font_title{
+	letter-spacing: 0.2em;
+}
+.font-family-header .font_title i, .font-family-header .font_title .font-name-with-preview{
+	letter-spacing: 0;
+}
+.shop_table.fontimator-table tbody>tr>td:nth-child(2){
+	white-space: nowrap;
+}
