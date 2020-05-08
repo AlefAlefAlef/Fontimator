@@ -606,7 +606,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					<dt class="icon" data-icon="ø"></dt><dd><a href="https://alefalefalef.co.il/font/membership/">מינוי</a> לספריית הפונטים</dd>
 					<dt class="icon" data-icon="׳"></dt><dd>הפונט עבר ל<a href="<?php echo home_url( 'resources/archive' ); ?>" target="_blank">ארכיון</a></dd>
 					<dt class="icon" data-icon="ℶ"></dt><dd>הפונט עבר ל<a href="http://fontimonim.co.il" target="_blank">פונטימונים</a></dd>
-					<dt class="icon" data-icon="₪"></dt><dd>רישיונות <a href="https://alefalefalef.co.il/minisection/giveaway/" target="_blank">חינמיים</a> שהורדת</dd>
+					<dt class="icon" data-icon="ė"></dt><dd>רישיונות <a href="https://alefalefalef.co.il/minisection/giveaway/" target="_blank">חינמיים</a> שהורדת</dd>
 					<dt class="icon" data-icon="Ÿ"></dt><dd>רישיון אקדמי</dd>
 				</dl>
 			</div>

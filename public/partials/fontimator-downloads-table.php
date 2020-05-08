@@ -59,7 +59,7 @@ $downloads = Fontimator_MyAccount::group_downloads_by_family( $downloads );
 								echo '<i class="icon" data-icon="‚"></i> ';
 								_e( 'Gifts', 'fontimator' );
 							} elseif ( 'free' === $family_name ) {
-								echo '<i class="icon" data-icon="₪"></i> ';
+								echo '<i class="icon" data-icon="ė"></i> ';
 								_e( 'Free Downloads', 'fontimator' );
 							} elseif ( 'membership-reseller' === $family_name ) {
 								echo '<i class="icon" data-icon="ø"></i> ';
