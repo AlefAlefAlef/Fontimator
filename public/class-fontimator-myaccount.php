@@ -146,7 +146,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 
 		if ( 'academic' === $order_id ) {
-			echo '<a href="/eula/?licenses=otf,academic" title="' . __( 'Your Academic License', 'fontimator' ) . '"><i class="icon" data-icon="Ÿ"></i></a>';
+			echo '<a href="https://alefalefalef.co.il/eula/?licenses=otf,academic" title="' . __( 'Your Academic License', 'fontimator' ) . '"><i class="icon" data-icon="Ÿ"></i></a>';
 			echo ' <span class="downloads-table-icon-membership-seperator">&rsaquo;</span> ';
 		}
 
@@ -598,14 +598,14 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		echo '<div class="footnotes">';
 		?>
 		
-		<?php if ( 'fontimonim' !== FTM_SITE_NAME ) { ?>
+		<?php if ( 'alefalefalef' === FTM_SITE_NAME ) { ?>
 			<div class="legend">
 				<h5>מקרא</h5>
 				<dl>
-					<dt class="icon" data-icon="‚"></dt><dd>מתנת יום הולדת מ<a href="http://eepurl.com/hSaLY" target="_blank">הניוזלטר</a></dd>
+					<dt class="icon" data-icon="‚"></dt><dd>מתנת יום הולדת מ<a href="https://alefalefalef.co.il/resources/newsletter/" target="_blank">הניוזלטר</a></dd>
 					<dt class="icon" data-icon="ø"></dt><dd><a href="https://alefalefalef.co.il/font/membership/">מינוי</a> לספריית הפונטים</dd>
 					<dt class="icon" data-icon="׳"></dt><dd>הפונט עבר ל<a href="<?php echo home_url( 'resources/archive' ); ?>" target="_blank">ארכיון</a></dd>
-					<dt class="icon" data-icon="ℶ"></dt><dd>הפונט עבר ל<a href="http://fontimonim.co.il" target="_blank">פונטימונים</a></dd>
+					<dt class="icon" data-icon="ℶ"></dt><dd>הפונט עבר ל<a href="https://fontimonim.co.il" target="_blank">פונטימונים</a></dd>
 					<dt class="icon" data-icon="ė"></dt><dd>רישיונות <a href="https://alefalefalef.co.il/minisection/giveaway/" target="_blank">חינמיים</a> שהורדת</dd>
 					<dt class="icon" data-icon="Ÿ"></dt><dd>רישיון אקדמי</dd>
 				</dl>
@@ -615,7 +615,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		<p>
 			<?php
 			// TRANSLATORS: %s is the link to contact form
-			echo sprintf( __( "Each time you download fonts from this page you agree to the <strong>current</strong> <a href='%s'>EULA</a>.", 'fontimator' ), 'http://alefalefalef.co.il/eula' );
+			echo sprintf( __( "Each time you download fonts from this page you agree to the <strong>current</strong> <a href='%s'>EULA</a>.", 'fontimator' ), 'https://alefalefalef.co.il/eula' );
 			?>
 		</p>
 		

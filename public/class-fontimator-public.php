@@ -109,7 +109,7 @@ class Fontimator_Public {
 			return;
 		}
 
-		$github_link = 'http://github.com/alefalefalef';
+		$github_link = 'https://github.com/alefalefalef';
 
 		if ( FTM_SITE_NAME === 'fontimonim' ) {
 			$colophon_page = get_page_by_path( 'info/brand-assets' );
