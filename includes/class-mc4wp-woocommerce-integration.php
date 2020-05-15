@@ -52,27 +52,37 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 
 	public function print_merge_fields() {
 		global $wp_locale;
+		/**
+		 * Helper function to remove form-row class, which collides with the address-i18n.js script
+		 *
+		 * @param string $html
+		 * @return string
+		 */
+		function remove_form_row_class( $html = '' ) {
+			return preg_replace( "/form-row/i", "", $html );
+		}
 		?>
-		<div class="mailchimp_merge_fields">
+		<div class="form-row mailchimp_merge_fields" data-priority="120">
 			<?php
-			echo woocommerce_form_field( 'mc4wp_merge_gender', [
+			echo remove_form_row_class(woocommerce_form_field( 'mc4wp_merge_gender', [
 				'type' => 'radio',
 				'label' => __( 'How would you like to be addressed?', 'fontimator' ),
 				'required' => true,
+				'return' => true,
 				'options' => array(
 					Fontimator_I18n::GENDER_FEMALE => _x( 'As female', 'Gender field option in edit account form', 'fontimator' ),
 					Fontimator_I18n::GENDER_MALE => _x( 'As male', 'Gender field option in edit account form', 'fontimator' ),
 				)
-			] );
+			] ));
 
 			?>
-			<div class="mailchimp_merge_fields_birthday form-row">
+			<div class="mailchimp_merge_fields_birthday">
 				<label for="mc4wp_merge_bday_day">
 					<?php _e( 'When should we celebrate your birthday?', 'fontimator' ); ?>
 					<abbr class="required" title="<?php esc_attr_e( 'required', 'woocommerce' ); ?>">*</abbr>
 				</label>
 				<?php
-				echo woocommerce_form_field( 'mc4wp_merge_bday_day', [
+				echo remove_form_row_class(woocommerce_form_field( 'mc4wp_merge_bday_day', [
 					'type' => 'number',
 					'required' => true,
 					'custom_attributes' => array(
@@ -80,8 +90,9 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 						'max' => 31,
 						'required' => 'required',
 					),
+					'return' => true,
 					'placeholder' => _x( 'Day', 'Mailchimp birthday day field plaeholder', 'fontimator' ),
-				] );
+				] ));
 				?>
 
 				<span class="of">
@@ -89,11 +100,12 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 				</span>
 
 				<?php
-				echo woocommerce_form_field( 'mc4wp_merge_bday_month', [
+				echo remove_form_row_class(woocommerce_form_field( 'mc4wp_merge_bday_month', [
 					'type' => 'select',
 					'required' => true,
+					'return' => true,
 					'options' => array_merge( array( '' => _x( 'Month', 'Mailchimp birthday month field plaeholder', 'fontimator' ) ), $wp_locale->month ),
-				] );
+				] ));
 				?>
 			</div>
 		</div>
