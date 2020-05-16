@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2020-05-16 15:34+0300\n"
-"PO-Revision-Date: 2020-05-16 16:45+0300\n"
+"PO-Revision-Date: 2020-05-16 17:44+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -706,7 +706,7 @@ msgid ""
 "%1$s? is that you?! We need you to %2$slog in%3$s so we can complete your purchase."
 msgstr ""
 "‫%1$s? זה אתה?! אתה כבר רשום. מה אתה ממלא טפסים יא מצחיקול. בוא תעשה %2$sלוג־אין%3$s "
-"ונתקתק לך את הרכישה."
+"ונתקתק אותך אותך פנימ."
 
 #: public/class-fontimator-public.php:500
 #, php-format
@@ -715,7 +715,7 @@ msgid ""
 "%1$s? is that you?! We need you to %2$slog in%3$s so we can complete your purchase."
 msgstr ""
 "‫‫%1$s? זאת את?! את כבר רשומה. מה את ממלאת טפסים יא מצחיקולית. בואי תעשי %2$sלוג־אין"
-"%3$s ונתקתק לך את הרכישה."
+"%3$s ונתקתק אותך פנימה."
 
 #: public/partials/fontimator-downloads-complete-family-banner.php:36
 msgctxt "Discount Reason"
