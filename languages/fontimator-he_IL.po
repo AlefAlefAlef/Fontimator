@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2020-05-16 15:34+0300\n"
-"PO-Revision-Date: 2020-05-16 15:38+0300\n"
+"PO-Revision-Date: 2020-05-16 16:45+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -503,15 +503,13 @@ msgstr "גוד שאבעס, %s!"
 
 #: public/class-fontimator-public.php:88
 msgid "How great to start the day with some stats about your purchases!"
-msgstr ""
-"בידוד או לא בידוד, תמיד תענוג לראות אותך כאן באיזור האישי. ובכלל נראה שקמת הבוקר על "
-"רגל ימין! ;)"
+msgstr "תמיד תענוג לראות אותך כאן באיזור האישי. ובכלל נראה שקמת הבוקר על רגל ימין! ;)"
 
 #: public/class-fontimator-public.php:89
 msgid ""
 "We hope you had your lunch, and you're ready to kick in with some stats about your "
 "fonts!"
-msgstr "‫בידוד או לא בידוד, מקווים שאכלת ארוחת צהריים ומילאת מצברים כדי להמשיך את היום."
+msgstr "מקווים שאכלת ארוחת צהריים ומילאת מצברים כדי להמשיך את היום."
 
 #: public/class-fontimator-public.php:90
 msgid "Still in the office? How about some typography before sleep?"
@@ -522,8 +520,8 @@ msgstr ""
 #: public/class-fontimator-public.php:91
 msgid "Working late? We got all your font information in one place."
 msgstr ""
-"לילה לבן? ועוד בבידוד?! מזל שהכנו לך את כל המידע שיעשה לך סדר בכל הרכישות שלך אצלנו. "
-"והלו שם, לא לעבוד קשה מדי!"
+"לילה לבן? מזל שהכנו לך את כל המידע שיעשה לך סדר בכל הרכישות שלך אצלנו. והלו שם, לא "
+"לעבוד קשה מדי!"
 
 #: public/class-fontimator-public.php:100
 msgctxt "The website address field placeholder"
@@ -706,14 +704,18 @@ msgstr ""
 msgctxt "Male"
 msgid ""
 "%1$s? is that you?! We need you to %2$slog in%3$s so we can complete your purchase."
-msgstr "‫%1$s? זה אתה?! אנחנו צריכים שתעשה %2$sלוג־אין%3$s ונתקתק לך את הרכישה."
+msgstr ""
+"‫%1$s? זה אתה?! אתה כבר רשום. מה אתה ממלא טפסים יא מצחיקול. בוא תעשה %2$sלוג־אין%3$s "
+"ונתקתק לך את הרכישה."
 
 #: public/class-fontimator-public.php:500
 #, php-format
 msgctxt "Female"
 msgid ""
 "%1$s? is that you?! We need you to %2$slog in%3$s so we can complete your purchase."
-msgstr "‫%1$s? זאת את?! אנחנו צריכים שתעשי %2$sלוג־אין%3$s ונתקתק לך את הרכישה."
+msgstr ""
+"‫‫%1$s? זאת את?! את כבר רשומה. מה את ממלאת טפסים יא מצחיקולית. בואי תעשי %2$sלוג־אין"
+"%3$s ונתקתק לך את הרכישה."
 
 #: public/partials/fontimator-downloads-complete-family-banner.php:36
 msgctxt "Discount Reason"
