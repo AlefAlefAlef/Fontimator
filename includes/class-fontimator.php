@@ -406,6 +406,7 @@ class Fontimator {
 		
 		// WooCommerce Checkout Page
 		$this->loader->add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', $plugin_public, 'terms_and_conditions_checkbox_text' );
+		$this->loader->add_filter( 'woocommerce_registration_error_email_exists', $plugin_public, 'returning_customers_custom_message', 1, 2 );
 
 		// Shortcodes
 		$this->loader->add_shortcode( 'fontimator-zip-table', $plugin_public, 'shortcode_zip_table' );

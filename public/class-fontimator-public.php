@@ -491,5 +491,19 @@ class Fontimator_Public {
 		return $option;
 	}
 
+	public function returning_customers_custom_message( $content, $email ) {
+		$user = get_user_by('email', $email);
+		if ( $user && $user->first_name && preg_match("/\p{Hebrew}/u", $user->first_name) ) {
+			$content = Fontimator_I18n::genderize_string( 
+				sprintf( __( 'An account is already registered with your email address. %1$sPlease log in%2$s.', 'fontimator' ), '<a class="showlogin" href="#">', '</a>' ),
+				sprintf( _x('%1$s? is that you?! We need you to %2$slog in%3$s so we can complete your purchase.', 'Male', 'fontimator' ), $user->first_name, '<a class="showlogin" href="#">', '</a>' ),
+				sprintf( _x('%1$s? is that you?! We need you to %2$slog in%3$s so we can complete your purchase.', 'Female', 'fontimator' ), $user->first_name, '<a class="showlogin" href="#">', '</a>' ),
+				$email
+			);
+		} else {
+			$content = sprintf( __( 'An account is already registered with your email address. %1$sPlease log in%2$s.', 'fontimator' ), '<a class="showlogin" href="#">', '</a>' );
+		}
+		return $content;
+	}
 
 }
