@@ -49,10 +49,11 @@ class Fontimator_I18n {
 	 * @param string $nuetral
 	 * @param string $male
 	 * @param string $female
+	 * @param string $user_email Optional user email if user to check gender for is not logged in
 	 * @return string
 	 */
-	public static function genderize_string( $nuetral, $male = null, $female = null ) {
-		switch ( self::get_user_gender() ) {
+	public static function genderize_string( $nuetral, $male = null, $female = null, $user_email = null ) {
+		switch ( self::get_user_gender( $user_email ) ) {
 			case self::GENDER_MALE:
 				if ( $male ) return $male;
 				break;
