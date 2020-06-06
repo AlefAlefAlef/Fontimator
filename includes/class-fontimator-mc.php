@@ -353,6 +353,18 @@ class Fontimator_MC {
 		return Fontimator_I18n::GENDER_NEUTRAL;
   }
 
+  public function mailchimp_gender( $fontimator_gender ) {
+    switch ( $fontimator_gender ) {
+			case Fontimator_I18n::GENDER_MALE:
+				return __( 'Man', 'fontimator' );
+				break;
+			
+			case Fontimator_I18n::GENDER_FEMALE:
+				return __( 'Woman', 'fontimator' );
+        break;
+		}
+  }
+
   /**
 	 * Sets the gender of a user, on a mailchimp MERGE field
 	 *
@@ -365,20 +377,11 @@ class Fontimator_MC {
 			return null;
 		}
 
-		switch ($new_gender) {
-			case Fontimator_I18n::GENDER_MALE:
-				$mailchimp_gender = __( 'Man', 'fontimator' );
-				break;
-			
-			case Fontimator_I18n::GENDER_FEMALE:
-				$mailchimp_gender = __( 'Woman', 'fontimator' );
-				break;
-			
-			default:
-				return false;
-				break;
-		}
+		$mailchimp_gender = $this->mailchimp_gender( $new_gender );
 
+    if ( $mailchimp_gender === null ) {
+      return false;
+    }
 		return $this->set_user_merge_field( $gender_field, $mailchimp_gender );
 	}
 
@@ -654,8 +657,8 @@ class Fontimator_MC {
    * @return bool success
    */
   public function add_subscriber_to_freefonts_group( $user_email, $first_name, $last_name ) {
-    $list_id = $this->freefonts_group;
-    if ( ! $list_id || ! $this->main_list ) {
+    $group_id = $this->freefonts_group;
+    if ( ! $group_id || ! $this->main_list ) {
       return false;
     }
 
@@ -664,7 +667,7 @@ class Fontimator_MC {
         'email_address' =>  $user_email,
         'status_if_new' => 'pending',
         'interests' => array(
-          $list_id => true,
+          $group_id => true,
         ),
         'merge_fields' => array(
           'FNAME' => $first_name,
@@ -672,6 +675,45 @@ class Fontimator_MC {
         ),
       ), true );
     } catch (\Throwable $th) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Add a user to the main list, subscribe, and add to groups
+   *
+   * @param string $user_email
+   * @param string $first_name
+   * @param string $last_name
+   * @return bool success
+   */
+  public function add_subscriber( $user_email,
+    $groups = [],
+    $first_name = '',
+    $last_name = '',
+    $bday = null,
+    $bmonth = null,
+    $gender = null ) {
+
+    if ( ! $this->main_list ) {
+      return false;
+    }
+
+    try {
+      mc4wp_get_api_v3()->add_list_member( $this->main_list, array(
+        'email_address' =>  $user_email,
+        'status_if_new' => 'subscribed',
+        'interests' => $groups,
+        'merge_fields' => array(
+          'FNAME' => $first_name,
+          'LNAME' => $last_name,
+          'BDAY'  => sprintf( "%s/%s", $bday, $bmonth ),
+          'GENDER' => $this->mailchimp_gender( $gender ),
+        ),
+      ), true );
+    } catch (\Throwable $th) {
+      var_dump($th);die();
       return false;
     }
     return true;
