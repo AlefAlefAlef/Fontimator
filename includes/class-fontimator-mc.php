@@ -294,13 +294,12 @@ class Fontimator_MC {
 
 
   /**
-	 * Checks if user has the academic tag
-	 *
-	 * @param string $user_email (or null for current user)
-	 * @return bool
-	 */
-	public function get_academic_license_year( $user_email = null ) {
-		if ( ! $this->academic_group ) {
+   * Get all academic groups array with their IDs
+   *
+   * @return mixed
+   */
+  public function get_academic_groups() {
+    if ( ! $this->academic_group ) {
       return false;
     }
 
@@ -316,7 +315,20 @@ class Fontimator_MC {
       return false;
     }
 
-    $academic_groups = $academic_group_cat->interests;
+    return $academic_group_cat->interests;
+  }
+
+  /**
+	 * Checks if user has the academic tag
+	 *
+	 * @param string $user_email (or null for current user)
+	 * @return bool
+	 */
+	public function get_academic_license_year( $user_email = null ) {
+    $academic_groups = $this->get_academic_groups(); // TODO: Test this change
+    if ( ! $academic_groups ) {
+      return false;
+    }
     
     $groups = $this->get_user_groups( $user_email );
 		foreach ( (array) $groups as $group ) {
