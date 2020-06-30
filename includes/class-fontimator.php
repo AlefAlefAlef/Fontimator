@@ -289,12 +289,15 @@ class Fontimator {
 		// WooCommerce
 		$fontimator_woocommerce = new Fontimator_WooCommerce();
 
+		// Allow automatic updates
+		$this->loader->add_filter( 'automatic_updates_is_vcs_checkout', $this, '_return_false' );
+
 		// Add variations from ftm-add-to-cart
 		$this->loader->add_filter( 'wp_loaded', $fontimator_woocommerce, 'add_variations_from_url' );
 		$this->loader->add_action( 'woocommerce_before_calculate_totals', $fontimator_woocommerce, 'apply_session_discounts', 90 );
 
 		// Remove the quantity field from WooCommerce Product
-		$this->loader->add_filter( 'woocommerce_is_sold_individually', $fontimator_woocommerce, '_return_true' );
+		$this->loader->add_filter( 'woocommerce_is_sold_individually', $this, '_return_true' );
 
 		// Forgot password hack to sign up users on the fly
 		if ( $this->mc->enabled() ) {
@@ -307,7 +310,7 @@ class Fontimator {
 		$this->loader->add_filter( 'woocommerce_json_search_limit', $fontimator_woocommerce, 'woocommerce_json_search_limit' );
 
 		// Trim zeros in price decimals
-		$this->loader->add_filter( 'woocommerce_price_trim_zeros', $fontimator_woocommerce, '_return_true' );
+		$this->loader->add_filter( 'woocommerce_price_trim_zeros', $this, '_return_true' );
 		$this->loader->add_filter( 'formatted_woocommerce_price', $fontimator_woocommerce, 'limit_decimals_to_two', 10, 5 );
 		$this->loader->add_filter( 'wc_price', $fontimator_woocommerce, 'add_span_to_decimals_in_price' );
 
@@ -316,13 +319,13 @@ class Fontimator {
 		$this->loader->add_filter( 'woocommerce_checkout_fields', $fontimator_woocommerce, 'custom_billing_fields' );
 
 		// Variations in font name
-		$this->loader->add_filter( 'woocommerce_product_variation_title_include_attributes', $fontimator_woocommerce, '_return_false' );
-		$this->loader->add_filter( 'woocommerce_is_attribute_in_product_name', $fontimator_woocommerce, '_return_false' );
+		$this->loader->add_filter( 'woocommerce_product_variation_title_include_attributes', $this, '_return_false' );
+		$this->loader->add_filter( 'woocommerce_is_attribute_in_product_name', $this, '_return_false' );
 
 		// Email columns and quantity
-		$this->loader->add_filter( 'woocommerce_email_order_item_quantity', $fontimator_woocommerce, '_return_empty' );
+		$this->loader->add_filter( 'woocommerce_email_order_item_quantity', $this, '_return_empty' );
 		$this->loader->add_filter( 'woocommerce_email_downloads_columns', $fontimator_woocommerce, 'remove_expires_head_from_email' );
-		$this->loader->add_filter( 'woocommerce_email_downloads_column_download-expires', $fontimator_woocommerce, '_return_false' );
+		$this->loader->add_filter( 'woocommerce_email_downloads_column_download-expires', $this, '_return_false' );
 
 		// When user has no subscriptions, link to a subscription in their dashboard
 		$this->loader->add_filter( 'woocommerce_subscriptions_message_store_url', $fontimator_woocommerce, 'subscription_message_store_url_to_product' );
@@ -577,6 +580,16 @@ class Fontimator {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	public function _return_true() {
+		return true;
+	}
+	public function _return_false() {
+		return false;
+	}
+	public function _return_empty() {
+		return '';
 	}
 
 }

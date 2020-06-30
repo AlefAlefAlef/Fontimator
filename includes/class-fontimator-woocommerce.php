@@ -21,15 +21,6 @@
  * @author     Reuven Karasik <rubik@karasik.org>
  */
 class Fontimator_WooCommerce {
-	public function _return_true() {
-		return true;
-	}
-	public function _return_false() {
-		return false;
-	}
-	public function _return_empty() {
-		return '';
-	}
 
 	public function woocommerce_json_search_limit() {
 		return 200;
