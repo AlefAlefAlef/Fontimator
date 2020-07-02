@@ -8,9 +8,9 @@
 defined( 'ABSPATH' ) or exit;
 
 $options = Fontimator::mc()->interest_groups;
-$user_groups = Fontimator::mc()->get_user_groups();
+$user_groups = Fontimator::mc()->get_user_groups( null, $user_email );
 
-if ( Fontimator::mc()->is_user_subscribed() ):
+if ( Fontimator::mc()->is_user_subscribed( $user_email ) ):
 
 if ( ! $options ) {
   echo __( 'There was a problem loading this page, please let us know.', 'fontimator' );
@@ -23,7 +23,8 @@ if ( ! $options ) {
         $gender_specific_lets = Fontimator_I18n::genderize_string(
         _x( 'Let\'s', 'Gender-nuetral "Let\'s" in user email preference page', 'fontimator' ),
         _x( 'Let\'s', 'Male "Let\'s" in user email preference page', 'fontimator' ),
-        _x( 'Let\'s', 'Female "Let\'s" in user email preference page', 'fontimator' )
+        _x( 'Let\'s', 'Female "Let\'s" in user email preference page', 'fontimator' ),
+        $user_email
       );
       printf(
         __( '%1$s stay in touch!', 'fontimator' ),
@@ -36,7 +37,8 @@ if ( ! $options ) {
       $gender_specific_action = Fontimator_I18n::genderize_string(
         _x( 'would you like', 'Gender-nuetral "would you like" in user email preference page', 'fontimator' ),
         _x( 'would you like', 'Male "would you like" in user email preference page', 'fontimator' ),
-        _x( 'would you like', 'Female "would you like" in user email preference page', 'fontimator' )
+        _x( 'would you like', 'Female "would you like" in user email preference page', 'fontimator' ),
+        $user_email
       );
       printf(
         __( 'Which updates %1$s to receive?', 'fontimator' ),
@@ -82,7 +84,11 @@ if ( ! $options ) {
   <p>
 		<?php wp_nonce_field( 'save_email_preferences', 'save-email-preferences-nonce' ); ?>
 		<button type="submit" class="woocommerce-Button button b-big" name="save_email_preferences" value="<?php esc_attr_e( 'Save email preferences', 'fontimator' ); ?>"><?php esc_html_e( 'Save email preferences', 'fontimator' ); ?></button>
-		<input type="hidden" name="action" value="save_email_preferences" />
+    <input type="hidden" name="action" value="save_email_preferences" />
+    <?php if ( $user_email ) { ?>
+      <?php wp_nonce_field( 'email_prefs_' . $email_address, 'save-email-preferences-address-nonce' ); ?>
+      <input type="hidden" name="user_email" value="<?php echo esc_attr( $user_email ); ?>" />
+    <?php } ?>
 	</p>
 </form>
 

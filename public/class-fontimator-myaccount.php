@@ -36,6 +36,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	 */
 	public function enqueue_scripts() {
 		if ( is_account_page() ) {
+			wp_enqueue_script( 'fontimator-email-preferences' );
+
 			wp_enqueue_script(
 				'fontimator-my-account',
 				plugin_dir_url( __FILE__ ) . 'js/fontimator-my-account.js',
@@ -741,6 +743,14 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			return;
 		}
 
+		if ( ! empty( $_POST['user_email'] ) && wp_verify_nonce( $_POST['save-email-preferences-address-nonce'], 'email_prefs_' . $_POST['user_email'] ) && is_email( $_POST['user_email'] ) ) {
+			$user_email = $_POST['user_email'];
+		} else {
+			if ( ! is_user_logged_in() ) {
+				wp_die( __( 'Error: could not validate email address to update preferences for.', 'fontimator' ) );
+			}
+		}
+
 		wc_nocache_headers();
 
 		$updated_interests = array();
@@ -756,7 +766,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 	
 		// save the preferences
-		Fontimator::mc()->update_user_groups( $updated_interests );
+		Fontimator::mc()->update_user_groups( $updated_interests, null, $user_email );
 
 		wc_add_notice( __( 'Email preferences were updated successfully.', 'fontimator' ) );
 	}

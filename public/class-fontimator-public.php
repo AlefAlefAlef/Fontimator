@@ -69,6 +69,14 @@ class Fontimator_Public {
 	 * @since    2.0.0
 	 */
 	public function enqueue_scripts() {
+		wp_register_script(
+			'fontimator-email-preferences',
+			plugin_dir_url( __FILE__ ) . 'js/fontimator-email-preferences.js',
+			array( 'jquery' ),
+			$this->version,
+			true
+		);
+
 		wp_enqueue_script( 'fontimator-public-js', plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, true );
 
 		if ( ! current_user_can('administrator') ) {
