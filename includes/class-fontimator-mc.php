@@ -772,4 +772,10 @@ class Fontimator_MC {
 
     return false;
   }
+
+  public static function edit_preferences_template($email_address) {
+    wp_enqueue_script( 'fontimator-email-preferences' );
+    $user_email = $email_address; // For template bellow
+    require WP_PLUGIN_DIR . '/fontimator/public/partials/fontimator-myaccount-email-preferences.php';
+  }
 }
