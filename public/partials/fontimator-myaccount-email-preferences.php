@@ -19,17 +19,19 @@ if ( ! $options ) {
 ?>
 <form class="woocommerce-EmailPreferencesForm edit-account" action="" method="post">
 
-  <h3><?php 
-        $gender_specific_lets = Fontimator_I18n::genderize_string(
-        _x( 'Let\'s', 'Gender-nuetral "Let\'s" in user email preference page', 'fontimator' ),
-        _x( 'Let\'s', 'Male "Let\'s" in user email preference page', 'fontimator' ),
-        _x( 'Let\'s', 'Female "Let\'s" in user email preference page', 'fontimator' ),
-        $user_email
-      );
-      printf(
-        __( '%1$s stay in touch!', 'fontimator' ),
-        $gender_specific_lets
-      ); ?></h3>
+  <?php if ( is_account_page() ) { // Don't show title when embedded in other pages ?>
+    <h3><?php 
+          $gender_specific_lets = Fontimator_I18n::genderize_string(
+          _x( 'Let\'s', 'Gender-nuetral "Let\'s" in user email preference page', 'fontimator' ),
+          _x( 'Let\'s', 'Male "Let\'s" in user email preference page', 'fontimator' ),
+          _x( 'Let\'s', 'Female "Let\'s" in user email preference page', 'fontimator' ),
+          $user_email
+        );
+        printf(
+          __( '%1$s stay in touch!', 'fontimator' ),
+          $gender_specific_lets
+        ); ?></h3>
+  <?php } ?>
   <p class="newsletter-text"><?php _e( 'Every once in a while we send emails with updates about new fonts, special discounts & offers, tips for designers, free stuff and a lot of inspiration. We don\'t spam, and we will never give away your details to strangers.', 'fontimator' ); ?></p>
   <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
   <h5>
