@@ -31,23 +31,22 @@ if ( ! $options ) {
           __( '%1$s stay in touch!', 'fontimator' ),
           $gender_specific_lets
         ); ?></h3>
+    <p class="newsletter-text"><?php _e( 'Every once in a while we send emails with updates about new fonts, special discounts & offers, tips for designers, free stuff and a lot of inspiration. We don\'t spam, and we will never give away your details to strangers.', 'fontimator' ); ?></p>
+    <h5>
+      <?php 
+        $gender_specific_action = Fontimator_I18n::genderize_string(
+          _x( 'would you like', 'Gender-nuetral "would you like" in user email preference page', 'fontimator' ),
+          _x( 'would you like', 'Male "would you like" in user email preference page', 'fontimator' ),
+          _x( 'would you like', 'Female "would you like" in user email preference page', 'fontimator' ),
+          $user_email
+        );
+        printf(
+          __( 'Which updates %1$s to receive?', 'fontimator' ),
+          $gender_specific_action
+        ); 
+      ?>
+    </h5>
   <?php } ?>
-  <p class="newsletter-text"><?php _e( 'Every once in a while we send emails with updates about new fonts, special discounts & offers, tips for designers, free stuff and a lot of inspiration. We don\'t spam, and we will never give away your details to strangers.', 'fontimator' ); ?></p>
-  <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-  <h5>
-    <?php 
-      $gender_specific_action = Fontimator_I18n::genderize_string(
-        _x( 'would you like', 'Gender-nuetral "would you like" in user email preference page', 'fontimator' ),
-        _x( 'would you like', 'Male "would you like" in user email preference page', 'fontimator' ),
-        _x( 'would you like', 'Female "would you like" in user email preference page', 'fontimator' ),
-        $user_email
-      );
-      printf(
-        __( 'Which updates %1$s to receive?', 'fontimator' ),
-        $gender_specific_action
-      ); 
-    ?>
-  </h5>
   <div class="interest-groups">
     <?php
     
