@@ -153,8 +153,14 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		return $this->family;
 	}
 
-	public function get_name( $context = 'view' ) {
-		// $context is not usable, it's to suport the WC_Product::get_name declaration
+	/**
+	 * Get the name of the variation, with the weight and the license
+	 *
+	 * @param string $context not used, it's to suport the WC_Product::get_name declaration
+	 * @param boolean $full_license Optional: if true, the license includes the level (how many computers/etc...)
+	 * @return string
+	 */
+	public function get_name( $context = 'view', $full_license = false ) {
 		$name = $this->get_title(); // Family
 
 		if ( $this->weight ) {
@@ -164,16 +170,20 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 		}
 
 		if ( $this->license ) {
-			switch ( explode( '-', $this->license, 2 )[0] ) {
-				case 'web':
-					$license_name = __( 'web', 'fontimator' );
-					break;
-				case 'app':
-					$license_name = __( 'app', 'fontimator' );
-					break;
-				case 'otf':
-					$license_name = __( 'desktop', 'fontimator' );
-					break;
+			if ( $full_license ) {
+				$license_name = get_term_by( 'slug', $this->license, 'pa_' . FTM_LICENSE_ATTRIBUTE )->name;
+			} else {
+				switch ( explode( '-', $this->license, 2 )[0] ) {
+					case 'web':
+						$license_name = __( 'web', 'fontimator' );
+						break;
+					case 'app':
+						$license_name = __( 'app', 'fontimator' );
+						break;
+					case 'otf':
+						$license_name = __( 'desktop', 'fontimator' );
+						break;
+				}
 			}
 			// TRANSLATORS: The License name
 			$name .= sprintf( __( ', %s license', 'fontimator' ), $license_name );
