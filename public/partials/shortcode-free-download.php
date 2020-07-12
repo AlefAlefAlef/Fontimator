@@ -52,7 +52,7 @@ $download    = new Fontimator_Free_Download( $download_id );
 		
 		<?php if ( 'poster' == $download_type ) { ?>
 				<small>
-					<?php printf( __( 'Your email is only for your license. This will not add you to a mailing list. If you would like to get updated %1$ssign up to our newsletter%2$s.', 'fontimator' ), '<a href="https://alefalefalef.co.il/resources/newsletter-signup/">', '</a>' ); ?>
+					<?php printf( __( 'Your email is only for your license. This will not add you to a mailing list. If you would like to get updated %1$ssign up to our newsletter%2$s.', 'fontimator' ), '<a href="' . Fontimator_MC::SIGNUP_URL . '">', '</a>' ); ?>
 				</small>
 			<?php } else { ?>
 				<small>

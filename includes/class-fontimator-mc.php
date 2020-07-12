@@ -24,6 +24,14 @@ class Fontimator_MC {
    */
   protected $main_list;
 
+  /**
+   * URL to newsletter signup page
+   * Defined here fully because only alefalefalef has that page
+   *
+   * @var string
+   */
+  const SIGNUP_URL = 'https://alefalefalef.co.il/resources/newsletter/';
+
   function __construct() {
     if ($this->enabled()) {
       $this->mc4wp_mailchimp = new MC4WP_MailChimp();

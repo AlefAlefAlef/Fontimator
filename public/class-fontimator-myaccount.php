@@ -604,7 +604,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			<div class="legend">
 				<h5>מקרא</h5>
 				<dl>
-					<dt class="icon" data-icon="‚"></dt><dd>מתנת יום הולדת מ<a href="https://alefalefalef.co.il/resources/newsletter/" target="_blank">הניוזלטר</a></dd>
+					<dt class="icon" data-icon="‚"></dt><dd>מתנת יום הולדת מ<a href="<?php esc_attr( Fontimator_MC::SIGNUP_URL ) ?>" target="_blank">הניוזלטר</a></dd>
 					<dt class="icon" data-icon="ø"></dt><dd><a href="https://alefalefalef.co.il/font/membership/">מינוי</a> לספריית הפונטים</dd>
 					<dt class="icon" data-icon="׳"></dt><dd>הפונט עבר ל<a href="<?php echo home_url( 'resources/archive' ); ?>" target="_blank">ארכיון</a></dd>
 					<dt class="icon" data-icon="ℶ"></dt><dd>הפונט עבר ל<a href="https://fontimonim.co.il" target="_blank">פונטימונים</a></dd>
