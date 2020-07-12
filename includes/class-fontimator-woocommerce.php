@@ -236,9 +236,12 @@ class Fontimator_WooCommerce {
 
 	public function register_redirect_newsletter( $redirect_url ) {
 		if ( isset( $_POST['redirect_newsletter'] ) && $_POST['redirect_newsletter'] === 'true' ) {
-			$redirect_url = Fontimator_MC::SIGNUP_URL;
+			$redirect_url = add_query_arg( array(
+				'email' => urlencode( strtolower( wp_get_current_user()->user_email ) ),
+				'group' => FTM_SITE_NAME,
+			), Fontimator_MC::SIGNUP_URL );
+			
 		}
-		
 		return $redirect_url;
 	}
 }

@@ -307,7 +307,7 @@ class Fontimator {
 			
 			// Registration checkbox to redirect to newsletter signup
 			$this->loader->add_action( 'woocommerce_register_form', $fontimator_woocommerce, 'register_redirect_newsletter_print_checkbox' );
-			$this->loader->add_filter( 'woocommerce_registration_redirect', $fontimator_woocommerce, 'register_redirect_newsletter' );
+			$this->loader->add_filter( 'woocommerce_registration_redirect', $fontimator_woocommerce, 'register_redirect_newsletter', 90 );
 		}
 
 		// Timeout limit
@@ -385,6 +385,8 @@ class Fontimator {
 		$plugin_public = new Fontimator_Public( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		$this->loader->add_filter( 'allowed_redirect_hosts', $plugin_public, 'add_redirect_hosts' );
 
 		// DevTools banner
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'devtools_detect_notice' );

@@ -112,6 +112,11 @@ class Fontimator_Public {
 		);
 	}
 
+	public function add_redirect_hosts( $hosts ) {
+		array_push( $hosts, 'alefalefalef.co.il', 'fontimonim.co.il' );
+		return $hosts;
+	}
+
 	public function devtools_detect_notice() {
 		if ( current_user_can( 'administrator' ) ) {
 			return;
