@@ -299,11 +299,15 @@ class Fontimator {
 		// Remove the quantity field from WooCommerce Product
 		$this->loader->add_filter( 'woocommerce_is_sold_individually', $this, '_return_true' );
 
-		// Forgot password hack to sign up users on the fly
 		if ( $this->mc->enabled() ) {
+			// Forgot password hack to sign up users on the fly
 			remove_action( 'wp_loaded', array( 'WC_Form_Handler', 'process_lost_password' ), 20 ); // Replace with ours
 			$this->loader->add_action( 'wp_loaded', $fontimator_woocommerce, 'process_lost_password', 20 );
 			$this->loader->add_filter( 'authenticate', $fontimator_woocommerce, 'check_email_mailchimp_on_login', 90, 3 );
+			
+			// Registration checkbox to redirect to newsletter signup
+			$this->loader->add_action( 'woocommerce_register_form', $fontimator_woocommerce, 'register_redirect_newsletter_print_checkbox' );
+			$this->loader->add_filter( 'woocommerce_registration_redirect', $fontimator_woocommerce, 'register_redirect_newsletter' );
 		}
 
 		// Timeout limit

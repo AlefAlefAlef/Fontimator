@@ -226,4 +226,19 @@ class Fontimator_WooCommerce {
 		return $user;
 	}
 
+	public function register_redirect_newsletter_print_checkbox() {
+		?>
+		<label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__redirect_newsletter" data-children-count="1">
+			<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="redirect_newsletter" type="checkbox" id="redirect_newsletter" value="true"> <span><?php esc_html_e( 'Sign me up to the newsletter', 'fontimator' ); ?></span>
+		</label>
+		<?php
+	}
+
+	public function register_redirect_newsletter( $redirect_url ) {
+		if ( isset( $_POST['redirect_newsletter'] ) && $_POST['redirect_newsletter'] === 'true' ) {
+			$redirect_url = Fontimator_MC::SIGNUP_URL;
+		}
+		
+		return $redirect_url;
+	}
 }
