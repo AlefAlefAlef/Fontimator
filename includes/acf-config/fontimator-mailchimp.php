@@ -66,6 +66,37 @@ acf_add_local_field_group(array(
 			'placeholder' => '',
 		),
 		array(
+			'key' => 'ftm_address_merge_field',
+			'label' => 'Address Merge Field',
+			'name' => 'ftm_address_merge_field',
+			'type' => 'select',
+			'instructions' => 'The merge field to read/write address from, on the main list',
+			'required' => 0,
+			'conditional_logic' => array(
+				array(
+					array(
+						'field' => 'ftm_main_list',
+						'operator' => '!=empty',
+					),
+				),
+			),
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array(
+			),
+			'default_value' => array(
+			),
+			'allow_null' => 1,
+			'multiple' => 0,
+			'ui' => 0,
+			'return_format' => 'value',
+			'ajax' => 0,
+			'placeholder' => '',
+		),
+		array(
 			'key' => 'ftm_subscribe_groups',
 			'label' => 'Website Group',
 			'name' => 'ftm_subscribe_groups',

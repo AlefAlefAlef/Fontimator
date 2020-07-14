@@ -679,8 +679,64 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function save_gender_field_on_edit_account () {
-		if( isset( $_POST['mailchimp_gender'] ) && Fontimator::mc()->enabled() ) {
-			$success = Fontimator::mc()->update_user_gender($_POST['mailchimp_gender']);
+		if ( isset( $_POST['mailchimp_gender'] ) && Fontimator::mc()->enabled() ) {
+			Fontimator::mc()->update_user_gender($_POST['mailchimp_gender']);
+		}
+	}
+
+	public function add_address_field_to_edit_account () {
+		if ( ! Fontimator::mc()->enabled() ) {
+			return false;
+		}
+
+		if ( ! Fontimator::mc()->is_user_subscribed() ) {
+			return false;
+		}
+		
+		$user_address = Fontimator::mc()->get_user_address();
+		if ( ! $user_address->country ) {
+			$user_address->country = 'IL'; // Default to Israel
+		}
+
+		?>
+		<fieldset>
+			<legend><?php _e( 'What is your (physical) address?', 'fontimator' ); ?></legend>
+			<small><?php _e( 'So we can send you cool stuff by mail!', 'fontimator' ); ?></small>
+			
+			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+				<label for="mcAddress"><?php _e( 'Address', 'fontimator' ); ?></label>
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[address]" required id="mcAddress" placeholder="<?php esc_attr_e( 'Example St. 5 Apt 10', 'fontimator' ); ?>" autocomplete="street-address" value="<?php echo esc_attr( $user_address->addr1 ); ?>">
+			</p>
+			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+				<label for="mcCity"><?php _e( 'City', 'fontimator' ); ?></label>
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" required id="mcCity" placeholder="<?php esc_attr_e( 'Jerusalem', 'fontimator' ); ?>" autocomplete="locality" value="<?php echo esc_attr( $user_address->city ); ?>">
+			</p>
+			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+				<label for="mcZip"><?php _e( 'Zip Code', 'fontimator' ); ?></label>
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" required id="mcZip" placeholder="1337" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>">
+			</p>
+			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+				<label for="mcCountry"><?php _e( 'Country', 'fontimator' ); ?></label>
+				<?php
+				$countries_obj  = new WC_Countries();
+				$countries      = $countries_obj->__get('countries');
+				
+				?>
+				<select name="mailchimp_address[country]" required id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select">
+					<?php foreach ( $countries as $country_code => $country_name ) { ?>
+						<option <?php selected( $user_address->country, $country_code ); ?> value="<?php echo esc_attr( $country_code ); ?>"><?php echo esc_html( $country_name ); ?></option>
+					<?php } ?>
+				</select>
+			</p>
+
+
+		</fieldset>
+		<?php
+	}
+
+	public function save_address_field_on_edit_account () {
+		if ( isset( $_POST['mailchimp_address'] ) && Fontimator::mc()->enabled() ) {
+			Fontimator::mc()->update_user_address( $_POST['mailchimp_address']['address'], $_POST['mailchimp_address']['city'], $_POST['mailchimp_address']['zip'], $_POST['mailchimp_address']['country'] );
 		}
 	}
 

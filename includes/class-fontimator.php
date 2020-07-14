@@ -276,6 +276,7 @@ class Fontimator {
 			$this->loader->add_filter( 'acf/load_field/name=ftm_freefonts_group', $this->mc, 'populate_acf_field_with_mailchimp_groups' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_interest_group', $this->mc, 'populate_acf_field_with_mailchimp_groups' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_gender_merge_field', 			$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
+			$this->loader->add_filter( 'acf/load_field/name=ftm_address_merge_field', 			$this->mc, 'populate_acf_field_with_mailchimp_merge_fields' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_subscription_sync_group', 	$this->mc, 'populate_acf_field_with_mailchimp_groups' );
 			$this->loader->add_filter( 'acf/load_field/name=ftm_subscribe_groups', 	$this->mc, 'populate_acf_field_with_mailchimp_groups' );
 
@@ -486,9 +487,11 @@ class Fontimator {
 		
 		// Add gender to edit account page & MailChimp Tab
 		if ( $this->mc->enabled() ) {
-			// Gender & Bday Fields
+			// Gender & Address Fields
 			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_gender_field_to_edit_account' );
 			$this->loader->add_action( 'woocommerce_save_account_details', $myaccount, 'save_gender_field_on_edit_account' );
+			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_address_field_to_edit_account' );
+			$this->loader->add_action( 'woocommerce_save_account_details', $myaccount, 'save_address_field_on_edit_account' );
 			
 			// MailChimp Tab - source: https://businessbloomer.com/woocommerce-add-new-tab-account-page/
 			$this->loader->add_action( 'init', $myaccount, 'add_email_preferences_tab_rewrite' );

@@ -46,6 +46,7 @@ class Fontimator_MC {
     $this->freefonts_group = $acf->get_field('ftm_freefonts_group');
     $this->interest_groups = $acf->get_field('ftm_interest_groups');
     $this->gender_field = $acf->get_field('ftm_gender_merge_field');
+    $this->address_field = $acf->get_field('ftm_address_merge_field');
     $this->subscription_sync_group = $acf->get_field('ftm_subscription_sync_group');
   }
 
@@ -373,6 +374,29 @@ class Fontimator_MC {
 		return Fontimator_I18n::GENDER_NEUTRAL;
   }
 
+  /**
+	 * Gets the address of a user, based on the mailchimp MERGE field
+	 *
+	 * @param string $user_email (or null for current user)
+	 * @return string The value in the list, or null if doesn't exist
+	 */
+	public function get_user_address( $user_email = null ) {
+		if ( ! $this->address_field ) {
+			return null;
+    }
+    
+    
+    $merge_fields = $this->get_user_merge_fields( $this->main_list, $user_email );
+		if ( $merge_fields ) {
+      $mailchimp_address = $merge_fields->{$this->address_field};
+			if ( ! empty( $mailchimp_address ) ) {
+				return $mailchimp_address;
+			}
+    }
+    
+		return null;
+  }
+
   public function mailchimp_gender( $fontimator_gender ) {
     switch ( $fontimator_gender ) {
 			case Fontimator_I18n::GENDER_MALE:
@@ -394,7 +418,7 @@ class Fontimator_MC {
 	 */
 	public function update_user_gender( $new_gender, $user_email = null ) {
 		if ( ! $gender_field = $this->gender_field ) {
-			return null;
+			return false;
 		}
 
 		$mailchimp_gender = $this->mailchimp_gender( $new_gender );
@@ -403,6 +427,30 @@ class Fontimator_MC {
       return false;
     }
 		return $this->set_user_merge_field( $gender_field, $mailchimp_gender );
+	}
+
+
+  /**
+	 * Sets the address of a user, on a mailchimp MERGE field
+	 *
+	 * @param string $address
+	 * @param string $city
+	 * @param string $zip
+	 * @param string $country
+	 * @param string $user_email or empty for current user
+	 * @return bool Success
+	 */
+	public function update_user_address( $address, $city, $zip, $country, $user_email = null ) {
+		if ( ! $address_field = $this->address_field ) {
+			return false;
+		}
+
+		return $this->set_user_merge_field( $address_field, array(
+      'addr1' => $address,
+      'city' => $city,
+      'zip' => $zip,
+      'country' => $country,
+    ) );
 	}
 
 	/**

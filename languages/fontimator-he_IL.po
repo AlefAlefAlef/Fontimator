@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2020-07-12 13:48+0300\n"
-"PO-Revision-Date: 2020-07-12 13:48+0300\n"
+"POT-Creation-Date: 2020-07-14 17:41+0300\n"
+"PO-Revision-Date: 2020-07-14 17:44+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -125,48 +125,48 @@ msgstr "דסקטופ"
 msgid ", %s license"
 msgstr ", רישיון %s"
 
-#: includes/class-fontimator-mc.php:72
+#: includes/class-fontimator-mc.php:73
 msgid "(no lists found, configure MC4WP first)"
 msgstr "(לא נמצאו רשימות, יש להגדיר קודם את MC4WP)"
 
-#: includes/class-fontimator-mc.php:91 includes/class-fontimator-mc.php:115
-#: includes/class-fontimator-mc.php:141 includes/class-fontimator-mc.php:168
+#: includes/class-fontimator-mc.php:92 includes/class-fontimator-mc.php:116
+#: includes/class-fontimator-mc.php:142 includes/class-fontimator-mc.php:169
 msgid "(Please save the page first)"
 msgstr "(יש לשמור את העמוד קודם)"
 
-#: includes/class-fontimator-mc.php:93
+#: includes/class-fontimator-mc.php:94
 msgid "(no fields found, configure MC4WP first)"
 msgstr "‫(לא נמצאו שדות, יש להגדיר קודם את MC4WP)"
 
-#: includes/class-fontimator-mc.php:117 includes/class-fontimator-mc.php:143
+#: includes/class-fontimator-mc.php:118 includes/class-fontimator-mc.php:144
 msgid "(no groups found, configure MC4WP first)"
 msgstr "‫(לא נמצאו קבוצות, יש להגדיר קודם את MC4WP)"
 
-#: includes/class-fontimator-mc.php:170
+#: includes/class-fontimator-mc.php:171
 msgid "(no tags found, configure MC4WP first)"
 msgstr "‫(לא נמצאו תגיות, יש להגדיר קודם את MC4WP)"
 
-#: includes/class-fontimator-mc.php:366 includes/class-fontimator-mc.php:379
+#: includes/class-fontimator-mc.php:367 includes/class-fontimator-mc.php:403
 #: includes/class-mc4wp-woocommerce-integration.php:171
 msgid "Man"
 msgstr "גבר"
 
-#: includes/class-fontimator-mc.php:368 includes/class-fontimator-mc.php:383
+#: includes/class-fontimator-mc.php:369 includes/class-fontimator-mc.php:407
 #: includes/class-mc4wp-woocommerce-integration.php:175
 msgid "Woman"
 msgstr "אישה"
 
-#: includes/class-fontimator-mc.php:571
+#: includes/class-fontimator-mc.php:619
 #, php-format
 msgid ""
 "ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s"
 msgstr "שגיאה: הפונטימטור לא הצליח להגדיר את השדות של משתמש %1$s אל %2$s"
 
-#: includes/class-fontimator-mc.php:753
+#: includes/class-fontimator-mc.php:801
 msgid "Sign up to our Newsletter!"
 msgstr "הניוזלטר השווה!"
 
-#: includes/class-fontimator-mc.php:754
+#: includes/class-fontimator-mc.php:802
 #, php-format
 msgid ""
 "%s, Join over 5,000 VIP members to get updates and special deals only availabe via "
@@ -175,7 +175,7 @@ msgstr ""
 "‫%s, אנחנו מזמינים אותך להצטרף ל־5,000 מנויי הניוזלטר – כדי שנוכל לשלוח גם לך עדכונים "
 "על פונטים חדשים, חינמיים ומבצעים מיוחדים למנויים בלבד."
 
-#: includes/class-fontimator-mc.php:755
+#: includes/class-fontimator-mc.php:803
 msgid "Subscribe Now!"
 msgstr "אני רוצה להירשם! ⇱"
 
@@ -199,11 +199,7 @@ msgstr ""
 "אהלן %3$s! עדיין לא הגדרת סיסמה... כדי לגשת לאיזור האישי, %1$sיש ללחוץ כאן%2$s "
 "לאיפוס הסיסמה."
 
-#: includes/class-fontimator-woocommerce.php:242
-msgid "Font"
-msgstr "פונט"
-
-#: includes/class-fontimator-woocommerce.php:251
+#: includes/class-fontimator-woocommerce.php:232
 msgid "Sign me up to the newsletter"
 msgstr "רשמו אותי לניוזלטר!"
 
@@ -476,15 +472,47 @@ msgstr ""
 "אם רכשת רישיון שימוש שלא מופיע פה, אפשר <a href='%s'>ללחוץ כאן</a> כדי לרענן את "
 "הרשימה."
 
-#: public/class-fontimator-myaccount.php:717
+#: public/class-fontimator-myaccount.php:703
+msgid "What is your (physical) address?"
+msgstr "מהי הכתובת שלך? (יעני בחיים האמיתיים, לא אימייל)"
+
+#: public/class-fontimator-myaccount.php:704
+msgid "So we can send you cool stuff by mail!"
+msgstr "כדי שנוכל לשלוח לך דברים שווים בדואר!"
+
+#: public/class-fontimator-myaccount.php:707
+msgid "Address"
+msgstr "רחוב ומספר בית/דירה"
+
+#: public/class-fontimator-myaccount.php:708
+msgid "Example St. 5 Apt 10"
+msgstr "רח' הרצל 48 דירה 19"
+
+#: public/class-fontimator-myaccount.php:711
+msgid "City"
+msgstr "עיר"
+
+#: public/class-fontimator-myaccount.php:712
+msgid "Jerusalem"
+msgstr "הרצליה"
+
+#: public/class-fontimator-myaccount.php:715
+msgid "Zip Code"
+msgstr "מיקוד"
+
+#: public/class-fontimator-myaccount.php:719
+msgid "Country"
+msgstr "מדינה"
+
+#: public/class-fontimator-myaccount.php:773
 msgid "Email Preferences"
 msgstr "העדפות מיילים"
 
-#: public/class-fontimator-myaccount.php:750
+#: public/class-fontimator-myaccount.php:806
 msgid "Error: could not validate email address to update preferences for."
-msgstr ""
+msgstr "שגיאה: לא היה ניתן לאמת את כתובת המייל של החשבון שלך."
 
-#: public/class-fontimator-myaccount.php:771
+#: public/class-fontimator-myaccount.php:827
 msgid "Email preferences were updated successfully."
 msgstr "הגדרות האימייל שלך נשמרו בהצלחה."
 
@@ -1166,7 +1194,10 @@ msgstr "ראובן קרסיק"
 
 #. Author URI of the plugin/theme
 msgid "https://alefalefalef.co.il/"
-msgstr "https://alefalefalef.co.il/"
+msgstr "‫https://alefalefalef.co.il/"
+
+#~ msgid "Font"
+#~ msgstr "פונט"
 
 #~ msgid ""
 #~ "Hold on, %1$s! You are not subscribed to our newsletter, and miss all the fun. <a "
