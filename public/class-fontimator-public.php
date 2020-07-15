@@ -284,7 +284,7 @@ class Fontimator_Public {
 	public static function display_licenseapp_field() {
 		$license_info_page_link = Fontimator::acf()->get_field( 'license_info_page', 'options' );
 		?>
-		<label for="licenseapp" class="licenseapp-field" style="display: none">
+		<label for="licenseapp" class="licenseapp-field" style="display: none;">
 			<span data-license="app"><?php _e( 'The app name:', 'fontimator' ); ?></span>
 			<span data-license="web" style="display: none"><?php _e( 'The website address:', 'fontimator' ); ?></span>
 			<a class="info-tooltip" href="<?php echo $license_info_page_link; ?>" title="<?php esc_attr_e( 'Every web/app license is purchased per one app/website. If you need it for two different websites, you must purchase it twice.', 'fontimator' ); ?>" target="blank"><i class="icon" data-icon="."></i></a>

@@ -658,23 +658,28 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		
 		$user_gender = Fontimator_I18n::get_user_gender();
 		?>
-		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide form-row-gender">
-			<span><?php _e( 'How would you like to be addressed?', 'fontimator' ); ?></span>
-			<?php
-			$options = array(
-				Fontimator_I18n::GENDER_FEMALE => _x( 'As female', 'Gender field option in edit account form', 'fontimator' ),
-				Fontimator_I18n::GENDER_MALE => _x( 'As male', 'Gender field option in edit account form', 'fontimator' ),
-			);
-			foreach ( $options as $key => $option ) {
-				?>
-				<label>
-					<input type="radio" name="mailchimp_gender" value="<?php echo $key; ?>" <?php checked( $user_gender, $key ); ?> />
-					<?php echo $option; ?>
-				</label>
+		<fieldset>
+			<legend><?php _e( 'How would you like to be addressed?', 'fontimator' ); ?></legend>
+			<p class="form-row-small">
+				<small><?php _e( 'Throughout the site we try to customize the messeges to you so you can feel at home.', 'fontimator' ); ?></small>
+			</p>
+			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide form-row-gender">
 				<?php
-			}
-			?>
-		</p>
+				$options = array(
+					Fontimator_I18n::GENDER_FEMALE => _x( 'As female', 'Gender field option in edit account form', 'fontimator' ),
+					Fontimator_I18n::GENDER_MALE => _x( 'As male', 'Gender field option in edit account form', 'fontimator' ),
+				);
+				foreach ( $options as $key => $option ) {
+					?>
+					<label>
+						<input type="radio" name="mailchimp_gender" value="<?php echo $key; ?>" <?php checked( $user_gender, $key ); ?> />
+						<?php echo $option; ?>
+					</label>
+					<?php
+				}
+				?>
+			</p>
+		</fieldset>
 		<?php
 	}
 
@@ -701,7 +706,9 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		?>
 		<fieldset>
 			<legend><?php _e( 'What is your (physical) address?', 'fontimator' ); ?></legend>
-			<small><?php _e( 'So we can send you cool stuff by mail!', 'fontimator' ); ?></small>
+			<p class="form-row-small">
+				<small><?php _e( 'So we can send you cool stuff by mail!', 'fontimator' ); ?></small>
+			</p>
 			
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcAddress"><?php _e( 'Address', 'fontimator' ); ?></label>
@@ -709,11 +716,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcCity"><?php _e( 'City', 'fontimator' ); ?></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" required id="mcCity" placeholder="<?php esc_attr_e( 'Jerusalem', 'fontimator' ); ?>" autocomplete="locality" value="<?php echo esc_attr( $user_address->city ); ?>">
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" required id="mcCity" placeholder="" autocomplete="locality" value="<?php echo esc_attr( $user_address->city ); ?>">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcZip"><?php _e( 'Zip Code', 'fontimator' ); ?></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" required id="mcZip" placeholder="1337" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>">
+				<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" required id="mcZip" placeholder="1234567" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>" min="1000000" max="9999999">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcCountry"><?php _e( 'Country', 'fontimator' ); ?></label>
@@ -722,7 +729,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				$countries      = $countries_obj->__get('countries');
 				
 				?>
-				<select name="mailchimp_address[country]" required id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select">
+				<select name="mailchimp_address[country]" required id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select option-tree-ui-select">
 					<?php foreach ( $countries as $country_code => $country_name ) { ?>
 						<option <?php selected( $user_address->country, $country_code ); ?> value="<?php echo esc_attr( $country_code ); ?>"><?php echo esc_html( $country_name ); ?></option>
 					<?php } ?>
