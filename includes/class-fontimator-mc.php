@@ -484,6 +484,42 @@ class Fontimator_MC {
 		return true;
 	}
   
+	/**
+	 * Trigger a subscriber event
+	 *
+	 * @param string $event_name The event name for MailChimp
+	 * @param string $user_email If null, set to current user email
+	 * @param string $list_id If null, set to main list id
+	 * @param array $properties Aditional meta data for the event
+	 * @return bool Is successful
+	 */
+	public function trigger_subscriber_event( $event_name, $user_email = null, $list_id = null, $properties = array() ) {
+		if ( ! $list_id ) {
+			$list_id = $this->main_list;
+		}
+
+		if ( ! $user_email ) {
+			$user_email = strtolower( wp_get_current_user()->user_email );
+		}
+
+		try {
+			$api = mc4wp_get_api_v3();
+
+			$subscriber_hash = $api->get_subscriber_hash( $user_email );
+			$resource        = sprintf( '/lists/%s/members/%s/events', $list_id, $subscriber_hash );
+
+			$args = array(
+				'name' => $event_name,
+				'properties' => $properties,
+			);
+
+			$api->get_client()->post( $resource, $args );
+		} catch (\Throwable $th) {
+			return false;
+		}
+		return true;
+	}
+
   /**
    * Check if a user is subscribed to a list
    *
