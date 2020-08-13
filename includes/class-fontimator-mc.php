@@ -865,9 +865,9 @@ class Fontimator_MC {
     return false;
   }
 
-  public static function edit_preferences_template($email_address) {
+  public static function edit_preferences_template( $email_address, $show_title = FALSE ) {
     wp_enqueue_script( 'fontimator-email-preferences' );
-    $user_email = $email_address; // For template bellow
+    $user_email = $email_address; // For template below
     require WP_PLUGIN_DIR . '/fontimator/public/partials/fontimator-myaccount-email-preferences.php';
   }
 }

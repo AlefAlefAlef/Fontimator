@@ -19,7 +19,7 @@ if ( ! $options ) {
 ?>
 <form class="woocommerce-EmailPreferencesForm edit-account" action="" method="post">
 
-  <?php if ( is_account_page() ) { // Don't show title when embedded in other pages ?>
+  <?php if ( is_account_page() || TRUE === $show_title ) { // Don't show title when embedded in other pages ?>
     <h3><?php 
           $gender_specific_lets = Fontimator_I18n::genderize_string(
           _x( 'Let\'s', 'Gender-nuetral "Let\'s" in user email preference page', 'fontimator' ),
