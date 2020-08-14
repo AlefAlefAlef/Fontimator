@@ -812,7 +812,7 @@ class Fontimator_MC {
         'merge_fields' => array(
           'FNAME' => $first_name,
           'LNAME' => $last_name,
-          'BDAY'  => sprintf( "%s/%s", $bday, $bmonth ),
+          'BDAY'  => sprintf( "%s/%s", $bmonth, $bday ),
           'GENDER' => $this->mailchimp_gender( $gender ),
         ),
       ), true );
