@@ -808,6 +808,7 @@ class Fontimator_MC {
       mc4wp_get_api_v3()->add_list_member( $this->main_list, array(
         'email_address' =>  $user_email,
         'status_if_new' => 'subscribed',
+        'status' => 'subscribed',
         'interests' => $groups,
         'merge_fields' => array(
           'FNAME' => $first_name,
