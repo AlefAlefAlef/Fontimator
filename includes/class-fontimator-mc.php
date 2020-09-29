@@ -194,97 +194,97 @@ class Fontimator_MC {
   }
 
   /**
-	 * Get all merge fields of a user, or false if not subscribed
-	 *
-	 * @param string $list_id or null for main list
-	 * @param string $user_email or null for current user
-	 * @return stdClass
-	 */
-	public function get_user_merge_fields( $list_id = null, $user_email = null ) {
-		if ( ! is_user_logged_in() && ! $user_email ) {
-			return null;
-		}
+   * Get all merge fields of a user, or false if not subscribed
+   *
+   * @param string $list_id or null for main list
+   * @param string $user_email or null for current user
+   * @return stdClass
+   */
+  public function get_user_merge_fields( $list_id = null, $user_email = null ) {
+    if ( ! is_user_logged_in() && ! $user_email ) {
+      return null;
+    }
 
-		if ( ! $user_email ) {
-			$user_email = strtolower( wp_get_current_user()->user_email );
-		}
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
 
-		if ( ! $list_id ) {
-			$list_id = $this->main_list;
-		}
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
 
-		$api = mc4wp_get_api_v3();
-		try {
-			$member = $api->get_list_member( $list_id, $user_email );
-			if ( $member ) {
-				return $member->merge_fields;
-			}
-			
-		} catch (\Throwable $th) {
-			return false;
-		}
+    $api = mc4wp_get_api_v3();
+    try {
+      $member = $api->get_list_member( $list_id, $user_email );
+      if ( $member ) {
+        return $member->merge_fields;
+      }
+      
+    } catch (\Throwable $th) {
+      return false;
+    }
 
-		return null;
+    return null;
   }
   
   /**
-	 * Get all tags of a user, or false if not subscribed
-	 *
-	 * @param string $list_id or null for main list
-	 * @param string $user_email or null for current user
-	 * @return array<stdClass>
-	 */
-	public function get_user_tags( $list_id = null, $user_email = null ) {
-		if ( ! is_user_logged_in() && ! $user_email ) {
-			return null;
-		}
+   * Get all tags of a user, or false if not subscribed
+   *
+   * @param string $list_id or null for main list
+   * @param string $user_email or null for current user
+   * @return array<stdClass>
+   */
+  public function get_user_tags( $list_id = null, $user_email = null ) {
+    if ( ! is_user_logged_in() && ! $user_email ) {
+      return null;
+    }
 
-		if ( ! $user_email ) {
-			$user_email = strtolower( wp_get_current_user()->user_email );
-		}
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
 
-		if ( ! $list_id ) {
-			$list_id = $this->main_list;
-		}
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
 
-		$api = mc4wp_get_api_v3();
-		try {
-			$member = $api->get_list_member_tags( $list_id, $user_email );
-			if ( $member ) {
-				return $member->tags;
-			}
-			
-		} catch (\Throwable $th) {
-			return false;
-		}
+    $api = mc4wp_get_api_v3();
+    try {
+      $member = $api->get_list_member_tags( $list_id, $user_email );
+      if ( $member ) {
+        return $member->tags;
+      }
+      
+    } catch (\Throwable $th) {
+      return false;
+    }
 
-		return null;
-	}
+    return null;
+  }
   
   /**
-	 * Get all tags of a user, or false if not subscribed
-	 *
-	 * @param string $list_id or null for main list
-	 * @param string $user_email or null for current user
-	 * @return array<stdClass>
-	 */
-	public function get_user_groups( $list_id = null, $user_email = null ) {
-		if ( ! is_user_logged_in() && ! $user_email ) {
+   * Get all tags of a user, or false if not subscribed
+   *
+   * @param string $list_id or null for main list
+   * @param string $user_email or null for current user
+   * @return array<stdClass>
+   */
+  public function get_user_groups( $list_id = null, $user_email = null ) {
+    if ( ! is_user_logged_in() && ! $user_email ) {
       return null;
-		}
+    }
     
-		if ( ! $user_email ) {
+    if ( ! $user_email ) {
       $user_email = strtolower( wp_get_current_user()->user_email );
-		}
+    }
     
-		if ( ! $list_id ) {
+    if ( ! $list_id ) {
       $list_id = $this->main_list;
-		}
+    }
     
-		$api = mc4wp_get_api_v3();
-		try {
+    $api = mc4wp_get_api_v3();
+    try {
       $member = $api->get_list_member( $list_id, $user_email );
-			if ( $member ) {
+      if ( $member ) {
         $result = array();
         foreach ( $member->interests as $interest_id => $active ) {
           if ( $active ) {
@@ -292,14 +292,14 @@ class Fontimator_MC {
           }
         }
         return $result;
-			}
-			
-		} catch (\Throwable $th) {
+      }
+      
+    } catch (\Throwable $th) {
       return false;
-		}
+    }
     
-		return null;
-	}
+    return null;
+  }
 
 
   /**
@@ -328,226 +328,226 @@ class Fontimator_MC {
   }
 
   /**
-	 * Checks if user has the academic tag
-	 *
-	 * @param string $user_email (or null for current user)
-	 * @return bool
-	 */
-	public function get_academic_license_year( $user_email = null ) {
+   * Checks if user has the academic tag
+   *
+   * @param string $user_email (or null for current user)
+   * @return bool
+   */
+  public function get_academic_license_year( $user_email = null ) {
     $academic_groups = $this->get_academic_groups(); // TODO: Test this change
     if ( ! $academic_groups ) {
       return false;
     }
     
     $groups = $this->get_user_groups( $user_email );
-		foreach ( (array) $groups as $group ) {
+    foreach ( (array) $groups as $group ) {
       if ( in_array( $group, array_keys( (array) $academic_groups ) ) ) {
         return $academic_groups[ $group ];
       }
     }
     
-		return false;
+    return false;
   }
 
   /**
-	 * Gets the gender of a user, based on the mailchimp MERGE field
-	 *
-	 * @param string $user_email (or null for current user)
-	 * @return Fontimator_I18n::GENDER The value in the list, or neutral if doesn't exist
-	 */
-	public function get_user_gender( $user_email = null ) {
-		if ( ! $this->gender_field ) {
-			return Fontimator_I18n::GENDER_NEUTRAL;
+   * Gets the gender of a user, based on the mailchimp MERGE field
+   *
+   * @param string $user_email (or null for current user)
+   * @return Fontimator_I18n::GENDER The value in the list, or neutral if doesn't exist
+   */
+  public function get_user_gender( $user_email = null ) {
+    if ( ! $this->gender_field ) {
+      return Fontimator_I18n::GENDER_NEUTRAL;
     }
     
     
     $merge_fields = $this->get_user_merge_fields( $this->main_list, $user_email );
-		if ( $merge_fields ) {
+    if ( $merge_fields ) {
       $mailchimp_gender = $merge_fields->{$this->gender_field};
-			if ( $mailchimp_gender == __( 'Man', 'fontimator' ) ) {
-				return Fontimator_I18n::GENDER_MALE;
-			} else if ( $mailchimp_gender == __( 'Woman', 'fontimator' ) ) {
-				return Fontimator_I18n::GENDER_FEMALE;
-			}
+      if ( $mailchimp_gender == __( 'Man', 'fontimator' ) ) {
+        return Fontimator_I18n::GENDER_MALE;
+      } else if ( $mailchimp_gender == __( 'Woman', 'fontimator' ) ) {
+        return Fontimator_I18n::GENDER_FEMALE;
+      }
     }
     
-		return Fontimator_I18n::GENDER_NEUTRAL;
+    return Fontimator_I18n::GENDER_NEUTRAL;
   }
 
   /**
-	 * Gets the address of a user, based on the mailchimp MERGE field
-	 *
-	 * @param string $user_email (or null for current user)
-	 * @return string The value in the list, or null if doesn't exist
-	 */
-	public function get_user_address( $user_email = null ) {
-		if ( ! $this->address_field ) {
-			return null;
+   * Gets the address of a user, based on the mailchimp MERGE field
+   *
+   * @param string $user_email (or null for current user)
+   * @return string The value in the list, or null if doesn't exist
+   */
+  public function get_user_address( $user_email = null ) {
+    if ( ! $this->address_field ) {
+      return null;
     }
     
     
     $merge_fields = $this->get_user_merge_fields( $this->main_list, $user_email );
-		if ( $merge_fields ) {
+    if ( $merge_fields ) {
       $mailchimp_address = $merge_fields->{$this->address_field};
-			if ( ! empty( $mailchimp_address ) ) {
-				return $mailchimp_address;
-			}
+      if ( ! empty( $mailchimp_address ) ) {
+        return $mailchimp_address;
+      }
     }
     
-		return null;
+    return null;
   }
 
   public function mailchimp_gender( $fontimator_gender ) {
     switch ( $fontimator_gender ) {
-			case Fontimator_I18n::GENDER_MALE:
-				return __( 'Man', 'fontimator' );
-				break;
-			
-			case Fontimator_I18n::GENDER_FEMALE:
-				return __( 'Woman', 'fontimator' );
+      case Fontimator_I18n::GENDER_MALE:
+        return __( 'Man', 'fontimator' );
         break;
-		}
+      
+      case Fontimator_I18n::GENDER_FEMALE:
+        return __( 'Woman', 'fontimator' );
+        break;
+    }
   }
 
   /**
-	 * Sets the gender of a user, on a mailchimp MERGE field
-	 *
-	 * @param int $new_gender
-	 * @param string $user_email or empty for current user
-	 * @return bool Success
-	 */
-	public function update_user_gender( $new_gender, $user_email = null ) {
-		if ( ! $gender_field = $this->gender_field ) {
-			return false;
-		}
+   * Sets the gender of a user, on a mailchimp MERGE field
+   *
+   * @param int $new_gender
+   * @param string $user_email or empty for current user
+   * @return bool Success
+   */
+  public function update_user_gender( $new_gender, $user_email = null ) {
+    if ( ! $gender_field = $this->gender_field ) {
+      return false;
+    }
 
-		$mailchimp_gender = $this->mailchimp_gender( $new_gender );
+    $mailchimp_gender = $this->mailchimp_gender( $new_gender );
 
     if ( $mailchimp_gender === null ) {
       return false;
     }
-		return $this->set_user_merge_field( $gender_field, $mailchimp_gender );
-	}
+    return $this->set_user_merge_field( $gender_field, $mailchimp_gender );
+  }
 
 
   /**
-	 * Sets the address of a user, on a mailchimp MERGE field
-	 *
-	 * @param string $address
-	 * @param string $city
-	 * @param string $zip
-	 * @param string $country
-	 * @param string $user_email or empty for current user
-	 * @return bool Success
-	 */
-	public function update_user_address( $address, $city, $zip, $country, $user_email = null ) {
-		if ( ! $address_field = $this->address_field ) {
-			return false;
-		}
+   * Sets the address of a user, on a mailchimp MERGE field
+   *
+   * @param string $address
+   * @param string $city
+   * @param string $zip
+   * @param string $country
+   * @param string $user_email or empty for current user
+   * @return bool Success
+   */
+  public function update_user_address( $address, $city, $zip, $country, $user_email = null ) {
+    if ( ! $address_field = $this->address_field ) {
+      return false;
+    }
 
-		return $this->set_user_merge_field( $address_field, array(
+    return $this->set_user_merge_field( $address_field, array(
       'addr1' => $address,
       'city' => $city,
       'zip' => $zip,
       'country' => $country,
     ) );
-	}
+  }
 
-	/**
-	 * Set a user's merge field values
-	 *
-	 * @param string $field_name
-	 * @param mixed $field_newval
-	 * @param string $user_email If null, set to current user email
-	 * @param string $list_id If null, set to main list id
-	 * @return bool Success
-	 */
-	public function set_user_merge_field( $field_name, $field_newval, $user_email = null, $list_id = null ) {
-		if ( ! $list_id ) {
-			$list_id = $this->main_list;
-		}
+  /**
+   * Set a user's merge field values
+   *
+   * @param string $field_name
+   * @param mixed $field_newval
+   * @param string $user_email If null, set to current user email
+   * @param string $list_id If null, set to main list id
+   * @return bool Success
+   */
+  public function set_user_merge_field( $field_name, $field_newval, $user_email = null, $list_id = null ) {
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
 
-		if ( ! $user_email ) {
-			$user_email = strtolower( wp_get_current_user()->user_email );
-		}
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
 
-		try {
-			$api = mc4wp_get_api_v3();
-			$api->update_list_member( $list_id, $user_email, array(
-				'merge_fields' => array(
-					$field_name => $field_newval
-				),
-			) );
-		} catch (\Throwable $th) {
-			return false;
-		}
-		return true;
-	}
+    try {
+      $api = mc4wp_get_api_v3();
+      $api->update_list_member( $list_id, $user_email, array(
+        'merge_fields' => array(
+          $field_name => $field_newval
+        ),
+      ) );
+    } catch (\Throwable $th) {
+      return false;
+    }
+    return true;
+  }
   
-	/**
-	 * Trigger a subscriber event
-	 *
-	 * @param string $event_name The event name for MailChimp
-	 * @param string $user_email If null, set to current user email
-	 * @param string $list_id If null, set to main list id
-	 * @param array $properties Aditional meta data for the event
-	 * @return bool Is successful
-	 */
-	public function trigger_subscriber_event( $event_name, $user_email = null, $list_id = null, $properties = array() ) {
-		if ( ! $list_id ) {
-			$list_id = $this->main_list;
-		}
+  /**
+   * Trigger a subscriber event
+   *
+   * @param string $event_name The event name for MailChimp
+   * @param string $user_email If null, set to current user email
+   * @param string $list_id If null, set to main list id
+   * @param array $properties Aditional meta data for the event
+   * @return bool Is successful
+   */
+  public function trigger_subscriber_event( $event_name, $user_email = null, $list_id = null, $properties = array() ) {
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
 
-		if ( ! $user_email ) {
-			$user_email = strtolower( wp_get_current_user()->user_email );
-		}
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
 
-		try {
-			$api = mc4wp_get_api_v3();
+    try {
+      $api = mc4wp_get_api_v3();
 
-			$subscriber_hash = $api->get_subscriber_hash( $user_email );
-			$resource        = sprintf( '/lists/%s/members/%s/events', $list_id, $subscriber_hash );
+      $subscriber_hash = $api->get_subscriber_hash( $user_email );
+      $resource        = sprintf( '/lists/%s/members/%s/events', $list_id, $subscriber_hash );
 
-			$args = array(
-				'name' => $event_name,
-				'properties' => $properties,
-			);
+      $args = array(
+        'name' => $event_name,
+        'properties' => $properties,
+      );
 
-			$api->get_client()->post( $resource, $args );
-		} catch (\Throwable $th) {
-			return false;
-		}
-		return true;
-	}
+      $api->get_client()->post( $resource, $args );
+    } catch (\Throwable $th) {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Check if a user is subscribed to a list
    *
    * @param string $user_email or empty for current user
+   * @param string|boolean $status A status to check against, or `false` to return true for any status. Defaults to 'subscribed'
    * @param string $list_id or empty for main list
    * @return boolean
    */
-  public function is_user_subscribed( $user_email = null, $list_id = null ) {
-		if ( ! $user_email ) {
-			$user_email = strtolower( wp_get_current_user()->user_email );
-		}
+  public function is_user_subscribed( $user_email = null, $status = 'subscribed', $list_id = null ) {
+    if ( ! $user_email ) {
+      $user_email = strtolower( wp_get_current_user()->user_email );
+    }
 
-		if ( ! $list_id ) {
-			$list_id = $this->main_list;
-		}
+    if ( ! $list_id ) {
+      $list_id = $this->main_list;
+    }
 
-		$api = mc4wp_get_api_v3();
-		try {
-			$member = $api->get_list_member( $list_id, $user_email );
-			if ( $member && $member->status === 'subscribed' ) {
-				return true;
-			}
-			
-		} catch (\Throwable $th) {
-			return false;
-		}
+    $api = mc4wp_get_api_v3();
+    try {
+      $member = $api->get_list_member( $list_id, $user_email );
+      if ( $member && ( $status === false || $member->status === $status ) ) {
+        return true;
+      }
+    } catch (\Throwable $th) {
+      return false;
+    }
 
-		return false;
+    return false;
   }
   
   
@@ -613,21 +613,21 @@ class Fontimator_MC {
 
 
   /**
-	 * Set subscriber status
-	 *
-	 * @param string $email
-	 * @param bool $new_status
-	 * @return bool Success
-	 */
-	public function set_subscription_group( $email, $new_status ) {
+   * Set subscriber status
+   *
+   * @param string $email
+   * @param bool $new_status
+   * @return bool Success
+   */
+  public function set_subscription_group( $email, $new_status ) {
     $group_id = $this->subscription_sync_group;
-		if ($group_id) {
+    if ($group_id) {
       return $this->update_user_groups( array(
         $group_id => $new_status,
       ), null, $email );
     }
     return false;
-	}
+  }
 
   /**
    * Fires on any subscription status change to update the MC tag
@@ -639,20 +639,24 @@ class Fontimator_MC {
    */
   public function update_subscription_status( $subscription, $new_status, $old_status ) {
     $email = $subscription->get_billing_email();
-		if ( 'active' === $new_status ) {
-			$merge_code = 'on';
-			$success = $this->set_subscription_group( $email, true );
-		} else {
-			$merge_code = 'off';
-			$success = $this->set_subscription_group( $email, false );
-		}
+    if ( ! $this->is_user_subscribed( $email, false ) ) {
+      return;
+    }
+
+    if ( 'active' === $new_status ) {
+      $merge_code = 'on';
+      $success = $this->set_subscription_group( $email, true );
+    } else {
+      $merge_code = 'off';
+      $success = $this->set_subscription_group( $email, false );
+    }
 
   
     if ( ! $success ) {
       WC_Admin_Notices::add_custom_notice(
         "ftm_sync_subscription_error_{$email}",
         // TRANSLATORS: %$1s: User email, %2$s: new status
-        sprintf( __( 'ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s', 'fontimator' ), $email, $merge_code )
+        sprintf( __( 'ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s (%3$s)', 'fontimator' ), $email, $merge_code, wp_date( get_option( 'date_format' ) ) )
       );
     }
   }
@@ -736,7 +740,7 @@ class Fontimator_MC {
 
     foreach ( $members_to_update as $email_address => $update_action ) {
       $subscriber_hash = mc4wp_get_api_v3()->get_subscriber_hash( $email_address );
-		  $resource        = sprintf( '/lists/%s/members/%s', $list_id, $subscriber_hash );
+      $resource        = sprintf( '/lists/%s/members/%s', $list_id, $subscriber_hash );
       $operations[] = array(
         'method' => 'PATCH',
         'path' => $resource,
