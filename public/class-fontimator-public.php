@@ -79,7 +79,7 @@ class Fontimator_Public {
 
 		wp_enqueue_script( 'fontimator-public-js', plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, true );
 
-		if ( ! current_user_can('administrator') ) {
+		if ( ! current_user_can('administrator') && ! isset( $_GET['allow-devtools'] ) ) {
 			wp_enqueue_script( 'devtools-detect', plugin_dir_url( __FILE__ ) . 'js/devtools-detector.js', array( ), $this->version, true );
 		}
 
