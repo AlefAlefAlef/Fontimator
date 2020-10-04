@@ -712,15 +712,15 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcAddress"><?php _e( 'Address', 'fontimator' ); ?></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[address]" required id="mcAddress" placeholder="<?php esc_attr_e( 'Example St. 5 Apt 10', 'fontimator' ); ?>" autocomplete="street-address" value="<?php echo esc_attr( $user_address->addr1 ); ?>">
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[address]" id="mcAddress" placeholder="<?php esc_attr_e( 'Example St. 5 Apt 10', 'fontimator' ); ?>" autocomplete="street-address" value="<?php echo esc_attr( $user_address->addr1 ); ?>">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcCity"><?php _e( 'City', 'fontimator' ); ?></label>
-				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" required id="mcCity" placeholder="" autocomplete="locality" value="<?php echo esc_attr( $user_address->city ); ?>">
+				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" id="mcCity" placeholder="" autocomplete="locality" value="<?php echo esc_attr( $user_address->city ); ?>">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcZip"><?php _e( 'Zip Code', 'fontimator' ); ?></label>
-				<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" required id="mcZip" placeholder="1234567" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>" min="1000000" max="9999999">
+				<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" id="mcZip" placeholder="1234567" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>" min="1000000" max="9999999">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcCountry"><?php _e( 'Country', 'fontimator' ); ?></label>
@@ -729,7 +729,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				$countries      = $countries_obj->__get('countries');
 				
 				?>
-				<select name="mailchimp_address[country]" required id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select option-tree-ui-select">
+				<select name="mailchimp_address[country]" id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select option-tree-ui-select">
 					<?php foreach ( $countries as $country_code => $country_name ) { ?>
 						<option <?php selected( $user_address->country, $country_code ); ?> value="<?php echo esc_attr( $country_code ); ?>"><?php echo esc_html( $country_name ); ?></option>
 					<?php } ?>
