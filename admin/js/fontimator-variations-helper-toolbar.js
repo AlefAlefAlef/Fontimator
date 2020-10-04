@@ -3,7 +3,7 @@
 
 	$(function () {
 		// Select variations tab by default
-		$('ul.wc-tabs a[href=#variable_product_options]').click();
+		$('ul.wc-tabs a[href="#variable_product_options"]').click();
 		$('#variable_product_options').trigger('reload');
 
 

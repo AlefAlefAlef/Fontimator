@@ -652,7 +652,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			return false;
 		}
 
-		if ( ! Fontimator::mc()->is_user_subscribed() ) {
+		if ( ! Fontimator::mc()->is_user_subscribed( null, false ) ) {
 			return false;
 		}
 		
@@ -694,7 +694,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			return false;
 		}
 
-		if ( ! Fontimator::mc()->is_user_subscribed() ) {
+		if ( ! Fontimator::mc()->is_user_subscribed( null, false ) ) {
 			return false;
 		}
 		
