@@ -660,7 +660,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		?>
 		<fieldset>
 			<legend><?php _e( 'How would you like to be addressed?', 'fontimator' ); ?></legend>
-			<p class="form-row-small">
+			<p class="form-row-small feat-gndr">
 				<small><?php _e( 'Throughout the site we try to customize the messeges to you so you can feel at home.', 'fontimator' ); ?></small>
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide form-row-gender">
