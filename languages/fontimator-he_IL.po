@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2020-09-29 16:02+0300\n"
-"PO-Revision-Date: 2020-09-29 16:03+0300\n"
+"POT-Creation-Date: 2020-10-07 09:10+0300\n"
+"PO-Revision-Date: 2020-10-07 09:11+0300\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -157,11 +157,13 @@ msgid "Woman"
 msgstr "אישה"
 
 #: includes/class-fontimator-mc.php:659
-#, php-format
+#, fuzzy, php-format
+#| msgid ""
+#| "ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s"
 msgid ""
 "ERROR: Fontimator could not set the appropriate merge fields for user %1$s to %2$s "
 "(%3$s)"
-msgstr "שגיאה: הפונטימטור לא הצליח להגדיר את השדות של משתמש %1$s אל %2$s (%3$s)"
+msgstr "שגיאה: הפונטימטור לא הצליח להגדיר את השדות של משתמש %1$s אל %2$s"
 
 #: includes/class-fontimator-mc.php:842
 msgid "Sign up to our Newsletter!"
@@ -490,35 +492,39 @@ msgstr ""
 "לפעמים אנחנו שולחים צ׳ופרים שווים למעצבים מאושרים שקנו פונטים חדשים. נא לודא שהכתובת "
 "שלך תקינה ומדוייקת, כולל מיקוד מלא של 7 ספרות."
 
-#: public/class-fontimator-myaccount.php:714
+#: public/class-fontimator-myaccount.php:716
 msgid "Address"
 msgstr "רחוב ומספר בית/דירה (או ת.ד)"
 
-#: public/class-fontimator-myaccount.php:715
+#: public/class-fontimator-myaccount.php:717
 msgid "Example St. 5 Apt 10"
 msgstr "לדוגמא: הרצל 11, דירה 12"
 
-#: public/class-fontimator-myaccount.php:718
+#: public/class-fontimator-myaccount.php:720
 msgid "City"
 msgstr "עיר"
 
-#: public/class-fontimator-myaccount.php:722
+#: public/class-fontimator-myaccount.php:724
 msgid "Zip Code"
-msgstr "מיקוד (7 ספרות)"
+msgstr "מיקוד"
 
-#: public/class-fontimator-myaccount.php:726
+#: public/class-fontimator-myaccount.php:724
+msgid "Locate your Zip code"
+msgstr "איתור מיקוד"
+
+#: public/class-fontimator-myaccount.php:728
 msgid "Country"
 msgstr "מדינה"
 
-#: public/class-fontimator-myaccount.php:780
+#: public/class-fontimator-myaccount.php:782
 msgid "Email Preferences"
 msgstr "העדפות מיילים"
 
-#: public/class-fontimator-myaccount.php:813
+#: public/class-fontimator-myaccount.php:815
 msgid "Error: could not validate email address to update preferences for."
 msgstr "שגיאה: לא היה ניתן לאמת את כתובת המייל של החשבון שלך."
 
-#: public/class-fontimator-myaccount.php:834
+#: public/class-fontimator-myaccount.php:836
 msgid "Email preferences were updated successfully."
 msgstr "הגדרות האימייל שלך נשמרו בהצלחה."
 
@@ -598,7 +604,7 @@ msgid ""
 "We just wanted to remind you that downloading font files from our site is a criminal "
 "offence and a violation of intelectual property."
 msgstr ""
-"רק, אנחנו מבקשים ממך <strong>לא להוריד פונטים מהאתר שלנו בצורה פיראטית.</strong> "
+"רק, אנחנו מבקשים ממך <strong>לא להוריד פונטים מהאתר שלנו ללא רישיון שימוש.</strong> "
 "הפונטים שלנו מוגנים בחוק זכויות יוצרים, ושימוש בהם ללא רישיון מהווה עבירה פלילית "
 "בארץ ובעולם."
 
