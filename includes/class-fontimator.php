@@ -488,10 +488,12 @@ class Fontimator {
 		// Add gender to edit account page & MailChimp Tab
 		if ( $this->mc->enabled() ) {
 			// Gender & Address Fields
-			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_gender_field_to_edit_account' );
 			$this->loader->add_action( 'woocommerce_save_account_details', $myaccount, 'save_gender_field_on_edit_account' );
-			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_address_field_to_edit_account' );
 			$this->loader->add_action( 'woocommerce_save_account_details', $myaccount, 'save_address_field_on_edit_account' );
+			$this->loader->add_action( 'woocommerce_edit_account_form', $myaccount, 'add_gender_field_to_edit_account' );
+			
+			$action_placement = ( isset( $_GET['edit_address'] ) ) ? 'woocommerce_edit_account_form_start' : 'woocommerce_edit_account_form';
+			$this->loader->add_action( $action_placement, $myaccount, 'add_address_field_to_edit_account' );
 			
 			// MailChimp Tab - source: https://businessbloomer.com/woocommerce-add-new-tab-account-page/
 			$this->loader->add_action( 'init', $myaccount, 'add_email_preferences_tab_rewrite' );

@@ -660,7 +660,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		?>
 		<fieldset>
 			<legend><?php _e( 'How would you like to be addressed?', 'fontimator' ); ?></legend>
-			<p class="form-row-small">
+			<p class="form-row-small feat-gndr">
 				<small><?php _e( 'Throughout the site we try to customize the messeges to you so you can feel at home.', 'fontimator' ); ?></small>
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide form-row-gender">
@@ -708,6 +708,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			<legend><?php _e( 'What is your (physical) address?', 'fontimator' ); ?></legend>
 			<p class="form-row-small">
 				<small><?php _e( 'So we can send you cool stuff by mail!', 'fontimator' ); ?></small>
+
+				
 			</p>
 			
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -719,8 +721,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" id="mcCity" placeholder="" autocomplete="locality" value="<?php echo esc_attr( $user_address->city ); ?>">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-				<label for="mcZip"><?php _e( 'Zip Code', 'fontimator' ); ?></label>
-				<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" id="mcZip" placeholder="1234567" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>" min="1000000" max="9999999">
+				<label for="mcZip"><?php _e( 'Zip Code', 'fontimator' ); ?> <a href="https://mypost.israelpost.co.il/%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/%D7%90%D7%99%D7%AA%D7%95%D7%A8-%D7%9E%D7%99%D7%A7%D7%95%D7%93/" target="_blank" style=""><?php _e( 'Locate your Zip code', 'fontimator' ); ?> ⇱</a></label>
+				<input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" id="mcZip" placeholder="7 ספרות" autocomplete="postal-code" value="<?php echo esc_attr( $user_address->zip ); ?>" min="1000000" max="9999999">
 			</p>
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcCountry"><?php _e( 'Country', 'fontimator' ); ?></label>
