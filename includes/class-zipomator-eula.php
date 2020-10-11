@@ -82,6 +82,7 @@ class Zipomator_EULA {
 		<?php
 	}
 	public function css() {
+		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'afek' : 'ploni';
 		$site_color = ( 'fontimonim' === FTM_SITE_NAME ) ? '#32e' : '#e43';
 		$this->main_fontface();
 		?>
