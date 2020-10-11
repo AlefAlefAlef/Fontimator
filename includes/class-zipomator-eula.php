@@ -70,7 +70,7 @@ class Zipomator_EULA {
 		
 
 		@font-face {
-			font-family: <?php echo $main_font; ?>;
+			font-family: '<?php echo $main_font; ?>';
 			src: url(<?php echo $woff2_data; ?>) format('woff2'),
 				url(<?php echo $woff_data; ?>) format('woff');
 			font-weight: normal;
@@ -92,7 +92,7 @@ class Zipomator_EULA {
 			direction: rtl;
 			max-width: 800px;
 			margin: 10px auto;
-			font-family: <?php echo $main_font; ?>, sans-serif;
+			font-family: '<?php echo $main_font; ?>', sans-serif;
 			font-size: 18px;
 		}
 		
@@ -106,13 +106,13 @@ class Zipomator_EULA {
 			font-weight: lighter;
 			font-size: 90px;
 			margin: 0;
-			color: <? echo $site_color; ?>;
+			color: <?php echo $site_color; ?>;
 			text-align: center;
 		}
 		
 		h1 a, h1 a:hover, h1 a:active, h1 a:visited, h1 a:focus {
 			line-height: 0.8;
-			color: <? echo $site_color; ?>;
+			color: <?php echo $site_color; ?>;
 			text-decoration: none;
 		}
 
