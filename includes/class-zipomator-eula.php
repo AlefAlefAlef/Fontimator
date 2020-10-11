@@ -59,17 +59,18 @@ class Zipomator_EULA {
 		echo $content;
 	}
 
-	public function ploni_fontface() {
-		$woff_file = file_get_contents( FTM_FONTS_PATH . 'ploni/ploni-regular-aaa.woff' );
+	public function main_fontface() {
+		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'afek' : 'ploni';
+		$woff_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-aaa.woff' );
 		$woff_data = 'data:application/font-woff;charset=utf-8;base64,' . base64_encode( $woff_file );
-		$woff2_file = file_get_contents( FTM_FONTS_PATH . 'ploni/ploni-regular-aaa.woff2' );
+		$woff2_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-aaa.woff2' );
 		$woff2_data = 'data:application/font-woff2;charset=utf-8;base64,' . base64_encode( $woff2_file );
 		?>
 		<style>
 		
 
 		@font-face {
-			font-family: 'ploni';
+			font-family: <?php echo $main_font; ?>;
 			src: url(<?php echo $woff2_data; ?>) format('woff2'),
 				url(<?php echo $woff_data; ?>) format('woff');
 			font-weight: normal;
@@ -81,7 +82,8 @@ class Zipomator_EULA {
 		<?php
 	}
 	public function css() {
-		$this->ploni_fontface();
+		$site_color = ( 'fontimonim' === FTM_SITE_NAME ) ? '#32e' : '#e43';
+		$this->main_fontface();
 		?>
 		<style>
 
@@ -90,7 +92,7 @@ class Zipomator_EULA {
 			direction: rtl;
 			max-width: 800px;
 			margin: 10px auto;
-			font-family: 'ploni', sans-serif;
+			font-family: <?php echo $main_font; ?>, sans-serif;
 			font-size: 18px;
 		}
 		
@@ -104,13 +106,13 @@ class Zipomator_EULA {
 			font-weight: lighter;
 			font-size: 90px;
 			margin: 0;
-			color: #e43;
+			color: <? echo $site_color; ?>;
 			text-align: center;
 		}
 		
 		h1 a, h1 a:hover, h1 a:active, h1 a:visited, h1 a:focus {
 			line-height: 0.8;
-			color: #e43;
+			color: <? echo $site_color; ?>;
 			text-decoration: none;
 		}
 
@@ -155,7 +157,7 @@ class Zipomator_EULA {
 				<?php $this->css(); ?>
 			</head>
 			<body>
-				<h1><a href="<?php echo home_url( 'eula' ); ?>" >ℵ</a></h1>
+				<h1><a href="<?php echo home_url( 'eula' ); ?>" ><?php echo ( 'fontimonim' === FTM_SITE_NAME ) ? 'ℶ' : 'ℵ'; ?></a></h1>
 				<?php self::html( $relevant ); ?>
 			</body>
 		</html>
