@@ -441,6 +441,20 @@ class Fontimator_MC {
    * @return bool Success
    */
   public function update_user_address( $address, $city, $zip, $country, $user_email = null ) {
+    // Because of a weird bug-like behaviour in MailChimp's API for a customer update,
+    // every time the Mailchimp for WordPress plugin updates the customer information it must specify an address,
+    // otherwise the address merge field is overridden.
+    // The address is taken from the user's billing_address fields, so we need to set them here first.
+    $customer_id = $user_email ? get_user_by( 'email', $user_email ) : get_current_user_id();
+    $customer = new WC_Customer( $customer_id );
+    $customer->set_billing_address_1( $address );
+    $customer->set_billing_address_2( '' );
+    $customer->set_billing_city( $city );
+    $customer->set_billing_postcode( $zip );
+    $customer->set_billing_country( $country );
+    $customer->set_billing_state( $country );
+    $customer->save();
+
     if ( ! $address_field = $this->address_field ) {
       return false;
     }
@@ -450,7 +464,7 @@ class Fontimator_MC {
       'city' => $city,
       'zip' => $zip,
       'country' => $country,
-    ) );
+    ), $user_email );
   }
 
   /**
