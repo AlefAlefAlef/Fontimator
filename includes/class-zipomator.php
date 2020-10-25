@@ -97,8 +97,8 @@ class Zipomator {
 
 
 	public static function get_eula_url( $licenses ) {
-		//return home_url( self::$eula_endpoint . '/' . implode( ',', (array) $license ) );
-		return 'https://alefalefalef.co.il/' . self::$eula_endpoint . '/' . implode( ',', (array) $licenses );
+		return home_url( self::$eula_endpoint . '/' . implode( ',', (array) $license ) );
+		//return 'https://alefalefalef.co.il/' . self::$eula_endpoint . '/' . implode( ',', (array) $licenses );
 	}
 
 	public static function get_variation_endpoint() {
