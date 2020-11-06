@@ -114,5 +114,8 @@
 				$('#devtools-pop-up').hide().parent().hide();
 			}
 		});
+
+		var ivrita = new Ivrita();
+		ivrita.setMode(UserGender.gender);
 	});
 })( jQuery );
