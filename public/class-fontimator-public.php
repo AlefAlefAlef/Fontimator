@@ -78,10 +78,18 @@ class Fontimator_Public {
 		);
 
 		wp_enqueue_script( 'fontimator-public-js', plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( 'ivrita-js', 'https://ivrita.alefalefalef.co.il/ivrita.min.js', $this->version, true );
+
 
 		if ( ! current_user_can('administrator') && ! isset( $_GET['allow-devtools'] ) ) {
 			wp_enqueue_script( 'devtools-detect', plugin_dir_url( __FILE__ ) . 'js/devtools-detector.js', array( ), $this->version, true );
 		}
+
+		wp_localize_script(
+			'ivrita-js', 'UserGender', array(
+				'gender' => Fontimator_I18n::get_user_gender(),
+			)
+		);
 
 		wp_localize_script(
 			'fontimator-public-js', 'FontimatorTimedMessages', array(

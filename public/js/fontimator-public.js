@@ -114,5 +114,10 @@
 				$('#devtools-pop-up').hide().parent().hide();
 			}
 		});
+
+		var ivrita = new Ivrita();
+		if (UserGender.gender) {
+			ivrita.setMode(parseInt(UserGender.gender));
+		}
 	});
 })( jQuery );
