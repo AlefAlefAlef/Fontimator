@@ -116,6 +116,8 @@
 		});
 
 		var ivrita = new Ivrita();
-		ivrita.setMode(UserGender.gender);
+		if (UserGender.gender) {
+			ivrita.setMode(parseInt(UserGender.gender));
+		}
 	});
 })( jQuery );
