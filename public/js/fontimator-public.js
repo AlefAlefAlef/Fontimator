@@ -115,7 +115,7 @@
 			}
 		});
 
-		if (window._ivrita && Ivrita.GENDERS.includes(parseInt(UserGender.gender))) {
+		if (window._ivrita && ! window.localStorage.getItem('ivrita-mode') && Ivrita.GENDERS.includes(parseInt(UserGender.gender))) {
 			_ivrita.setMode(parseInt(UserGender.gender));
 		}
 	});
