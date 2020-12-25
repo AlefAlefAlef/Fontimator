@@ -223,11 +223,13 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 					</tr>
 					<?php
 				}
-
-
 				?>
 			</table>
-			<a class="more" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php _e( 'To the catalog', 'fontimator' ); ?></a>
+			<?php if ( 'alefalefalef' === FTM_SITE_NAME ) { ?>
+				<a class="more" href="/font-category/label/nr/"><?php _e( 'See all new versions', 'fontimator' ); ?></a>
+			<?php } else { ?>
+				<a class="more" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php _e( 'To the catalog', 'fontimator' ); ?></a>
+			<?php } ?>
 		</section>
 	</div>
 	<?php
