@@ -27,13 +27,25 @@ $on_sale_weights = Fontimator_Query::on_sale_weights();
 					);
 					if ( $sale_end ) {
 						$sale_end_date = date_i18n( 'j בF', $sale_end );
-						?>
-						<date class="sale-end">
-							<?php printf( __( 'Only till %s', 'fontimator' ), $sale_end_date ); ?>
-						</date>
-						<?php
+						$sale_end_text = printf( __( 'Only till %s', 'fontimator' ), $sale_end_date );
+					} else {
+						$text_array = Array(
+							__( 'The sale that will not return', 'fontimator' ),
+							__( 'Dont miss this one', 'fontimator' ),
+							__( 'Fares so low, it’s scary', 'fontimator' ),
+							__( 'Limited time, blow out sale', 'fontimator' ),
+							__( 'Blast price!', 'fontimator' ),
+							__( 'End of the season sale', 'fontimator' ),
+							__( 'This sale is hot!', 'fontimator' ),
+							__( 'Buy before it ends', 'fontimator' ),
+							__( 'Available today only', 'fontimator' ),
+						);
+						$sale_end_text =  $text_array[array_rand($text_array)];
 					}
 					?>
+					<date class="sale-end">
+						<?php echo $sale_end_text; ?>
+					</date>
 				</a>
 			</span>
 		<?php endforeach; ?>
