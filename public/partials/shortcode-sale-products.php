@@ -19,15 +19,9 @@ $on_sale_weights = Fontimator_Query::on_sale_weights();
 			<span class="sale-product">
 				<a href="<?php echo $sale_variation->get_permalink(); ?>">
 					<?php
-					printf(
-						// translators: %1$s: The percentage saved including % sign, %2$s: The full variation name
-						__( '%1$s discount on font %2$s', 'fontimator' ),
-						'<strong>' . $saved_percentage . '</strong>',
-						'<span>' . $sale_variation->get_name() . '</span>'
-					);
 					if ( $sale_end ) {
 						$sale_end_date = date_i18n( 'j בF', $sale_end );
-						$sale_end_text = printf( __( 'Only till %s', 'fontimator' ), $sale_end_date );
+						$sale_end_text = sprintf( __( 'Only till %s', 'fontimator' ), $sale_end_date );
 					} else {
 						$text_array = Array(
 							__( 'The sale that will not return', 'fontimator' ),
@@ -46,6 +40,13 @@ $on_sale_weights = Fontimator_Query::on_sale_weights();
 					<date class="sale-end">
 						<?php echo $sale_end_text; ?>
 					</date>
+					<?php
+					printf(
+						// translators: %1$s: The percentage saved including % sign, %2$s: The full variation name
+						__( '%1$s discount on font %2$s', 'fontimator' ),
+						'<strong>' . $saved_percentage . '</strong>',
+						'<span>' . $sale_variation->get_name() . '</span>'
+					); ?>
 				</a>
 			</span>
 		<?php endforeach; ?>

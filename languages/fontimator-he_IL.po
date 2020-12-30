@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2020-12-28 19:11+0200\n"
-"PO-Revision-Date: 2020-12-28 19:13+0200\n"
+"POT-Creation-Date: 2020-12-28 19:14+0200\n"
+"PO-Revision-Date: 2020-12-30 18:42+0200\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -80,7 +80,7 @@ msgstr "הפוֹנטִימָטוֹר™"
 
 #: includes/acf-config/fontimator-config.php:29
 msgid "Save Fontimator Configuration"
-msgstr "שמור את הגדרות הפוֹנטִימָטוֹר"
+msgstr "שמירת הגדרות הפוֹנטִימָטוֹר"
 
 #: includes/acf-config/fontimator-config.php:32
 msgid "Fontimator Configuration Saved"
@@ -371,12 +371,12 @@ msgstr "‫changelog לא זמין."
 
 #: public/class-fontimator-myaccount.php:57
 msgid "Select some fonts using the small checkboxes first."
-msgstr "יש לסמן כמה גופנים באמצעות תיבות הסימון קטנות תחילה."
+msgstr "סמן/י כמה גופנים באמצעות תיבות הסימון הקטנות תחילה."
 
 #: public/class-fontimator-myaccount.php:65
 msgid ""
 "Are you sure? You can't re-enable the membership without purchasing it again."
-msgstr "‫מאה אחוז? לא ניתן להחזיר את המינוי בלי לרכוש אותו מחדש."
+msgstr "‫את/ה בטוח/ה? לא תוכל להחזיר את המינוי בלי לרכוש אותו מחדש."
 
 #: public/class-fontimator-myaccount.php:97
 msgid "Recover password or old purchases"
@@ -456,15 +456,15 @@ msgstr ""
 
 #: public/class-fontimator-myaccount.php:503
 msgid "Select All"
-msgstr "לסמן הכל"
+msgstr "סמן/י הכל"
 
 #: public/class-fontimator-myaccount.php:504
 msgid "Unselect All"
-msgstr "לנקות הכל"
+msgstr "נקה/י הכל"
 
 #: public/class-fontimator-myaccount.php:505
 msgid "Download Selected"
-msgstr "להוריד קבצים מסומנים"
+msgstr "הורד/י קבצים מסומנים"
 
 #: public/class-fontimator-myaccount.php:620
 #, php-format
@@ -493,7 +493,7 @@ msgstr ""
 
 #: public/class-fontimator-myaccount.php:708
 msgid "What is your (physical) address?"
-msgstr "כתובת למשלוח צ׳ופרים?"
+msgstr "כתובת למשלוח צ׳ופרים"
 
 #: public/class-fontimator-myaccount.php:710
 msgid "So we can send you cool stuff by mail!"
@@ -1043,7 +1043,7 @@ msgstr "היי %s, לוח הבקרה המשוכלל יופיע פה אחרי ה�
 
 #: public/partials/fontimator-myaccount-email-preferences.php:16
 msgid "There was a problem loading this page, please let us know."
-msgstr "לא הצלחנו לטעון את העמוד, נשמח אם תוכלו לשלוח לנו מייל על התקלה."
+msgstr "לא הצלחנו לטעון את העמוד, נשמח אם תוכל/י לשלוח לנו מייל על התקלה."
 
 #: public/partials/fontimator-myaccount-email-preferences.php:25
 msgctxt "Gender-nuetral \"Let's\" in user email preference page"
@@ -1072,8 +1072,8 @@ msgid ""
 "don't spam, and we will never give away your details to strangers."
 msgstr ""
 "בכל כמה זמן אנחנו שולחים עדכונים על פונטים חדשים, עדכוני גרסאות, מבצעים מיוחדים, "
-"טיפים למעצבים/ות, חינמיים והמון השראה. אנחנו לא מספימים, ואף פעם לא נמסור את "
-"הפרטים שלך&nbsp;לזרים."
+"טיפים למעצבים ומעצבות, חינמיים והמון השראה. אנחנו לא מספימים, ואף פעם לא נמסור "
+"את הפרטים שלך&nbsp;לזרים."
 
 #: public/partials/fontimator-myaccount-email-preferences.php:38
 msgctxt "Gender-nuetral \"would you like\" in user email preference page"
@@ -1124,7 +1124,7 @@ msgstr "על שם מי הרישיון? (שם מלא בעברית)"
 #: public/partials/shortcode-free-download.php:46
 msgctxt "Free Download Text Field"
 msgid "John Smith"
-msgstr "ישראל ישראלי"
+msgstr "ישראלה ישראלית"
 
 #: public/partials/shortcode-free-download.php:48
 msgctxt "Free Download Text Label"
@@ -1213,37 +1213,29 @@ msgstr "אל תחמיצו!"
 
 #: public/partials/shortcode-sale-products.php:35
 msgid "Fares so low, it’s scary"
-msgstr "כל כך משתלם שזה מוגזם!"
+msgstr "כל־כך משתלם שזה מוגזם!"
 
 #: public/partials/shortcode-sale-products.php:36
-msgid "Blowout Sale"
-msgstr ""
-
-#: public/partials/shortcode-sale-products.php:37
 msgid "Limited time, blow out sale"
 msgstr "מבצע לזמן מוגבל"
 
-#: public/partials/shortcode-sale-products.php:38
+#: public/partials/shortcode-sale-products.php:37
 msgid "Blast price!"
 msgstr "מבצע פיצוץ!"
 
-#: public/partials/shortcode-sale-products.php:39
+#: public/partials/shortcode-sale-products.php:38
 msgid "End of the season sale"
-msgstr "במחיר סוף עונה"
+msgstr "‫סוף עונה‫!"
 
-#: public/partials/shortcode-sale-products.php:40
-msgid "Hello, Discounts!"
-msgstr ""
-
-#: public/partials/shortcode-sale-products.php:41
+#: public/partials/shortcode-sale-products.php:39
 msgid "This sale is hot!"
 msgstr "מבצע לוהט!"
 
-#: public/partials/shortcode-sale-products.php:42
+#: public/partials/shortcode-sale-products.php:40
 msgid "Buy before it ends"
 msgstr "מהר מהר לפני שייגמר!"
 
-#: public/partials/shortcode-sale-products.php:43
+#: public/partials/shortcode-sale-products.php:41
 msgid "Available today only"
 msgstr "רק היום רק היום!"
 
