@@ -285,6 +285,9 @@ class Fontimator {
 
 			// Sync subscriptions
 			$this->loader->add_action( 'woocommerce_subscription_status_updated', $this->mc, 'update_subscription_status', 10, 3 );
+
+			// Address field bugfix
+			$this->loader->add_filter( 'mc4wp_ecommerce_customer_data', $myaccount, 'add_required_customer_address_fields' );
 		}
 
 		// WooCommerce
