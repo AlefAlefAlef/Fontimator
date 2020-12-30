@@ -454,6 +454,7 @@ class Fontimator_MC {
     $customer->set_billing_country( $country );
     $customer->set_billing_state( $country );
     $customer->save();
+    // mc4wp('ecommerce.worker')->update_customer($customer_id);
 
     if ( ! $address_field = $this->address_field ) {
       return false;
@@ -463,8 +464,24 @@ class Fontimator_MC {
       'addr1' => $address,
       'city' => $city,
       'zip' => $zip,
+      'state' => $country,
       'country' => $country,
     ), $user_email );
+  }
+
+  /**
+   * MailChimp address fix
+   *
+   * @param array $customer_data
+   * @return array Custom
+   */
+  public function add_required_customer_address_fields( $customer_data ) {
+    if ( ! empty( $customer_data['address'] ) ) {
+      $customer_data['address']['province_code'] = $customer_data['address']['province'];
+      $customer_data['address']['country'] = $customer_data['address']['country_code'];
+    }
+    
+    return $customer_data;
   }
 
   /**
