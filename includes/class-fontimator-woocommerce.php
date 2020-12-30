@@ -106,7 +106,7 @@ class Fontimator_WooCommerce {
 
 
 	static function add_variations_from_url() {
-		if ( $_REQUEST['ftm-add-to-cart'] ) {
+		if ( isset( $_REQUEST['ftm-add-to-cart'] ) && $_REQUEST['ftm-add-to-cart'] ) {
 			$variation_ids = explode( ',', $_REQUEST['ftm-add-to-cart'] );
 			self::add_variations_to_cart( $variation_ids );
 

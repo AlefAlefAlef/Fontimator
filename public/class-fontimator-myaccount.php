@@ -699,6 +699,9 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 		
 		$user_address = Fontimator::mc()->get_user_address();
+		if ( ! $user_address ) {
+			$user_address = new stdClass();
+		}
 		if ( ! $user_address->country ) {
 			$user_address->country = 'IL'; // Default to Israel
 		}
@@ -725,9 +728,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 				<label for="mcCountry"><?php _e( 'Country', 'fontimator' ); ?></label>
 				<?php
-				$countries_obj  = new WC_Countries();
-				$countries      = $countries_obj->__get('countries');
-				
+				$countries = WC()->countries->get_countries();
 				?>
 				<select name="mailchimp_address[country]" id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select option-tree-ui-select">
 					<?php foreach ( $countries as $country_code => $country_name ) { ?>

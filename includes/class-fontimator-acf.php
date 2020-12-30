@@ -78,6 +78,7 @@ class Fontimator_ACF {
 				'otf-inf' => 10,
 				'web-30k' => 2.5,
 				'web-100k' => 3.5,
+				'web-reseller' => 10,
 				'web-1m' => 5,
 				'web-inf' => 10,
 				'app-50k' => 3,
@@ -158,7 +159,7 @@ class Fontimator_ACF {
 		}
 
 		foreach ( $licenses as $id => $key ) {
-			$default = $fontimator_default_font_price_formulas[ $key ];
+			$default = isset( $fontimator_default_font_price_formulas[ $key ] ) ? $fontimator_default_font_price_formulas[ $key ] : 0;
 			$fontprice_ratio_fields[ 'fontprice_ratios_' . $key ] = array(
 				'key' => 'fontprice_ratios_' . $key,
 				'label' => $key,
