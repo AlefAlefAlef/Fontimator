@@ -39,6 +39,13 @@ class Fontimator_Public {
 	 * @var      string    $version    The current version of this plugin.
 	 */
 	private $version;
+	
+	/**
+	 * Enable/Disable DevTools detection. Change here to enable.
+	 *
+	 * @var boolean
+	 */
+	public $devtools_detection = false;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -79,7 +86,7 @@ class Fontimator_Public {
 
 		wp_enqueue_script( 'fontimator-public-js', plugin_dir_url( __FILE__ ) . 'js/fontimator-public.js', array( 'jquery' ), $this->version, true );
 
-		if ( ! current_user_can('administrator') && ! isset( $_GET['allow-devtools'] ) ) {
+		if ( $this->devtools_detection && ! current_user_can('administrator') && ! isset( $_GET['allow-devtools'] ) ) {
 			wp_enqueue_script( 'devtools-detect', plugin_dir_url( __FILE__ ) . 'js/devtools-detector.js', array( ), $this->version, true );
 		}
 

@@ -393,7 +393,9 @@ class Fontimator {
 		$this->loader->add_filter( 'allowed_redirect_hosts', $plugin_public, 'add_redirect_hosts' );
 
 		// DevTools banner
-		//$this->loader->add_action( 'wp_footer', $plugin_public, 'devtools_detect_notice' );
+		if ( $plugin_public->devtools_detection ) {
+			$this->loader->add_action( 'wp_footer', $plugin_public, 'devtools_detect_notice' );
+		}
 
 		// WooCommerce Product Archive Page
 		$this->loader->add_filter( 'woocommerce_catalog_orderby', $plugin_public, 'hide_sorting_options_from_dropdown' );
