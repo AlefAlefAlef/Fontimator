@@ -112,6 +112,10 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 			$visible_weights = $font->get_visible_weights();
 			$weight_count = count( $visible_weights );
 
+			if ( in_array( '000-variable', $visible_weights ) ) {
+				$weight_count--; // Don't include the variable font when calculating family package price
+			}
+
 			$price = $weight_count * $price;
 			$sale_price = $price * floatval( $fontprice_ratios['family'] );
 		} elseif ( '000-familybasic' === $this->weight ) {
