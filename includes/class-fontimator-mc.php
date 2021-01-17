@@ -32,6 +32,11 @@ class Fontimator_MC {
    */
   const SIGNUP_URL = 'https://alefalefalef.co.il/resources/newsletter/';
 
+  /**
+   * The seperator with which the address MERGE field is saved as a string in mailchimp
+   */
+  protected $address_separator = '|'; 
+
   function __construct() {
     if ($this->enabled()) {
       $this->mc4wp_mailchimp = new MC4WP_MailChimp();
@@ -226,6 +231,28 @@ class Fontimator_MC {
 
     return null;
   }
+
+  /**
+   * Gets a Mailchimp MERGE field
+   *
+   * @param string $field_name
+   * @param string $user_email (or null for current user)
+   * @return string The value in the list, or null if doesn't exist
+   */
+  public function get_merge_field( $field_name, $user_email = null, $list_id = null ) {    
+    $merge_fields = $this->get_user_merge_fields( $list_id, $user_email );
+    if ( ! $merge_fields ) {
+      return null;
+    }
+
+  
+    $field_value = $merge_fields->{$field_name};
+    if ( empty( $field_value ) ) {
+      return null;
+    }
+    
+    return $field_value;
+  }
   
   /**
    * Get all tags of a user, or false if not subscribed
@@ -385,16 +412,12 @@ class Fontimator_MC {
       return null;
     }
     
+    $address_string = $this->get_merge_field( $this->address_field, $user_email );
     
-    $merge_fields = $this->get_user_merge_fields( $this->main_list, $user_email );
-    if ( $merge_fields ) {
-      $mailchimp_address = $merge_fields->{$this->address_field};
-      if ( ! empty( $mailchimp_address ) ) {
-        return $mailchimp_address;
-      }
-    }
-    
-    return null;
+    $address = new stdClass(); // The format of the object here mimics the MailChimp address object, for compatability
+    list( $address->addr1, $address->city, $address->zip, $address->country ) = explode( $this->address_separator, $address_string );
+
+    return $address;
   }
 
   public function mailchimp_gender( $fontimator_gender ) {
@@ -441,47 +464,11 @@ class Fontimator_MC {
    * @return bool Success
    */
   public function update_user_address( $address, $city, $zip, $country, $user_email = null ) {
-    // Because of a weird bug-like behaviour in MailChimp's API for a customer update,
-    // every time the Mailchimp for WordPress plugin updates the customer information it must specify an address,
-    // otherwise the address merge field is overridden.
-    // The address is taken from the user's billing_address fields, so we need to set them here first.
-    $customer_id = $user_email ? get_user_by( 'email', $user_email ) : get_current_user_id();
-    $customer = new WC_Customer( $customer_id );
-    $customer->set_billing_address_1( $address );
-    $customer->set_billing_address_2( '' );
-    $customer->set_billing_city( $city );
-    $customer->set_billing_postcode( $zip );
-    $customer->set_billing_country( $country );
-    $customer->set_billing_state( $country );
-    $customer->save();
-    // mc4wp('ecommerce.worker')->update_customer($customer_id);
-
     if ( ! $address_field = $this->address_field ) {
       return false;
     }
 
-    return $this->set_user_merge_field( $address_field, array(
-      'addr1' => $address,
-      'city' => $city,
-      'zip' => $zip,
-      'state' => $country,
-      'country' => $country,
-    ), $user_email );
-  }
-
-  /**
-   * MailChimp address fix
-   *
-   * @param array $customer_data
-   * @return array Custom
-   */
-  public function add_required_customer_address_fields( $customer_data ) {
-    if ( ! empty( $customer_data['address'] ) ) {
-      $customer_data['address']['province_code'] = $customer_data['address']['province'];
-      $customer_data['address']['country'] = $customer_data['address']['country_code'];
-    }
-    
-    return $customer_data;
+    return $this->set_user_merge_field( $address_field, implode( $this->address_separator, array( $address, $city, $zip, $country ) ), $user_email );
   }
 
   /**

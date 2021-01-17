@@ -703,7 +703,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			$user_address = new stdClass();
 		}
 		if ( ! $user_address->country ) {
-			$user_address->country = 'IL'; // Default to Israel
+			$user_address->country = __( 'Israel', 'woocommerce' ); // Default to Israel
 		}
 
 		?>
@@ -732,7 +732,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 				?>
 				<select name="mailchimp_address[country]" id="mcCountry" autocomplete="country" class="woocommerce-Input woocommerce-Input--select input-select option-tree-ui-select">
 					<?php foreach ( $countries as $country_code => $country_name ) { ?>
-						<option <?php selected( $user_address->country, $country_code ); ?> value="<?php echo esc_attr( $country_code ); ?>"><?php echo esc_html( $country_name ); ?></option>
+						<option <?php selected( $user_address->country, $country_name ); ?> value="<?php echo esc_attr( $country_name ); ?>"><?php echo esc_html( $country_name ); ?></option>
 					<?php } ?>
 				</select>
 			</p>
