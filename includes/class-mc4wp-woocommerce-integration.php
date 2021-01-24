@@ -36,7 +36,9 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 				parent::add_hooks();
 			}
 			add_action( 'mc4wp_admin_after_' . $this->slug . '_integration_settings', array( $this, 'admin_after' ) );
-			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ) );
+			add_action( 'mc4wp_integration_' . $this->slug . '_before_checkbox_wrapper', array( $this, 'catch_checkbox_html' ) );
+			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_checkbox_html' ), 10 );
+			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ), 20 );
 			add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
 		} );
 	}
@@ -48,6 +50,32 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 		if (file_exists($file)) {
 			include $file;
 		}
+	}
+
+	/**
+	 * Catch the actual checkbox code since we want to hide it in case there's a subsription in the cart
+	 *
+	 * @return void
+	 */
+	public function catch_checkbox_html() {
+		ob_start();
+	}
+
+	/**
+	 * Print the original checkbox code or a always-on-hidden checkbox based on if there's a subsription in the cart
+	 *
+	 * @return void
+	 */
+	public function print_checkbox_html() {
+		$original_checkbox = ob_get_clean();
+		if ( class_exists( 'WC_Subscriptions_Cart' ) && WC_Subscriptions_Cart::cart_contains_subscription() ) {
+			?>
+			<input type="checkbox" checked="checked" style="display: none;" name="_mc4wp_subscribe_<?php echo esc_attr( $this->slug ); ?>" data-always-on="true" value="1"  />
+			<?php
+		} else {
+			echo $original_checkbox;
+		}
+		
 	}
 
 	public function print_merge_fields() {
@@ -113,8 +141,7 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 		jQuery(function($){
 			// Checkout mailchimp signup
 			var handle_merge_fields = function (e) {
-				var isChecked = $(this).prop('checked');
-				if (isChecked) {
+				if ($(this).data('always-on') || $(this).prop('checked')) {
 					$('.mailchimp_merge_fields').show();
 				} else {
 					$('.mailchimp_merge_fields').hide();
