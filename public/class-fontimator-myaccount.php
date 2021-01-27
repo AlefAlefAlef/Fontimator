@@ -834,4 +834,108 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 		wc_add_notice( __( 'Email preferences were updated successfully.', 'fontimator' ) );
 	}
+
+	protected function handle_reseller_domains_actions( $subscription ) {
+
+		function is_valid_domain_name($domain_name) {
+			return (preg_match("/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $domain_name) //valid chars check
+						&& preg_match("/^.{1,253}$/", $domain_name) //overall length check
+						&& preg_match("/^[^\.]{1,63}(\.[^\.]{1,63})*$/", $domain_name)   ); //length of each label
+		}
+
+		if ( isset( $_REQUEST['reseller-domains-action'] ) ) {
+			$domains_array = $subscription->get_meta( 'ftm_reseller_domains' ) ?: array();
+
+			switch( $_REQUEST['reseller-domains-action'] ) {
+				case 'add':
+					if ( isset( $_REQUEST['reseller-new-domain'] ) && is_valid_domain_name( $_REQUEST['reseller-new-domain'] ) ) {
+						$domains_array[ $_REQUEST['reseller-new-domain'] ] = time();
+					}
+				break;
+				case 'delete':
+					if ( isset( $_REQUEST['reseller-deleted-domain'] ) && in_array( $_REQUEST['reseller-deleted-domain'], array_keys( $domains_array ) ) ) {
+						unset( $domains_array[ $_REQUEST['reseller-deleted-domain'] ] );
+					}
+				break;
+			}
+
+			$subscription->update_meta_data( 'ftm_reseller_domains', $domains_array );
+			$subscription->save();
+		}
+	}
+
+	protected function print_reseller_domains_table( $domains = array() ) {
+		?>
+		<h2 id="reseller-domains"><?php _e( 'Web Domains', 'fontimator' ); ?></h2>
+		<h6><?php _e( 'Your web license will only be valid for the domains bellow. You can add how many you want.', 'fontimator' ); ?></h6>
+		<table class="shop_table reseller_domains">
+			<thead>
+				<tr>
+					<th class="domain-added"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+					<th class="domain-name"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
+					<th class="domain-actions"><?php _e( 'Actions', 'fontimator' ); ?></th>
+				</tr>
+			</thead>
+			<tbody class="reseller-domains-list">
+				<?php foreach ( (array) $domains as $domain => $creation_time ) { ?>
+					<tr>
+						<td class="domain-added"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ?: time() ) ); ?></td>
+						<th class="domain-name" scope="row"><?php echo esc_html( $domain ); ?></th>
+						<td class="domain-actions">
+							<form method="post" action="#reseller-domains">
+								<input type="hidden" value="<?php echo esc_attr( $domain ); ?>" name="reseller-deleted-domain" />
+								<button name="reseller-domains-action" value="delete" class="button alt b-red b-icon-before b-medium download-invoice" data-icon="Ō"></button>
+							</form>
+						</td>
+					</tr>
+				<?php } ?>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="3">
+						<form method="post" action="#reseller-domains">
+							<input
+								type="text"
+								placeholder="<?php esc_attr_e('Add a new domain...', 'fontimator'); ?>"
+								required
+								<?php // source: https://stackoverflow.com/a/26987741/2588319 ?>
+								pattern="^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$"
+								name="reseller-new-domain"
+								id="reseller-new-domain" />
+							<button type="submit" name="reseller-domains-action" value="add"><?php _ex( 'Add', 'Button in the reseller domains table', 'fontimator'); ?></button>
+						</form>
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Hooked on woocommerce_subscription_totals_table
+	 *
+	 * @param WC_Subscription $subscription
+	 * @return void
+	 */
+	public function reseller_domains_section( $subscription ) {
+		// Check if this subscription order contains a reseller membership
+		$is_reseller = false;
+		$_pf = new WC_Product_Factory();  
+
+		$items = $subscription->get_items();
+		foreach ( $items as $item ) {
+			$product = $_pf->get_product($item->get_product_id());
+			$slug = $product->get_slug();
+
+			if ( 'membership-reseller' === $slug ) {
+				$is_reseller = true;
+				break;
+			}
+		}
+		
+		if ( $is_reseller ) {
+			$this->handle_reseller_domains_actions( $subscription );
+			$this->print_reseller_domains_table( $subscription->get_meta( 'ftm_reseller_domains' ) ?: array() );
+		}
+	}
 }

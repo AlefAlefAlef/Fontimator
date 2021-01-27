@@ -450,6 +450,9 @@ class Fontimator {
 		// Override templates
 		$this->loader->add_filter( 'woocommerce_locate_template', $myaccount, 'locate_template', 10, 3 );
 
+		// Add reseller domains section
+		$this->loader->add_filter( 'woocommerce_subscription_totals_table', $myaccount, 'reseller_domains_section', 30 );
+
 		// Override downloads table
 		remove_action( 'woocommerce_available_downloads', 'woocommerce_order_downloads_table', 10 );
 		$this->loader->add_action( 'woocommerce_available_downloads', $myaccount, 'get_myaccount_template', 10 );

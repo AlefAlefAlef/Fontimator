@@ -27,7 +27,7 @@
 }
 
 
-.birthday-song-box{
+.birthday-song-box {
 	/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#fff+0,000000+35,000000+65,fff+100 */
 	background: #fff; /* Old browsers */
 	background: -moz-linear-gradient(left,  #fff 0%, #bbb 40%, #bbb 60%, #fff 100%); /* FF3.6-15 */
@@ -37,8 +37,54 @@
 	margin: 2.7em 0 1.8em;
 	background: black;
 }
-.birthday-song-box iframe{
+.birthday-song-box iframe {
 	margin: 0 auto;
 	display: block;
 	width: 100%;
+}
+
+.shop_table.reseller_domains {
+	width: auto;
+	max-width: 50em;
+	table-layout: fixed;
+}
+
+.shop_table.reseller_domains .reseller-domains-list .domain-name {
+	text-align: left;
+}
+
+.shop_table.reseller_domains .domain-actions {
+	max-width: 20%;
+}
+
+.shop_table.reseller_domains tfoot th {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.shop_table.reseller_domains form {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.shop_table.reseller_domains form input {
+	margin-left: 8px;
+	display: inline-block;
+	flex: 1;
+	padding: 5px;
+	font-size: 1em;
+	text-align: right;
+}
+
+.shop_table.reseller_domains form input:not(:placeholder-shown) {
+	text-align: left;
+	direction: ltr;
+}
+
+
+.shop_table.reseller_domains form input:not(:valid) ~ button[type="submit"] {
+	pointer-events: none;
+	opacity: .41;
+	cursor: default;
 }
