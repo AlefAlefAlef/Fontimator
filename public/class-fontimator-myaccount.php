@@ -849,7 +849,19 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			switch( $_REQUEST['reseller-domains-action'] ) {
 				case 'add':
 					if ( isset( $_REQUEST['reseller-new-domain'] ) && is_valid_domain_name( $_REQUEST['reseller-new-domain'] ) ) {
-						$domains_array[ $_REQUEST['reseller-new-domain'] ] = time();
+						$families = array();
+						if ( isset( $_REQUEST['reseller-new-domain-families'] ) && is_array( $_REQUEST['reseller-new-domain-families'] ) ) {
+							foreach ( (array) $_REQUEST['reseller-new-domain-families'] as $font_id ) {
+								if ( 'product' === get_post_type( (int) $font_id ) ) {
+									$families[] = $font_id;
+								}
+							}
+						}
+
+						$domains_array[ $_REQUEST['reseller-new-domain'] ] = array(
+							'timestamp' => time(),
+							'families' => $families
+						);
 					}
 				break;
 				case 'delete':
@@ -872,14 +884,24 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			<thead>
 				<tr>
 					<th class="domain-added"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+					<th class="domain-families"><?php _ex( 'Families', 'Column in the reseller domains table', 'fontimator' ); ?></th>
 					<th class="domain-name"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
 					<th class="domain-actions"><?php _e( 'Actions', 'fontimator' ); ?></th>
 				</tr>
 			</thead>
 			<tbody class="reseller-domains-list">
-				<?php foreach ( (array) $domains as $domain => $creation_time ) { ?>
+				<?php foreach ( (array) $domains as $domain => $meta ) {
+					$creation_time = $meta['timestamp'] ?: time();
+					$families_ids = $meta['families'] ?: array();
+					$families = array();
+
+					foreach ( $families_ids as $font_id ) {
+						$families[] = wc_get_product( $font_id )->get_name();
+					}
+					?>
 					<tr>
-						<td class="domain-added"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ?: time() ) ); ?></td>
+						<td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $creation_time ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ) ); ?></td>
+						<th class="domain-families" scope="row"><?php echo esc_html( implode( ', ' , $families ) ); ?></th>
 						<th class="domain-name" scope="row"><?php echo esc_html( $domain ); ?></th>
 						<td class="domain-actions">
 							<form method="post" action="#reseller-domains">
@@ -892,7 +914,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			</tbody>
 			<tfoot>
 				<tr>
-					<th colspan="3">
+					<th colspan="4">
 						<form method="post" action="#reseller-domains">
 							<input
 								type="text"
@@ -901,7 +923,22 @@ class Fontimator_MyAccount extends Fontimator_Public {
 								<?php // source: https://stackoverflow.com/a/26987741/2588319 ?>
 								pattern="^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$"
 								name="reseller-new-domain"
+								class="reseller-new-domain"
 								id="reseller-new-domain" />
+								<p class="reseller-new-domain-families">
+									<select name="reseller-new-domain-families[]" multiple="multiple">
+										<?php
+										$families = array();
+										foreach ( Fontimator_Query::get_catalog_fonts() as $font_id ) {
+											?>
+											<option value="<?php echo esc_attr( $font_id ); ?>">
+												<?php echo esc_html( wc_get_product( $font_id )->get_name() ); ?>
+											</option>
+											<?php
+										}
+										?>
+									</select>
+								</p>
 							<button type="submit" name="reseller-domains-action" value="add"><?php _ex( 'Add', 'Button in the reseller domains table', 'fontimator'); ?></button>
 						</form>
 					</th>
@@ -934,6 +971,20 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		}
 		
 		if ( $is_reseller ) {
+			wp_enqueue_script( 'select2' );
+			wp_enqueue_style( 'select2' );
+			
+			$max_families_per_font = 2;
+
+			wp_localize_script(
+				'fontimator-my-account',
+				'FontimatorResellerDomains',
+				array(
+					'maximumFamiliesSelectedError' => sprintf( __( "A maximum of %d fonts can be selected per domain.", 'fontimator' ), $max_families_per_font ),
+					'maximumFamiliesLimit' => $max_families_per_font,
+				)
+			);
+
 			$this->handle_reseller_domains_actions( $subscription );
 			$this->print_reseller_domains_table( $subscription->get_meta( 'ftm_reseller_domains' ) ?: array() );
 		}

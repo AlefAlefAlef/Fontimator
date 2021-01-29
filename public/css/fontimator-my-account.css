@@ -43,9 +43,11 @@
 	width: 100%;
 }
 
+
+/* Reseller Domains Table */
 .shop_table.reseller_domains {
 	width: auto;
-	max-width: 50em;
+	max-width: 60em;
 	table-layout: fixed;
 }
 
@@ -68,23 +70,45 @@
 	position: relative;
 }
 
-.shop_table.reseller_domains form input {
-	margin-left: 8px;
+.shop_table.reseller_domains form input.reseller-new-domain {
 	display: inline-block;
 	flex: 1;
 	padding: 5px;
 	font-size: 1em;
 	text-align: right;
+	margin-left: 8px;
 }
 
-.shop_table.reseller_domains form input:not(:placeholder-shown) {
+.shop_table.reseller_domains form input.reseller-new-domain:not(:placeholder-shown) {
 	text-align: left;
 	direction: ltr;
 }
 
 
-.shop_table.reseller_domains form input:not(:valid) ~ button[type="submit"] {
+.shop_table.reseller_domains form input.reseller-new-domain:not(:valid) ~ button[type="submit"] {
 	pointer-events: none;
 	opacity: .41;
 	cursor: default;
 }
+
+.shop_table.reseller_domains form .reseller-new-domain-families {
+	min-width: 20em;
+	margin-left: 8px;
+	flex: 1;
+}
+.shop_table.reseller_domains form .reseller-new-domain-families .select2-container {
+	width: 100% !important;
+}
+.shop_table.reseller_domains form .reseller-new-domain-families input[type=text] {
+	border: none !important;
+}
+
+/* .shop_table.reseller_domains form .select2-selection__rendered {
+	display: flex;
+}
+.shop_table.reseller_domains form .select2-search.select2-search--inline {
+	flex: 1
+}
+.shop_table.reseller_domains form .select2-search.select2-search--inline input {
+	width: auto !important;
+} */

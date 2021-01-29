@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2021-01-27 23:02+0200\n"
-"PO-Revision-Date: 2021-01-27 23:05+0200\n"
+"POT-Creation-Date: 2021-01-29 22:20+0200\n"
+"PO-Revision-Date: 2021-01-29 22:22+0200\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -541,11 +541,11 @@ msgstr "שגיאה: לא היה ניתן לאמת את כתובת המייל ש�
 msgid "Email preferences were updated successfully."
 msgstr "הגדרות האימייל שלך נשמרו בהצלחה."
 
-#: public/class-fontimator-myaccount.php:864
+#: public/class-fontimator-myaccount.php:869
 msgid "Web Domains"
 msgstr "דומיינים"
 
-#: public/class-fontimator-myaccount.php:865
+#: public/class-fontimator-myaccount.php:870
 msgid ""
 "Your web license will only be valid for the domains bellow. You can add how many "
 "you want."
@@ -553,27 +553,39 @@ msgstr ""
 "רשיון הריסלר שלך תקף אך ורק לדומיינים שיצויינו כאן. את/ה יכול/ה להוסיף כמה "
 "דומיינים שבא לך."
 
-#: public/class-fontimator-myaccount.php:869
+#: public/class-fontimator-myaccount.php:874
 msgctxt "Column in the reseller domains table"
 msgid "Added on"
 msgstr "הוסף בתאריך"
 
-#: public/class-fontimator-myaccount.php:870
+#: public/class-fontimator-myaccount.php:875
+msgctxt "Column in the reseller domains table"
+msgid "Families"
+msgstr "משפחות"
+
+#: public/class-fontimator-myaccount.php:876
 msgid "Domain Name"
 msgstr "שם דומיין"
 
-#: public/class-fontimator-myaccount.php:871
+#: public/class-fontimator-myaccount.php:877
 msgid "Actions"
 msgstr "פעולות"
 
-#: public/class-fontimator-myaccount.php:889
+#: public/class-fontimator-myaccount.php:904
 msgid "Add a new domain..."
 msgstr "דומיין חדש..."
 
-#: public/class-fontimator-myaccount.php:895
+#: public/class-fontimator-myaccount.php:925
 msgctxt "Button in the reseller domains table"
 msgid "Add"
 msgstr "הוספה"
+
+#: public/class-fontimator-myaccount.php:964
+#, php-format
+msgid "A maximum of %d fonts can be selected per domain."
+msgstr ""
+"אפשר לבחור רק %d משפחות פונטים פר דומיין – אנחנו ממליצים לעצב אתרי אינטרנט עם "
+"כמה שפחות פונטים שונים."
 
 #: public/class-fontimator-public.php:106
 #, php-format

@@ -68,4 +68,14 @@ jQuery(function($) {
     $fontName.addClass("font-name-with-banner-inside");
   });
 
+
+  // Reseller Domains Table
+  $('.reseller_domains form select').select2({
+    maximumSelectionLength: FontimatorResellerDomains.maximumFamiliesLimit,
+    language: {
+      maximumSelected: function (n) {
+        return FontimatorResellerDomains.maximumFamiliesSelectedError;
+      }
+    },
+  });
 });
