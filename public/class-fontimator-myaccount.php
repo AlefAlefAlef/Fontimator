@@ -894,6 +894,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					$creation_time = $meta['timestamp'] ?: time();
 					$families_ids = $meta['families'] ?: array();
 					$families = array();
+					$clean_domain = preg_replace("(^https?://)", "", $domain );
 
 					foreach ( $families_ids as $font_id ) {
 						$families[] = wc_get_product( $font_id )->get_name();
