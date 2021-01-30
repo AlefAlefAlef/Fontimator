@@ -234,7 +234,7 @@ class Fontimator_Admin {
 
 		// Use file
 		$time = date('d-m-Y_His');
-		$log_file = fopen("/var/www/output/sync_retroactively_all_subscriptions_$time.txt", 'a') or die("Unable to open file!");;//opens file in append mode
+		$log_file = fopen("/var/www/output/sync_retroactively_all_subscriptions_$time.txt", 'a') or die("Unable to open file!");//opens file in append mode
 
 		$members_to_update = array();
 		$inactives = array();
@@ -285,4 +285,54 @@ class Fontimator_Admin {
 		}
 	}
 
+	public function add_reseller_domains_meta_box() {
+		add_meta_box(
+      'ftm-reseller-domains',
+      _x( 'Domains registered for this subscription', 'Meta box title of reseller domains in admin area', 'fontimator' ),
+      array( $this, 'print_reseller_domains_meta_box' ),
+      array( 'shop_subscription' )
+    );
+	}
+
+	public function print_reseller_domains_meta_box( $post ) {
+		$subscription = new WC_Subscription( $post );
+		if ( ! Fontimator_WooCommerce::is_subscription_of_type( $subscription, 'membership-reseller' ) ) {
+			return false;
+		}
+
+		$domains = $subscription->get_meta( 'ftm_reseller_domains' ) ?: array();
+		?>
+		<div class="woocommerce_subscriptions_related_orders"> <!-- copying the classname since it's already styled, feel free to remove in the future -->
+			<table class="table">
+				<?php if ( !empty( $domains ) ) { ?>
+					<thead>
+						<tr>
+							<th class="domain-added"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+							<th class="domain-name"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
+							<th class="domain-families"><?php _ex( 'Font/s', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+						</tr>
+					</thead>
+				<?php } ?>
+
+				<tbody class="reseller-domains-list">
+					<?php foreach ( (array) $domains as $domain => $meta ) {
+						$families_ids = $meta['families'] ?: array();
+						?>
+						<tr>
+							<td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $meta['timestamp'] ?: 0 ) ); ?>"><?php echo esc_html( $meta['timestamp'] ? date_i18n( get_option( 'date_format' ), $meta['timestamp'] ) : '-' ); ?></td>
+							<th class="domain-name" scope="row"><a href="//<?php echo $domain; ?>" target="_blank"><?php echo esc_html( $domain ); ?></a></th>
+							<th class="domain-families" scope="row"><?php
+							foreach ( $families_ids as $font_id ) {
+								?>
+								<a href="<?php echo esc_attr( get_edit_post_link( $font_id ) ); ?>"><?php echo esc_html( wc_get_product( $font_id )->get_name() ); ?></a>
+								<?php
+							}
+							?></th>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+		<?php
+	}
 }

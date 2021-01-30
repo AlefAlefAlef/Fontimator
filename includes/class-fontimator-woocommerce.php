@@ -244,4 +244,20 @@ class Fontimator_WooCommerce {
 		}
 		return $redirect_url;
 	}
+
+	static function is_subscription_of_type( $subscription, $needed_slug = 'membership' ) {
+		$_pf = new WC_Product_Factory();  
+
+		$items = $subscription->get_items();
+		foreach ( $items as $item ) {
+			$product = $_pf->get_product($item->get_product_id());
+			$slug = $product->get_slug();
+
+			if ( $slug === $needed_slug ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
