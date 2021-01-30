@@ -881,14 +881,17 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		<h2 id="reseller-domains"><?php _e( 'Web Domains', 'fontimator' ); ?></h2>
 		<h6><?php _e( 'Your web license will only be valid for the domains bellow. You can add how many you want.', 'fontimator' ); ?></h6>
 		<table class="shop_table reseller_domains">
-			<thead>
-				<tr>
-					<th class="domain-added"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
-					<th class="domain-families"><?php _ex( 'Families', 'Column in the reseller domains table', 'fontimator' ); ?></th>
-					<th class="domain-name"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
-					<th class="domain-actions"><?php _e( 'Actions', 'fontimator' ); ?></th>
-				</tr>
-			</thead>
+			<?php if ( !empty( $domains ) ) { ?>
+				<thead>
+					<tr>
+						<th class="domain-added"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+						<th class="domain-name"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
+						<th class="domain-families"><?php _ex( 'Font/s', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+						<th class="domain-actions"><?php _e( 'Actions', 'fontimator' ); ?></th>
+					</tr>
+				</thead>
+			<?php } ?>
+
 			<tbody class="reseller-domains-list">
 				<?php foreach ( (array) $domains as $domain => $meta ) {
 					$creation_time = $meta['timestamp'] ?: time();
@@ -902,12 +905,12 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					?>
 					<tr>
 						<td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $creation_time ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ) ); ?></td>
+						<th class="domain-name" scope="row"><a href="//<?php echo $clean_domain; ?>" target="_blank"><?php echo esc_html( $clean_domain ); ?></a></th>
 						<th class="domain-families" scope="row"><?php echo esc_html( implode( ', ' , $families ) ); ?></th>
-						<th class="domain-name" scope="row"><?php echo esc_html( $domain ); ?></th>
 						<td class="domain-actions">
 							<form method="post" action="#reseller-domains">
 								<input type="hidden" value="<?php echo esc_attr( $domain ); ?>" name="reseller-deleted-domain" />
-								<button name="reseller-domains-action" value="delete" class="button alt b-red b-icon-before b-medium download-invoice" data-icon="Ō"></button>
+								<button name="reseller-domains-action" value="delete" class="button alt b-white b-icon-before" data-icon="Â"></button>
 							</form>
 						</td>
 					</tr>
@@ -916,18 +919,24 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			<tfoot>
 				<tr>
 					<th colspan="4">
-						<form method="post" action="#reseller-domains">
-							<input
-								type="text"
-								placeholder="<?php esc_attr_e('Add a new domain...', 'fontimator'); ?>"
-								required
-								<?php // source: https://stackoverflow.com/a/26987741/2588319 ?>
-								pattern="^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$"
-								name="reseller-new-domain"
-								class="reseller-new-domain"
-								id="reseller-new-domain" />
+						<form method="post" action="#reseller-domains" class="add-domain">
+							<h4><?php esc_attr_e('Add a new domain...', 'fontimator'); ?></h4>
+							<div class="form-inner-wrap">
+								<p>
+									<label for="reseller-new-domain"><?php esc_attr_e('Domain', 'fontimator'); ?></label>
+									<input
+										type="text"
+										placeholder="example.co.il"
+										required
+										<?php // source: https://stackoverflow.com/a/26987741/2588319 ?>
+										pattern="^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$"
+										name="reseller-new-domain"
+										class="reseller-new-domain"
+										id="reseller-new-domain" />
+								</p>
 								<p class="reseller-new-domain-families">
-									<select name="reseller-new-domain-families[]" multiple="multiple">
+									<label for="reseller-new-domain-families"><?php _ex( 'Font/s', 'Column in the reseller domains table', 'fontimator' ); ?></label>
+									<select name="reseller-new-domain-families[]" multiple="multiple" id="reseller-new-domain-families" required>
 										<?php
 										$families = array();
 										foreach ( Fontimator_Query::get_catalog_fonts() as $font_id ) {
@@ -940,7 +949,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 										?>
 									</select>
 								</p>
-							<button type="submit" name="reseller-domains-action" value="add"><?php _ex( 'Add', 'Button in the reseller domains table', 'fontimator'); ?></button>
+							</div>
+							<button type="submit" name="reseller-domains-action" class="reseller-domains-action" value="add"><?php _ex( 'Add', 'Button in the reseller domains table', 'fontimator'); ?></button>
 						</form>
 					</th>
 				</tr>
