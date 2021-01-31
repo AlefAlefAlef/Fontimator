@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2021-01-30 11:44+0200\n"
-"PO-Revision-Date: 2021-01-30 13:56+0200\n"
+"PO-Revision-Date: 2021-01-30 16:49+0200\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -551,7 +551,7 @@ msgid ""
 "you want."
 msgstr ""
 "כאן את/ה מדווח/ת על הדומיינים שבהם הטמעת את הפונטים שלנו כחלק ממינוי הריסלר. "
-"עליך להוסיף את הדומיין לפני שהאתר עולה לאויר."
+"עלי(י)ך להוסיף את הדומיין לפני עליית האתר לאויר."
 
 #: public/class-fontimator-myaccount.php:886
 msgctxt "Column in the reseller domains table"
@@ -574,7 +574,7 @@ msgstr "פעולות"
 
 #: public/class-fontimator-myaccount.php:919
 msgid "Add a new domain..."
-msgstr "הוספת רישיון לדומיין"
+msgstr "הוספת רישיון שימוש לדומיין חדש"
 
 #: public/class-fontimator-myaccount.php:921
 msgid "Domain"

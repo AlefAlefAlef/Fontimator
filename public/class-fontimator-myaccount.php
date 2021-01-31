@@ -906,7 +906,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					<tr>
 						<td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $creation_time ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ) ); ?></td>
 						<th class="domain-name" scope="row"><a href="//<?php echo $clean_domain; ?>" target="_blank"><?php echo esc_html( $clean_domain ); ?></a></th>
-						<th class="domain-families" scope="row"><?php echo esc_html( implode( ', ' , $families ) ); ?></th>
+						<th class="domain-families" scope="row"><?php echo esc_html( implode( ' ו' , $families ) ); ?></th>
 						<td class="domain-actions">
 							<form method="post" action="#reseller-domains">
 								<input type="hidden" value="<?php echo esc_attr( $domain ); ?>" name="reseller-deleted-domain" />
