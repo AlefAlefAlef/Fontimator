@@ -848,20 +848,25 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 			switch( $_REQUEST['reseller-domains-action'] ) {
 				case 'add':
-					if ( isset( $_REQUEST['reseller-new-domain'] ) && is_valid_domain_name( $_REQUEST['reseller-new-domain'] ) ) {
-						$families = array();
-						if ( isset( $_REQUEST['reseller-new-domain-families'] ) && is_array( $_REQUEST['reseller-new-domain-families'] ) ) {
-							foreach ( (array) $_REQUEST['reseller-new-domain-families'] as $font_id ) {
-								if ( 'product' === get_post_type( (int) $font_id ) ) {
-									$families[] = $font_id;
+					if ( isset( $_REQUEST['reseller-new-domain'] ) ) {
+						$clean_domain = preg_replace('(^https?://)', '', $_REQUEST['reseller-new-domain'] );
+						if ( is_valid_domain_name( $clean_domain ) ) {
+							$families = array();
+							if ( isset( $_REQUEST['reseller-new-domain-families'] ) && is_array( $_REQUEST['reseller-new-domain-families'] ) ) {
+								foreach ( (array) $_REQUEST['reseller-new-domain-families'] as $font_id ) {
+									if ( 'product' === get_post_type( (int) $font_id ) ) {
+										$families[] = $font_id;
+									}
 								}
 							}
-						}
 
-						$domains_array[ $_REQUEST['reseller-new-domain'] ] = array(
-							'timestamp' => time(),
-							'families' => $families
-						);
+							$domains_array[ $clean_domain ] = array(
+								'timestamp' => time(),
+								'families' => $families
+							);
+						} else {
+							wc_print_notice( __( 'The domain specified is not a valid domain.', 'fontimator' ) );
+						}
 					}
 				break;
 				case 'delete':
@@ -897,7 +902,6 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					$creation_time = $meta['timestamp'] ?: time();
 					$families_ids = $meta['families'] ?: array();
 					$families = array();
-					$clean_domain = preg_replace("(^https?://)", "", $domain );
 
 					foreach ( $families_ids as $font_id ) {
 						$families[] = wc_get_product( $font_id )->get_name();
@@ -905,8 +909,8 @@ class Fontimator_MyAccount extends Fontimator_Public {
 					?>
 					<tr>
 						<td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $creation_time ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ) ); ?></td>
-						<th class="domain-name" scope="row"><a href="//<?php echo $clean_domain; ?>" target="_blank"><?php echo esc_html( $clean_domain ); ?></a></th>
-						<th class="domain-families" scope="row"><?php echo esc_html( implode( ' ו' , $families ) ); ?></th>
+						<th class="domain-name" scope="row"><a href="http://<?php echo esc_attr( $domain ); ?>" target="_blank"><?php echo esc_html( $domain ); ?></a></th>
+						<th class="domain-families" scope="row"><?php echo esc_html( implode( ', ' , $families ) ); ?></th>
 						<td class="domain-actions">
 							<form method="post" action="#reseller-domains">
 								<input type="hidden" value="<?php echo esc_attr( $domain ); ?>" name="reseller-deleted-domain" />
@@ -929,7 +933,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 										placeholder="example.co.il"
 										required
 										<?php // source: https://stackoverflow.com/a/26987741/2588319 ?>
-										pattern="^(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$"
+										pattern="^(https?://)?(www\.)?(((?!-))(xn--|_{1,1})?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$"
 										name="reseller-new-domain"
 										class="reseller-new-domain"
 										id="reseller-new-domain" />
@@ -967,21 +971,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	 */
 	public function reseller_domains_section( $subscription ) {
 		// Check if this subscription order contains a reseller membership
-		$is_reseller = false;
-		$_pf = new WC_Product_Factory();  
-
-		$items = $subscription->get_items();
-		foreach ( $items as $item ) {
-			$product = $_pf->get_product($item->get_product_id());
-			$slug = $product->get_slug();
-
-			if ( 'membership-reseller' === $slug ) {
-				$is_reseller = true;
-				break;
-			}
-		}
-		
-		if ( $is_reseller ) {
+		if ( Fontimator_WooCommerce::is_subscription_of_type( $subscription, 'membership-reseller' ) ) {
 			wp_enqueue_script( 'select2' );
 			wp_enqueue_style( 'select2' );
 			

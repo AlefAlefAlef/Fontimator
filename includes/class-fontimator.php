@@ -356,6 +356,7 @@ class Fontimator {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_filter( 'wc_order_is_editable', $plugin_admin, 'can_edit_orders' );
+		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'add_reseller_domains_meta_box' );
 
 		// Custom actions in admin
 		$this->loader->add_action( 'current_screen', $plugin_admin, 'maybe_generate_complete_family_eligible_emails_list' );
