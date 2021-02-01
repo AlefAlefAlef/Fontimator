@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2021-01-30 11:44+0200\n"
-"PO-Revision-Date: 2021-01-30 16:49+0200\n"
+"POT-Creation-Date: 2021-01-31 07:40+0200\n"
+"PO-Revision-Date: 2021-01-31 07:41+0200\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -25,6 +25,26 @@ msgstr ""
 #, php-format
 msgid "Delete &#8220;%s&#8221; permanently"
 msgstr "מחיקת &#8220;%s&#8221; לצמיתות"
+
+#: admin/class-fontimator-admin.php:291
+msgctxt "Meta box title of reseller domains in admin area"
+msgid "Domains registered for this subscription"
+msgstr "דומיינים שנרשמו על המינוי"
+
+#: admin/class-fontimator-admin.php:310 public/class-fontimator-myaccount.php:892
+msgctxt "Column in the reseller domains table"
+msgid "Added on"
+msgstr "תאריך רישום הרישיון"
+
+#: admin/class-fontimator-admin.php:311 public/class-fontimator-myaccount.php:893
+msgid "Domain Name"
+msgstr "כתובת דומיין"
+
+#: admin/class-fontimator-admin.php:312 public/class-fontimator-myaccount.php:894
+#: public/class-fontimator-myaccount.php:942
+msgctxt "Column in the reseller domains table"
+msgid "Font/s"
+msgstr "פונט"
 
 #: admin/class-fontimator-variations-helper.php:57
 msgid "Fontimator Tools:"
@@ -541,11 +561,15 @@ msgstr "שגיאה: לא היה ניתן לאמת את כתובת המייל ש�
 msgid "Email preferences were updated successfully."
 msgstr "הגדרות האימייל שלך נשמרו בהצלחה."
 
-#: public/class-fontimator-myaccount.php:881
+#: public/class-fontimator-myaccount.php:868
+msgid "The domain specified is not a valid domain."
+msgstr ""
+
+#: public/class-fontimator-myaccount.php:886
 msgid "Web Domains"
 msgstr "רישיונות לדומיינים"
 
-#: public/class-fontimator-myaccount.php:882
+#: public/class-fontimator-myaccount.php:887
 msgid ""
 "Your web license will only be valid for the domains bellow. You can add how many "
 "you want."
@@ -553,39 +577,24 @@ msgstr ""
 "כאן את/ה מדווח/ת על הדומיינים שבהם הטמעת את הפונטים שלנו כחלק ממינוי הריסלר. "
 "עלי(י)ך להוסיף את הדומיין לפני עליית האתר לאויר."
 
-#: public/class-fontimator-myaccount.php:886
-msgctxt "Column in the reseller domains table"
-msgid "Added on"
-msgstr "תאריך רישום הרישיון"
-
-#: public/class-fontimator-myaccount.php:887
-msgid "Domain Name"
-msgstr "כתובת דומיין"
-
-#: public/class-fontimator-myaccount.php:888
-#: public/class-fontimator-myaccount.php:933
-msgctxt "Column in the reseller domains table"
-msgid "Font/s"
-msgstr "פונט"
-
-#: public/class-fontimator-myaccount.php:889
+#: public/class-fontimator-myaccount.php:895
 msgid "Actions"
 msgstr "פעולות"
 
-#: public/class-fontimator-myaccount.php:919
+#: public/class-fontimator-myaccount.php:927
 msgid "Add a new domain..."
 msgstr "הוספת רישיון שימוש לדומיין חדש"
 
-#: public/class-fontimator-myaccount.php:921
+#: public/class-fontimator-myaccount.php:930
 msgid "Domain"
 msgstr "דומיין"
 
-#: public/class-fontimator-myaccount.php:947
+#: public/class-fontimator-myaccount.php:957
 msgctxt "Button in the reseller domains table"
 msgid "Add"
 msgstr "הוסף/י"
 
-#: public/class-fontimator-myaccount.php:988
+#: public/class-fontimator-myaccount.php:984
 #, php-format
 msgid "A maximum of %d fonts can be selected per domain."
 msgstr "כחלק מרישיון ריסלר ניתן להטמיע רק %d משפחות פונטים פר דומיין."

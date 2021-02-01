@@ -320,14 +320,14 @@ class Fontimator_Admin {
 						?>
 						<tr>
 							<td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $meta['timestamp'] ?: 0 ) ); ?>"><?php echo esc_html( $meta['timestamp'] ? date_i18n( get_option( 'date_format' ), $meta['timestamp'] ) : '-' ); ?></td>
-							<th class="domain-name" scope="row"><a href="//<?php echo $domain; ?>" target="_blank"><?php echo esc_html( $domain ); ?></a></th>
-							<th class="domain-families" scope="row"><?php
+							<td class="domain-name" scope="row"><a href="//<?php echo $domain; ?>" target="_blank"><?php echo esc_html( $domain ); ?></a></td>
+							<td class="domain-families" scope="row"><?php
 							foreach ( $families_ids as $font_id ) {
 								?>
 								<a href="<?php echo esc_attr( get_edit_post_link( $font_id ) ); ?>"><?php echo esc_html( wc_get_product( $font_id )->get_name() ); ?></a>
 								<?php
 							}
-							?></th>
+							?></td>
 						</tr>
 					<?php } ?>
 				</tbody>
