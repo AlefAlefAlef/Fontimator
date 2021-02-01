@@ -914,7 +914,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 						<td class="domain-actions">
 							<form method="post" action="#reseller-domains">
 								<input type="hidden" value="<?php echo esc_attr( $domain ); ?>" name="reseller-deleted-domain" />
-								<button name="reseller-domains-action" value="delete" class="button alt b-white b-icon-before" data-icon="Â"></button>
+								<button name="reseller-domains-action" onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to remove this domain?', 'fontimator' ); ?>');" value="delete" class="button alt b-white b-icon-before" data-icon="Â"></button>
 							</form>
 						</td>
 					</tr>

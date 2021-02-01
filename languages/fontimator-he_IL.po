@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
-"POT-Creation-Date: 2021-01-31 07:40+0200\n"
-"PO-Revision-Date: 2021-01-31 07:41+0200\n"
+"POT-Creation-Date: 2021-02-01 11:31+0200\n"
+"PO-Revision-Date: 2021-02-01 11:34+0200\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -180,13 +180,10 @@ msgstr "אישה"
 
 #: includes/class-fontimator-mc.php:677
 #, fuzzy, php-format
-#| msgid ""
-#| "ERROR: Fontimator could not set the appropriate merge fields for user %1$s to "
-#| "%2$s"
 msgid ""
 "ERROR: Fontimator could not set the appropriate merge fields for user %1$s to "
 "%2$s (%3$s)"
-msgstr "שגיאה: הפונטימטור לא הצליח להגדיר את השדות של משתמש %1$s אל %2$s"
+msgstr "שגיאה: הפונטימטור לא הצליח להגדיר את השדות של משתמש %1$s אל %2$s (%3$s)"
 
 #: includes/class-fontimator-mc.php:860
 msgid "Sign up to our Newsletter!"
@@ -513,7 +510,7 @@ msgstr ""
 
 #: public/class-fontimator-myaccount.php:706
 msgid "Israel"
-msgstr ""
+msgstr "ישראל"
 
 #: public/class-fontimator-myaccount.php:711
 msgid "What is your (physical) address?"
@@ -563,7 +560,7 @@ msgstr "הגדרות האימייל שלך נשמרו בהצלחה."
 
 #: public/class-fontimator-myaccount.php:868
 msgid "The domain specified is not a valid domain."
-msgstr ""
+msgstr "הדומיין לא תקין"
 
 #: public/class-fontimator-myaccount.php:886
 msgid "Web Domains"
@@ -580,6 +577,10 @@ msgstr ""
 #: public/class-fontimator-myaccount.php:895
 msgid "Actions"
 msgstr "פעולות"
+
+#: public/class-fontimator-myaccount.php:917
+msgid "Are you sure you want to remove this domain?"
+msgstr "להסיר את הרישיון לדומיין?"
 
 #: public/class-fontimator-myaccount.php:927
 msgid "Add a new domain..."
