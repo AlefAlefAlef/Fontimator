@@ -35,7 +35,7 @@ class Fontimator_MC {
   /**
    * The seperator with which the address MERGE field is saved as a string in mailchimp
    */
-  protected $address_separator = '|'; 
+  protected $address_separator = ' | '; 
 
   function __construct() {
     if ($this->enabled()) {
@@ -415,7 +415,7 @@ class Fontimator_MC {
     $address_string = $this->get_merge_field( $this->address_field, $user_email );
     
     $address = new stdClass(); // The format of the object here mimics the MailChimp address object, for compatability
-    list( $address->addr1, $address->city, $address->zip, $address->country ) = explode( $this->address_separator, $address_string );
+    list( $address->addr1, $address->city, $address->zip, $address->country ) = explode( trim( $this->address_separator ), $address_string );
 
     return $address;
   }

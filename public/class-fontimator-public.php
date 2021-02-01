@@ -26,19 +26,19 @@ class Fontimator_Public {
 	 * The ID of this plugin.
 	 *
 	 * @since    2.0.0
-	 * @access   private
+	 * @access   protected
 	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $plugin_name;
+	protected $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
 	 * @since    2.0.0
-	 * @access   private
+	 * @access   protected
 	 * @var      string    $version    The current version of this plugin.
 	 */
-	private $version;
+	protected $version;
 	
 	/**
 	 * Enable/Disable DevTools detection. Change here to enable.
