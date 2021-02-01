@@ -922,7 +922,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			</tbody>
 			<tfoot>
 				<tr>
-					<th colspan="4">
+					<td colspan="4">
 						<form method="post" action="#reseller-domains" class="add-domain">
 							<h4><?php esc_attr_e('Add a new domain...', 'fontimator'); ?></h4>
 							<div class="form-inner-wrap">
@@ -956,7 +956,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 							</div>
 							<button type="submit" name="reseller-domains-action" class="reseller-domains-action" value="add"><?php _ex( 'Add', 'Button in the reseller domains table', 'fontimator'); ?></button>
 						</form>
-					</th>
+					</td>
 				</tr>
 			</tfoot>
 		</table>
