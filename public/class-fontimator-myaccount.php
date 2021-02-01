@@ -617,7 +617,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		<p>
 			<?php
 			// TRANSLATORS: %s is the link to contact form
-			echo sprintf( __( "Each time you download fonts from this page you agree to the <strong>current</strong> <a href='%s'>EULA</a>.", 'fontimator' ), 'https://alefalefalef.co.il/eula' );
+			echo sprintf( __( "Each time you download fonts from this page you agree to the <strong>current</strong> <a href='%s'>EULA</a>.", 'fontimator' ), get_permalink( get_page_by_path( 'eula' ) ) );
 			?>
 		</p>
 		
