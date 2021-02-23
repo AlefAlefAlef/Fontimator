@@ -621,11 +621,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			?>
 		</p>
 		
-		<p style="display:none;">
+		<!--<p style="display:none;">
 			<?php
 			echo sprintf( __( "Missing something? If you have previously purchased a font license that isn't listed here, please <a href='%s'>click here</a> to refresh your downloads list.", 'fontimator' ), esc_url( $this->get_reset_downloads_link() ) );
 			?>
-		</p>
+		</p>-->
 
 		<?php
 		// הודעה אם רישיון אקדמי פג תוקף
