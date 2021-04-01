@@ -94,11 +94,13 @@ class Fontimator_Public {
 			wp_enqueue_script( 'ivrita-lib-js' );
 		}
 
-		wp_localize_script(
-			'fontimator-public-js', 'UserGender', array(
-				'gender' => Fontimator_I18n::get_user_gender(),
-			)
-		);
+		if (Fontimator_I18n::get_user_gender() !== Fontimator_I18n::GENDER_NEUTRAL) {
+			wp_localize_script(
+				'fontimator-public-js', 'UserGender', array(
+					'gender' => Fontimator_I18n::get_user_gender(),
+				)
+			);
+		}
 
 		wp_localize_script(
 			'fontimator-public-js', 'FontimatorTimedMessages', array(

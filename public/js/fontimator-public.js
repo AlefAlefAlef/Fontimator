@@ -1,5 +1,9 @@
 (function( $ ) {
 	'use strict';
+	if (window.Ivrita && Ivrita.GENDERS.includes(parseInt(UserGender.gender))) {
+		Ivrita.setDefaultMode(parseInt(UserGender.gender));
+	}
+
 	$(function(){
 		$(document).on('woocommerce_update_variation_values', 'form.variations_form', function (event) {
 			$(this).find("optgroup:empty").remove();
@@ -114,9 +118,5 @@
 				$('#devtools-pop-up').hide().parent().hide();
 			}
 		});
-
-		if (window._ivrita && ! window.localStorage.getItem('ivrita-mode') && Ivrita.GENDERS.includes(parseInt(UserGender.gender))) {
-			_ivrita.setMode(parseInt(UserGender.gender));
-		}
 	});
 })( jQuery );
