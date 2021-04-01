@@ -840,7 +840,7 @@ class Fontimator_MC {
         ),
       ), true );
     } catch (\Throwable $th) {
-      var_dump($th);die();
+      $this->get_log()->error(sprintf("Fontimator: Can't subscribe user %s. Request: \n%s\n\n Response: \n%s\n----------------", $user_email, var_export( $th->request, true ), var_export( $th->response_data, true )));
       return false;
     }
     return true;
@@ -892,5 +892,13 @@ class Fontimator_MC {
     wp_enqueue_script( 'fontimator-email-preferences' );
     $user_email = $email_address; // For template below
     require WP_PLUGIN_DIR . '/fontimator/public/partials/fontimator-myaccount-email-preferences.php';
+  }
+
+  /**
+   * @return MC4WP_Debug_Log
+   */
+  private function get_log()
+  {
+    return mc4wp('log');
   }
 }
