@@ -37,13 +37,15 @@ foreach ( $customer_orders as $order ) {
 }
 
 $subscriptions = wcs_get_users_subscriptions();
-foreach ( $subscriptions as $subscription ) {
-	if ( 'active' !== $subscription->get_status() ) {
-		continue;
+$subscription = null;
+foreach ( $subscriptions as $s ) {
+	if ( 'active' === $s->get_status() ) {
+		$subscription = $s;
+
+		// Get the start date, if set
+		$subscription_renew_date = $s->get_date( 'next_payment' );
+		break;
 	}
-	// Get the start date, if set
-	$subscription_renew_date = $subscription->get_date( 'next_payment' );
-	break;
 }
 
 
