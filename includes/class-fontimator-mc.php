@@ -505,6 +505,7 @@ class Fontimator_MC {
         ),
       ) );
     } catch (\Throwable $th) {
+      $this->get_log()->error(sprintf("Fontimator: Can't set user %s merge fields. Request: \n%s\n\n Response: \n%s\n----------------", $user_email, var_export( $th->request, true ), var_export( $th->response_data, true )));
       return false;
     }
     return true;
