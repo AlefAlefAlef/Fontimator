@@ -1,6 +1,6 @@
 (function( $ ) {
 	'use strict';
-	if (window.Ivrita && Ivrita.GENDERS.includes(parseInt(UserGender.gender))) {
+	if (window.Ivrita && Ivrita.GENDERS && window.UserGender && Ivrita.GENDERS.includes(parseInt(UserGender.gender))) {
 		Ivrita.setDefaultMode(parseInt(UserGender.gender));
 	}
 
