@@ -70,6 +70,25 @@ acf_add_local_field_group(
 				'multiple' => 0,
 				'allow_null' => 1,
 			),
+			array(
+				'key' => 'field_5b5346members_only',
+				'label' => 'פונט למנויים בלבד?',
+				'name' => 'members_only',
+				'type' => 'true_false',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
+			),
 		),
 		'location' => array(
 			array(
