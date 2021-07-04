@@ -132,7 +132,8 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 					'type' => 'select',
 					'required' => true,
 					'return' => true,
-					'options' => array_merge( array( '' => _x( 'Month', 'Mailchimp birthday month field plaeholder', 'fontimator' ) ), $wp_locale->get_month ),
+					//'options' => array_merge( array( '' => _x( 'Month', 'Mailchimp birthday month field plaeholder', 'fontimator' ) ), $wp_locale->month ),
+					'options' => array( 'חודש', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ),
 				] ));
 				?>
 			</div>
