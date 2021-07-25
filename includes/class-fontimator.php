@@ -163,6 +163,11 @@ class Fontimator {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-mc.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mc4wp-woocommerce-integration.php';
+		
+		/**
+		 * The class responsible for Green Invoice intergation
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fontimator-green-invoice.php';
 
 		/**
 		 * The classes that extend WooCommerce functionality.
@@ -267,6 +272,15 @@ class Fontimator {
 		$this->loader->add_filter( 'query_vars', $zipomator, 'query_vars', 30, 2 );
 		$this->loader->add_action( 'parse_request', $zipomator, 'parse_request' );
 		
+		// Green Invoice
+		if (class_exists( 'tb_wc_green_invoice' )) {
+			$green_invoice = new Fontimator_GreenInvoice();
+
+			// Rewrite endpoint for downloading invoices - https://awhitepixel.com/blog/custom-url-endpoints-wordpress-rewrite-api/
+			$this->loader->add_action( 'init', $green_invoice, 'add_download_invoice_rewrite_endpoint' );
+			$this->loader->add_action( 'template_redirect', $green_invoice, 'maybe_redirect_download_invoice' );
+		}
+
 		// MailChimp
 		if ($this->mc->enabled()) {
 			// ACF fields

@@ -31,6 +31,7 @@ class Fontimator_Activator {
 	 */
 	public static function activate() {
 		self::install_free_downloads_db();
+		flush_rewrite_rules();
 	}
 
 

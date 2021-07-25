@@ -30,7 +30,7 @@ class Fontimator_Deactivator {
 	 * @since    2.0.0
 	 */
 	public static function deactivate() {
-
+		flush_rewrite_rules();
 	}
 
 }
