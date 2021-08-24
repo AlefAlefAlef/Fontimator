@@ -65,8 +65,6 @@ class Fontimator_GreenInvoice {
       wp_die( sprintf( __( 'Order %d has no invoices', 'fontimator' ), $order_id ) );
     }
 
-
-    // TODO: check permissions
     $url = sprintf( '%s/%s/download/links', $tb_wc_green_invoice->decide_about_greeninvoice_url(), $invoice_id );
 
     $options = array(
@@ -106,7 +104,11 @@ class Fontimator_GreenInvoice {
       
     } else {
       $tb_wc_green_invoice->log('Fontimator API call ERROR: ' . print_r($result, true));
-      wp_die( __( 'Error in Green Invoice download link API call', 'fontimator' ) ); // Maybe there's a problem with the API key, or sandbox mode is on?
+      if ( $green_invoice_temp_link = $order->get_meta( 'invoice_link', true ) ) {
+        header( sprintf( 'Location: %s', $green_invoice_temp_link ) );
+      } else {
+        wp_die( __( 'Error in Green Invoice download link API call', 'fontimator' ) ); // Maybe there's a problem with the API key, or sandbox mode is on?
+      }
     }
   }
 
