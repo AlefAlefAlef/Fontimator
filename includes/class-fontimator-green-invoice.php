@@ -11,6 +11,7 @@
 class Fontimator_GreenInvoice {
 
   protected static $download_invoice_endpoint = 'download-invoice';
+  protected static $greeninvoice_global_endpoint = true;
 
   public function add_download_invoice_rewrite_endpoint() {
     add_rewrite_endpoint( self::$download_invoice_endpoint , EP_ROOT );
@@ -64,8 +65,12 @@ class Fontimator_GreenInvoice {
     if ( ! $invoice_id = $order->get_meta( 'invoice_uid', true ) ) {
       wp_die( sprintf( __( 'Order %d has no invoices', 'fontimator' ), $order_id ) );
     }
-
-    $url = sprintf( '%s/%s/download/links', $tb_wc_green_invoice->decide_about_greeninvoice_url(), $invoice_id );
+    
+    $url = sprintf( '%s/%s', $tb_wc_green_invoice->decide_about_greeninvoice_url(), $invoice_id );
+    
+    if ( ! self::$greeninvoice_global_endpoint ) {
+      $url .= '/download/links';
+    }
 
     $options = array(
       CURLOPT_URL => $url,
@@ -87,6 +92,10 @@ class Fontimator_GreenInvoice {
   
     if ($httpcode == 201 || $httpcode == 200) {
       $language = $tb_wc_green_invoice->get_language(); // TODO: get customer ID
+
+      if ( self::$greeninvoice_global_endpoint ) {
+        $response = $response["url"];
+      }
 
       if ($language == "he" && isset( $response["he"] )) {
         $download_link = $response["he"];
