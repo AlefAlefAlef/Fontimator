@@ -5,7 +5,8 @@
 jQuery(function($){
   $('.woocommerce-EmailPreferencesForm .ios-checkbox').iosCheckbox();
   $('.woocommerce-EmailPreferencesForm label').click(function (e) {
-    if (e.target === this || $(this).find(':not(.ios-ui-select, .ios-ui-select *)').index(e.target) > -1) {
+    // patch, feel free to refactor
+    if (e.target.type !== 'checkbox' && ( e.target === this || $(this).find(':not(.ios-ui-select, .ios-ui-select *)').index(e.target) > -1 )) {
       $(this).find('.ios-ui-select').click();
     }
   });
