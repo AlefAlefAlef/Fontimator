@@ -525,7 +525,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			return;
 		}
 
-		$special_groups = array( 'membership', 'academic', 'archive', 'gift', 'free', 'membership-reseller' );
+		$special_groups = array( 'membership', 'academic', 'archive', 'gift', 'free', 'membership-reseller', 'otf-extended', 'web-extended' );
 		if ( in_array($family_name, $special_groups) ) {
 			return; // Don't display banner for these special groups
 		}
