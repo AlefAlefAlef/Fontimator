@@ -61,16 +61,16 @@ class Zipomator_EULA {
 
 	public function main_fontface() {
 		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'teom' : 'ploni';
-		$woff_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-aaa.woff' );
+		$woff_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-' . FTM_SITE_PREFIX . '.woff' );
 		$woff_data = 'data:application/font-woff;charset=utf-8;base64,' . base64_encode( $woff_file );
-		$woff2_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-aaa.woff2' );
+		$woff2_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-' . FTM_SITE_PREFIX . '.woff2' );
 		$woff2_data = 'data:application/font-woff2;charset=utf-8;base64,' . base64_encode( $woff2_file );
 		?>
 		<style>
 		
 
 		@font-face {
-			font-family: '<?php echo $main_font; ?>';
+			font-family: '<?php echo $main_font; ?>', Tahoma, sans-serif;
 			src: url(<?php echo $woff2_data; ?>) format('woff2'),
 				url(<?php echo $woff_data; ?>) format('woff');
 			font-weight: normal;
