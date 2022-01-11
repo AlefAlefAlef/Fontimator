@@ -60,7 +60,7 @@ class Zipomator_EULA {
 	}
 
 	public function main_fontface() {
-		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'afek' : 'ploni';
+		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'teom' : 'ploni';
 		$woff_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-aaa.woff' );
 		$woff_data = 'data:application/font-woff;charset=utf-8;base64,' . base64_encode( $woff_file );
 		$woff2_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-aaa.woff2' );
@@ -82,7 +82,7 @@ class Zipomator_EULA {
 		<?php
 	}
 	public function css() {
-		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'afek' : 'ploni';
+		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'teom' : 'ploni';
 		$site_color = ( 'fontimonim' === FTM_SITE_NAME ) ? '#32e' : '#e43';
 		$this->main_fontface();
 		?>
