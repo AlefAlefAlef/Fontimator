@@ -860,7 +860,7 @@ class Fontimator_MC {
     $user_info = wp_get_current_user();
     $first_name = $user_info->first_name;
     if ( 'fontimonim' === FTM_SITE_NAME ) {
-      $subscribe_link = sprintf( 'https://us2.list-manage.com/subscribe?MERGE0=%1$s&MERGE1=%2$s&MERGE2=%3$s&u=768a22048620e253477cb794b&id=d34ade0131', urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
+      $subscribe_link = "https://alefalefalef.co.il/resources/newsletter/?group=fontimonim";
     } else {
       $subscribe_link = sprintf( get_permalink(7857), urlencode( $user_info->user_email ), urlencode( $user_info->first_name ), urlencode( $user_info->last_name ) );
     }
