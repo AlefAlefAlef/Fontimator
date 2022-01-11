@@ -70,7 +70,7 @@ class Zipomator_EULA {
 		
 
 		@font-face {
-			font-family: '<?php echo $main_font; ?>', Tahoma, sans-serif;
+			font-family: '<?php echo $main_font; ?>';
 			src: url(<?php echo $woff2_data; ?>) format('woff2'),
 				url(<?php echo $woff_data; ?>) format('woff');
 			font-weight: normal;
@@ -93,7 +93,7 @@ class Zipomator_EULA {
 			direction: rtl;
 			max-width: 800px;
 			margin: 10px auto;
-			font-family: '<?php echo $main_font; ?>', sans-serif;
+			font-family: '<?php echo $main_font; ?>', Tahoma, sans-serif;
 			font-size: 18px;
 		}
 		
