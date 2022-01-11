@@ -195,9 +195,9 @@ class Zipomator_Font_Package {
 					$file_list[] = [ $file_path, $local_path ];
 
 					// Add MS Office files
-					$file_path = $this->get_server_path( 'font', $family, 'ttf', $weight, $license );
+					/*$file_path = $this->get_server_path( 'font', $family, 'ttf', $weight, $license );
 					$local_path = $local_misc_path_prefix . "_for microsoft office users/{$family}-{$weight}-{$site_prefix}.ttf";
-					$file_list[] = [ $file_path, $local_path ];
+					$file_list[] = [ $file_path, $local_path ];*/
 				}
 			}
 
