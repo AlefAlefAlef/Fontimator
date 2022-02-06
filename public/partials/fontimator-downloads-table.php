@@ -40,9 +40,13 @@ $downloads = Fontimator_MyAccount::group_downloads_by_family( $downloads );
 			</tr>
 		</thead>
 
-		<?php foreach ( $downloads as $family_name => $family_group ) : ?>
+		<?php 
+		$single_license = ( count( $downloads ) == 1 ) ? ' open' : ''; 
+		
+		foreach ( $downloads as $family_name => $family_group ) : 
+				?>
 				<tbody>
-					<tr class="font-family-header">
+					<tr class="font-family-header<?php echo $single_license; ?>">
 						<td class="icon-cell"></td>
 						<td colspan="<?php echo count( wc_get_account_downloads_columns() ) - 1; ?>">
 							<span class="font_title"><?php
