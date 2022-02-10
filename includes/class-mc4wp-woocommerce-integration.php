@@ -40,6 +40,7 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_checkbox_html' ), 10 );
 			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ), 20 );
 			add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
+			add_filter('mc4wp_ecommerce_order_data', 'change_mc4wp_order_url');
 		} );
 	}
 	
@@ -250,6 +251,12 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
     {
         return class_exists('WooCommerce') && class_exists('MC4WP_WooCommerce_Integration') && class_exists('Fontimator');
     }
+
+	// Avraham: Change the order url sent to mailchimp to admin edit url.
+	public function change_mc4wp_order_url($order_data, $order) {
+		$order_data['order_url'] = get_edit_post_link($order->get_id);
+		return $order_data;
+	}
 
 }
 mc4wp_register_integration('ftm-woocommerce', 'MC4WP_FTM_WooCommerce_Integration');
