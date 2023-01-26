@@ -237,7 +237,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		$groups = array();
 		foreach ( $downloads as $index => $download ) {
 			// Override archive fonts ftm_font_family
-			if ( 'gift' !== $download['ftm_font_family'] && has_term( 'archive', 'product_cat', wp_get_post_parent_id( $download['product_id'] ) ) ) {
+			if ( isset($download['product_id']) && 'gift' !== $download['ftm_font_family'] && has_term( 'archive', 'product_cat', wp_get_post_parent_id( $download['product_id'] ) ) ) {
 				$download['ftm_font_family'] = 'archive';
 			}
 

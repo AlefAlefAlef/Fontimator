@@ -15,7 +15,7 @@ $download    = new Fontimator_Free_Download( $download_id );
 	if ( isset( $_POST['download-id'] ) && $_POST['download-id'] === $download_id ) {
 
 		if ( $_POST['download-user-name'] && $_POST['download-user-email'] && 'on' === $_POST['download-terms'] ) {
-			if ( Fontimator::mc()->enabled() && 'on' === $_POST['download-newsletter'] && is_email( $_POST['download-user-email'] ) ) {
+			if ( Fontimator::mc()->enabled() && isset($_POST['download-newsletter']) && 'on' === $_POST['download-newsletter'] && is_email( $_POST['download-user-email'] ) ) {
 				$email         = $_POST['download-user-email'];
 				$exploded_name = explode( ' ', $_POST['download-user-name'] );
 				$first_name    = array_shift( $exploded_name );

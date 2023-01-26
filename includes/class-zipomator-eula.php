@@ -84,7 +84,7 @@ class Zipomator_EULA {
 	public function css() {
 		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'teom' : 'ploni';
 		$site_color = ( 'fontimonim' === FTM_SITE_NAME ) ? '#32e' : '#e43';
-		$this->main_fontface();
+		$this::main_fontface();
 		?>
 		<style>
 
