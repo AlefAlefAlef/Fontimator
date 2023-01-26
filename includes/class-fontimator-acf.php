@@ -100,7 +100,12 @@ class Fontimator_ACF {
 	}
 
 	public function get_default( $field, $context = null ) {
-		return $this->get_defaults()[ $field ];
+        $defaults = $this->get_defaults();
+        if(array_key_exists($field, $defaults)) {
+            return $this->get_defaults()[ $field ];
+        } else {
+            return false;
+        }
 	}
 
 	public function get_acf_field( $field, $context = null ) {

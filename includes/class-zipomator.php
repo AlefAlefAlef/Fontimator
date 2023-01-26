@@ -149,8 +149,8 @@ class Zipomator {
 	}
 
 	public static function get_nonced_url( $variations ) {
-		if ( ! is_array( $variation ) ) {
-			$variations = array( $variations );
+		if ( ! is_array( $variations ) ) {
+			$variations = [$variations];
 		}
 		return self::zipomator_variation_url( $variations );
 	}

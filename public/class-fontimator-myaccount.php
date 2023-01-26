@@ -471,7 +471,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function checkbox_for_download( $download ) {
-		if ( ! $download['product_id'] || is_checkout() ) {
+        if ( (isset($download['product_id']) && !$download['product_id']) || is_checkout() ) {
 			return;
 		}
 		?>
