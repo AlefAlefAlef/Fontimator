@@ -460,7 +460,7 @@ class Fontimator_Public {
 	public function display_share_cart_url() {
 		global $woocommerce;
 
-		if ( ! $_REQUEST['ftm-add-to-cart'] && ! $_REQUEST['ftm-automatic-cart'] ) {
+		if ( !isset($_REQUEST['ftm-add-to-cart']) && !isset($_REQUEST['ftm-automatic-cart'])) {
 			$items = $woocommerce->cart->get_cart();
 			$product_ids = array_values( wp_list_pluck( $items, 'variation_id' ) );
 			$cart_url = esc_url_raw( add_query_arg( 'ftm-add-to-cart', implode( ',', $product_ids ), wc_get_cart_url() ) );

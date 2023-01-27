@@ -244,7 +244,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 			if ( $download['ftm_font_family'] ) {
 				$font_family = $download['ftm_font_family'];
 
-				if ( ! $groups[ $font_family ] ) {
+				if ( isset($groups[ $font_family ]) && !$groups[ $font_family ] ) {
 					$groups[ $font_family ] = array();
 				}
 
@@ -265,18 +265,18 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
 		// Reorder
 		$archive_group = $groups['archive'];
-		$free_group = $groups['free'];
-		$gift_group = $groups['gift'];
+		$free_group = isset($groups['free']) ? $groups['free'] : false;
+		$gift_group = isset($groups['gift']) ? $groups['gift'] : false;
 		unset( $groups['archive'], $groups['gift'], $groups['free'] );
 
 		$ordered_groups = array();
-		if ( $groups['membership'] ) {
+		if ( isset($groups['membership']) && $groups['membership'] ) {
 			$ordered_groups['membership'] = $groups['membership'];
 		}
 		if ( $groups['academic'] ) {
 			$ordered_groups['academic'] = $groups['academic'];
 		}
-		if ( $groups['gift'] ) {
+		if ( isset($groups['gift']) && $groups['gift'] ) {
 			$ordered_groups['gift'] = $groups['gift'];
 		}
 		$groups = $ordered_groups + $groups;
@@ -482,11 +482,11 @@ class Fontimator_MyAccount extends Fontimator_Public {
 	}
 
 	public function reset_all_downloads() {
-		if ( 'true' === $_GET['ftm_reset_downloads'] ) {
+		if ( isset($_GET['ftm_reset_downloads']) && 'true' === $_GET['ftm_reset_downloads'] ) {
 			$count          = Fontimator_Woocommerce::reset_downloads_for_customer();
 			$downloads_link = wc_get_page_permalink( 'myaccount' ) . 'downloads';
 			wp_redirect( add_query_arg( 'ftm_reset_downloads', 'done', $downloads_link ) );
-		} elseif ( 'done' === $_GET['ftm_reset_downloads'] ) {
+		} elseif ( isset($_GET['ftm_reset_downloads']) && 'done' === $_GET['ftm_reset_downloads'] ) {
 			wc_print_notice( __( 'Updated your downloads list. We hope everything is here this time!', 'fontimator' ), 'success' );
 		}
 	}
