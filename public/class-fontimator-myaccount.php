@@ -273,7 +273,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		if ( isset($groups['membership']) && $groups['membership'] ) {
 			$ordered_groups['membership'] = $groups['membership'];
 		}
-		if ( $groups['academic'] ) {
+		if ( isset($groups['academic']) && $groups['academic']) {
 			$ordered_groups['academic'] = $groups['academic'];
 		}
 		if ( isset($groups['gift']) && $groups['gift'] ) {
