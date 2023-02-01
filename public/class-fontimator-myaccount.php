@@ -233,65 +233,57 @@ class Fontimator_MyAccount extends Fontimator_Public {
 		return $downloads;
 	}
 
-	public static function group_downloads_by_family( $downloads ) {
-		$groups = array();
-		foreach ( $downloads as $index => $download ) {
-			// Override archive fonts ftm_font_family
-			if ( isset($download['product_id']) && 'gift' !== $download['ftm_font_family'] && has_term( 'archive', 'product_cat', wp_get_post_parent_id( $download['product_id'] ) ) ) {
-				$download['ftm_font_family'] = 'archive';
-			}
+    public static function group_downloads_by_family( $downloads ) {
+        $groups = [];
+        $sort_groups = ['archive', 'gift', 'academic', 'membership', 'free'];
+        foreach ( $downloads as $download ) {
+            if (isset($download['product_id']) && 'gift' !== $download['ftm_font_family']
+                && has_term('archive', 'product_cat', wp_get_post_parent_id($download['product_id']))) {
+                $download['ftm_font_family'] = 'archive';
+            }
 
-			if ( $download['ftm_font_family'] ) {
-				$font_family = $download['ftm_font_family'];
+            if (!empty($download['ftm_font_family'])) {
+                $font_family = $download['ftm_font_family'];
 
-				if ( isset($groups[ $font_family ]) && !$groups[ $font_family ] ) {
-					$groups[ $font_family ] = array();
-				}
+                if (!isset($groups[$font_family])) {
+                    $groups[$font_family] = [];
+                }
+                $groups[$font_family][] = $download;
+            }
+        }
 
-				$groups[ $font_family ][] = $download;
-			}
-		}
+        foreach ($groups as $group_name => $group_items) {
+            if (in_array($group_name, $sort_groups)) {
+                usort($group_items, function($a, $b) {
+                    return $a['product_name'] <=> $b['product_name'];
+                });
+                $groups[$group_name] = $group_items;
+            }
+        }
 
-		// Sort alphabetically
-		$groups_to_sort_abc = array( 'archive', 'gift', 'academic', 'membership', 'free' );
-		foreach ( $groups as $group_name => $group_items ) {
-			if ( in_array( $group_name, $groups_to_sort_abc ) ) {
-				usort( $group_items, function ( $a, $b ) {
-					return $a['product_name'] <=> $b['product_name'];
-				} );
-			$groups[$group_name] = $group_items;
-			}
-		}
+        $ordered_groups = [];
+        if (isset($groups['membership'])) {
+            $ordered_groups['membership'] = $groups['membership'];
+        }
+        if (isset($groups['academic'])) {
+            $ordered_groups['academic'] = $groups['academic'];
+        }
+        if (isset($groups['gift'])) {
+            $ordered_groups['gift'] = $groups['gift'];
+        }
 
-		// Reorder
-		$archive_group = $groups['archive'];
-		$free_group = isset($groups['free']) ? $groups['free'] : false;
-		$gift_group = isset($groups['gift']) ? $groups['gift'] : false;
-		unset( $groups['archive'], $groups['gift'], $groups['free'] );
+        $groups = $ordered_groups + $groups;
 
-		$ordered_groups = array();
-		if ( isset($groups['membership']) && $groups['membership'] ) {
-			$ordered_groups['membership'] = $groups['membership'];
-		}
-		if ( isset($groups['academic']) && $groups['academic']) {
-			$ordered_groups['academic'] = $groups['academic'];
-		}
-		if ( isset($groups['gift']) && $groups['gift'] ) {
-			$ordered_groups['gift'] = $groups['gift'];
-		}
-		$groups = $ordered_groups + $groups;
+        $final_order = ['gift', 'free', 'archive'];
+        $final_groups = [];
+        foreach ($final_order as $name) {
+            if (isset($groups[$name])) {
+                $final_groups[$name] = $groups[$name];
+            }
+        }
 
-		if ( $gift_group ) {
-			$groups['gift'] = $gift_group;
-		}
-		if ( $free_group ) {
-			$groups['free'] = $free_group;
-		}
-		if ( $archive_group ) {
-			$groups['archive'] = $archive_group;
-		}
-		return $groups;
-	}
+        return $final_groups;
+    }
 
 	protected function get_new_download_obj( $variation, $order_id, $font_family_override = null ) {
 		$variation_downloads = $variation->get_downloads();
