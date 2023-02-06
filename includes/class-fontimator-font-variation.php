@@ -50,10 +50,15 @@ class Fontimator_Font_Variation extends WC_Product_Variation {
 			parent::__construct( $product );
 			$var_attrs = $this->get_variation_attributes();
 			if ( count( $var_attrs ) ) {
-				$this->weight = $var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ];
-				$this->license = $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ];
-				$font = new Fontimator_Font( $this->get_parent_id() );
-				$this->family = $font->get_slug();
+                if(isset($var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ])) {
+                    $this->weight = $var_attrs[ 'attribute_pa_' . FTM_WEIGHT_ATTRIBUTE ];
+                }
+                if(isset($var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ])) {
+                    $this->license = $var_attrs[ 'attribute_pa_' . FTM_LICENSE_ATTRIBUTE ];
+                }
+
+                $font = new Fontimator_Font( $this->get_parent_id() );
+                $this->family = $font->get_slug();
 			}
 		}
 

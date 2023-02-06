@@ -295,10 +295,10 @@ class Fontimator_MyAccount extends Fontimator_Public {
         }
         $groups = $ordered_groups + $groups;
 
-        if ( $gift_group ) {
+        if ( isset($gift_group) ) {
             $groups['gift'] = $gift_group;
         }
-        if ( $free_group ) {
+        if ( isset($free_group) ) {
             $groups['free'] = $free_group;
         }
         if ( isset($archive_group) ) {
