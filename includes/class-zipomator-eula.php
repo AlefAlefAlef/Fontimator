@@ -159,7 +159,9 @@ class Zipomator_EULA {
 			</head>
 			<body>
 				<h1><a href="<?php echo home_url( 'eula' ); ?>" ><?php echo ( 'fontimonim' === FTM_SITE_NAME ) ? 'ℶ' : 'ℵ'; ?></a></h1>
-				<?php self::html( $relevant ); ?>
+                <?php if(isset($relevant)) { ?>
+                    <?php self::html( $relevant ); ?>
+                <?php } ?>
 			</body>
 		</html>
 

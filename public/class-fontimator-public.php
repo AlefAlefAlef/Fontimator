@@ -211,17 +211,20 @@ class Fontimator_Public {
 			}
 		}
 
-		$familybasic_text = get_term_by( 'slug', '000-familybasic', 'pa_' . FTM_WEIGHT_ATTRIBUTE )->name;
-		if ( $name === $familybasic_text ) {
-			if ( $GLOBALS['post'] && $GLOBALS['post']->ID ) {
-				$font = new Fontimator_Font( $GLOBALS['post']->ID );
-				$weights = $font->get_familybasic_weights( 'name' );
-				if ( count( $weights ) ) {
-					$weight_list = implode( '+', $weights );
-					return $name . " ($weight_list)";
-				}
-			}
-		}
+
+        if($familybasic_text = get_term_by( 'slug', '000-familybasic', 'pa_' . FTM_WEIGHT_ATTRIBUTE )) {
+            $familybasic_text = $familybasic_text->name;
+            if ( $name === $familybasic_text ) {
+                if ( $GLOBALS['post'] && $GLOBALS['post']->ID ) {
+                    $font = new Fontimator_Font( $GLOBALS['post']->ID );
+                    $weights = $font->get_familybasic_weights( 'name' );
+                    if ( count( $weights ) ) {
+                        $weight_list = implode( '+', $weights );
+                        return $name . " ($weight_list)";
+                    }
+                }
+            }
+        }
 		return $name;
 	}
 
@@ -285,7 +288,7 @@ class Fontimator_Public {
 	public function hide_dead_weights_from_dropdown( $args ) {
 		if ( 'pa_' . FTM_WEIGHT_ATTRIBUTE === $args['attribute'] ) {
 			$font = new Fontimator_Font( $args['product'] );
-			$archived_weights = wc_list_pluck( (array) $font->get_archived_weights(), 'slug' );
+            $archived_weights = wc_list_pluck( (array) $font->get_archived_weights() ?? [], 'slug' );
 			$visible_weights = array_diff( (array) $args['options'], $archived_weights );
 
 			$args['options'] = $visible_weights;
@@ -460,7 +463,7 @@ class Fontimator_Public {
 	public function display_share_cart_url() {
 		global $woocommerce;
 
-		if ( ! $_REQUEST['ftm-add-to-cart'] && ! $_REQUEST['ftm-automatic-cart'] ) {
+		if ( !isset($_REQUEST['ftm-add-to-cart']) && !isset($_REQUEST['ftm-automatic-cart'])) {
 			$items = $woocommerce->cart->get_cart();
 			$product_ids = array_values( wp_list_pluck( $items, 'variation_id' ) );
 			$cart_url = esc_url_raw( add_query_arg( 'ftm-add-to-cart', implode( ',', $product_ids ), wc_get_cart_url() ) );
