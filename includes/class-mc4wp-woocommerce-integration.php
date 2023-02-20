@@ -39,7 +39,7 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 			add_action( 'mc4wp_integration_' . $this->slug . '_before_checkbox_wrapper', array( $this, 'catch_checkbox_html' ) );
 			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_checkbox_html' ), 10 );
 			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ), 20 );
-			//add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
+			add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
 		} );
 	}
 	
@@ -154,21 +154,21 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 		<?php
 	}
 
-	public function validate_merge_fields( $fields, WP_Error $errors ) {
-		if ( $_REQUEST[ '_mc4wp_subscribe_' . $this->slug ] ) {
-			if ( ! $_REQUEST['mc4wp_merge_gender'] ) {
-				$errors->add( 'validation', __( 'Missing gender', 'fontimator' ) );
-			}
+    public function validate_merge_fields( $fields, WP_Error $errors ) {
+        if ( isset($_REQUEST[ '_mc4wp_subscribe_' . $this->slug ]) && $_REQUEST[ '_mc4wp_subscribe_' . $this->slug ] ) {
+            if ( !isset($_REQUEST['mc4wp_merge_gender'] )) {
+                $errors->add( 'validation', __( 'Missing gender', 'fontimator' ) );
+            }
 
-			if ( ! $_REQUEST['mc4wp_merge_bday_day'] ) {
-				$errors->add( 'validation', __( 'Missing birthday day', 'fontimator' ) );
-			}
+            if ( !isset($_REQUEST['mc4wp_merge_bday_day']) ) {
+                $errors->add( 'validation', __( 'Missing birthday day', 'fontimator' ) );
+            }
 
-			if ( ! $_REQUEST['mc4wp_merge_bday_month'] ) {
-				$errors->add( 'validation', __( 'Missing birthday month', 'fontimator' ) );
-			}
-		}
-	}
+            if ( !isset($_REQUEST['mc4wp_merge_bday_month']) ) {
+                $errors->add( 'validation', __( 'Missing birthday month', 'fontimator' ) );
+            }
+        }
+    }
 
     /**
     * @param int $order_id
