@@ -39,7 +39,7 @@ class MC4WP_FTM_WooCommerce_Integration extends MC4WP_WooCommerce_Integration
 			add_action( 'mc4wp_integration_' . $this->slug . '_before_checkbox_wrapper', array( $this, 'catch_checkbox_html' ) );
 			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_checkbox_html' ), 10 );
 			add_action( 'mc4wp_integration_' . $this->slug . '_after_checkbox_wrapper', array( $this, 'print_merge_fields' ), 20 );
-			add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
+			//add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_merge_fields' ), 10, 2 );
 		} );
 	}
 	
