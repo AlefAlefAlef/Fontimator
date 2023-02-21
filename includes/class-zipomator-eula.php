@@ -59,7 +59,7 @@ class Zipomator_EULA {
 		echo $content;
 	}
 
-	public function main_fontface() {
+	public static function main_fontface() {
 		$main_font = ( 'fontimonim' === FTM_SITE_NAME ) ? 'teom' : 'ploni';
 		$woff_file = file_get_contents( FTM_FONTS_PATH . $main_font . '/' . $main_font . '-regular-' . FTM_SITE_PREFIX . '.woff' );
 		$woff_data = 'data:application/font-woff;charset=utf-8;base64,' . base64_encode( $woff_file );
