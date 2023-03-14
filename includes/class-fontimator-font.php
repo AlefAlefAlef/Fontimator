@@ -105,10 +105,14 @@ class Fontimator_Font extends WC_Product_Variable {
 		}
 		if ( 'id' === $return_format ) {
 			$all_weights = $weights['options'];
-			$family_weights = array(
-				get_term_by( 'slug', '000-family', 'pa_' . FTM_WEIGHT_ATTRIBUTE )->term_id,
-				get_term_by( 'slug', '000-familybasic', 'pa_' . FTM_WEIGHT_ATTRIBUTE )->term_id,
-			);
+            $family = get_term_by( 'slug', '000-family', 'pa_' . FTM_WEIGHT_ATTRIBUTE );
+            $familybasic = get_term_by( 'slug', '000-familybasic', 'pa_' . FTM_WEIGHT_ATTRIBUTE );
+            if(isset($family->term_id)) {
+                $family_weights[] = $family->term_id;
+            }
+            if(isset($familybasic->term_id)) {
+                $family_weights[] = $familybasic->term_id;
+            }
 		} else {
 			$all_weights = $weights->get_slugs();
 			$family_weights = array( '000-family', '000-familybasic' );
