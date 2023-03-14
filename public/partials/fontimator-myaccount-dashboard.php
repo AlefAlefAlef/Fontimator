@@ -99,7 +99,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 		</section>
 
 		
-		<!--<section class="dashbox dashbox-quarter dashbox-colored" id="dash-membership">
+		<?php /** <section class="dashbox dashbox-quarter dashbox-colored" id="dash-membership">
 			<h5><?php _ex( 'Your Membership', 'Dashboard membership dashbox title', 'fontimator' ); ?></h5>
 			<figure>
 				<div class="big"><i class="icon" data-icon="<?php echo ( 'alefalefalef' == FTM_SITE_NAME ) ? 'ø' : 'א'; ?>"></i></div>
@@ -124,7 +124,7 @@ if ( count( $customer_orders ) > 0 || count( $subscriptions ) > 0 ) :
 				<?php
 			}
 			?>
-		</section>-->
+		</section> */ ?>
 	</div>
 
 	<div class="tables">
