@@ -716,7 +716,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
         if ( ! $user_address ) {
             $user_address = new stdClass();
         }
-        if ( ! $user_address->country ) {
+        if (isset($user_address->country) ) {
             $user_address->country = __( 'Israel', 'woocommerce' ); // Default to Israel
         }
 
@@ -729,15 +729,15 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
             <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                 <label for="mcAddress"><?php _e( 'Address', 'fontimator' ); ?></label>
-                <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[address]" id="mcAddress" placeholder="<?php esc_attr_e( 'Example St. 5 Apt 10', 'fontimator' ); ?>" autocomplete="off" value="<?php echo esc_attr( $user_address->addr1 ); ?>">
+                <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[address]" id="mcAddress" placeholder="<?php esc_attr_e( 'Example St. 5 Apt 10', 'fontimator' ); ?>" autocomplete="off" value="<?php echo esc_attr( isset($user_address->addr1) ? $user_address->addr1 : '') ; ?>">
             </p>
             <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                 <label for="mcCity"><?php _e( 'City', 'fontimator' ); ?></label>
-                <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" id="mcCity" placeholder="" autocomplete="off" value="<?php echo esc_attr( $user_address->city ); ?>">
+                <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[city]" id="mcCity" placeholder="" autocomplete="off" value="<?php echo esc_attr( isset($user_address->city) ? $user_address->city : '' ); ?>">
             </p>
             <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                 <label for="mcZip"><?php _e( 'Zip Code', 'fontimator' ); ?> <a href="https://mypost.israelpost.co.il/%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/%D7%90%D7%99%D7%AA%D7%95%D7%A8-%D7%9E%D7%99%D7%A7%D7%95%D7%93/" target="_blank" class="zip-link"><?php _e( 'Locate your Zip code', 'fontimator' ); ?> ⇱</a></label>
-                <input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" id="mcZip" placeholder="7 ספרות" autocomplete="off" value="<?php echo esc_attr( $user_address->zip ); ?>" min="1000000" max="9999999">
+                <input type="number" class="woocommerce-Input woocommerce-Input--text input-text" name="mailchimp_address[zip]" id="mcZip" placeholder="7 ספרות" autocomplete="off" value="<?php echo esc_attr( isset($user_address->zip) ? $user_address->zip : '' ); ?>" min="1000000" max="9999999">
             </p>
             <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                 <label for="mcCountry"><?php _e( 'Country', 'fontimator' ); ?></label>
@@ -833,7 +833,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
         $updated_interests = [];
 
-        $valid_interests = wp_list_pluck( Fontimator::mc()->interest_groups, 'ftm_interest_group' );
+        $valid_interests = wp_list_pluck( Fontimator::mc()->interest_groups ?? [], 'ftm_interest_group' );
         foreach ( $valid_interests as $id ) {
             if ( isset($_POST['interests'][ $id ]) && 'on' === $_POST['interests'][ $id ] ) {
                 $updated_interests[ $id ] = true;
