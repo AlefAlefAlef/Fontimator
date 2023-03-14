@@ -465,7 +465,7 @@ class Fontimator_Public {
 
 		if ( !isset($_REQUEST['ftm-add-to-cart']) && !isset($_REQUEST['ftm-automatic-cart'])) {
 			$items = $woocommerce->cart->get_cart();
-			$product_ids = array_values( wp_list_pluck( $items, 'variation_id' ) );
+			$product_ids = array_values( wp_list_pluck( $items ?? [], 'variation_id' ) );
 			$cart_url = esc_url_raw( add_query_arg( 'ftm-add-to-cart', implode( ',', $product_ids ), wc_get_cart_url() ) );
 			?>
 			<a href="<?php echo $cart_url; ?>" title="<?php esc_attr_e( 'Click here to copy the link to this cart, which you can send to your client or save for later.', 'fontimator' ); ?>" data-success-text="<?php esc_attr_e( 'Link to cart was copied!', 'fontimator' ); ?>" class="share-cart-button button tooltip copyable-link">

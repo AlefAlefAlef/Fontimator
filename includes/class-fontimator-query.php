@@ -29,7 +29,7 @@ class Fontimator_Query {
 	 */
 	public static function on_sale_weights() {
 		$data_store = WC_Data_Store::load( 'product' );
-		$on_sale_variations = wp_list_pluck( $data_store->get_on_sale_products(), 'id' );
+		$on_sale_variations = wp_list_pluck( $data_store->get_on_sale_products() ?? [], 'id' );
 		$on_sale_weights_query = new WP_Query(
 			array(
 				'post_type' => 'product_variation',

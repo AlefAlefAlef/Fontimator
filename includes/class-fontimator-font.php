@@ -165,7 +165,7 @@ class Fontimator_Font extends WC_Product_Variable {
 		// Copied from woocommerce/includes/class-wc-ajax.php:658
 		wc_set_time_limit( 0 );
 
-		$attributes = wc_list_pluck( array_filter( $this->get_attributes(), 'wc_attributes_array_filter_variation' ), 'get_slugs' );
+		$attributes = wc_list_pluck( array_filter( $this->get_attributes() ?? [], 'wc_attributes_array_filter_variation' ), 'get_slugs' );
 
 		if ( ! empty( $attributes ) ) {
 			// Get existing variations so we don't create duplicates.

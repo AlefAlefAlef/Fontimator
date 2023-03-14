@@ -833,7 +833,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
         $updated_interests = [];
 
-        $valid_interests = wp_list_pluck( Fontimator::mc()->interest_groups, 'ftm_interest_group' );
+        $valid_interests = wp_list_pluck( Fontimator::mc()->interest_groups ?? [], 'ftm_interest_group' );
         foreach ( $valid_interests as $id ) {
             if ( isset($_POST['interests'][ $id ]) && 'on' === $_POST['interests'][ $id ] ) {
                 $updated_interests[ $id ] = true;
