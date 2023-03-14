@@ -133,7 +133,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
     }
 
     public function prepend_icon_to_download_name( $download ) {
-        if ( 'free' === $download['ftm_font_family'] ) {
+        if ( isset($download['ftm_font_family']) && 'free' === $download['ftm_font_family'] ) {
             echo esc_html( $download['product_name'] );
             return;
         }
@@ -210,7 +210,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
         $variation    = new WC_Product_Variation( $variation_id );
         $attributes   = $variation->get_variation_attributes();
         if ( ! isset( $attributes[ 'attribute_pa_' . $type ] ) ) {
-            if ( 'free' === $download['ftm_font_family'] && 'license' === $type ) {
+            if (isset($download['ftm_font_family']) && 'free' === $download['ftm_font_family'] && 'license' === $type ) {
                 return _x( 'Free', 'License column for free downloads (instead of ♾)', 'fontimator' );
             }
             return '&infin;';
