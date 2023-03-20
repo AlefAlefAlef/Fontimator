@@ -746,7 +746,10 @@ class Fontimator_MyAccount extends Fontimator_Public {
                 ?>
                 <select name="mailchimp_address[country]" id="mcCountry" autocomplete="off" class="woocommerce-Input woocommerce-Input--select input-select option-tree-ui-select">
                     <?php foreach ( $countries as $country_code => $country_name ) { ?>
-                        <option <?php selected( $user_address->country, $country_name ); ?> value="<?php echo esc_attr( $country_name ); ?>"><?php echo esc_html( $country_name ); ?></option>
+                        <?php if(isset($user_address->country)) {
+                            $selected = selected( $user_address->country, $country_name );
+                        } ?>
+                        <option <?php echo $selected ?? '' ?> value="<?php echo esc_attr( $country_name ); ?>"><?php echo esc_html( $country_name ); ?></option>
                     <?php } ?>
                 </select>
             </p>
