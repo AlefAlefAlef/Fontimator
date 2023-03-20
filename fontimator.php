@@ -16,7 +16,7 @@
  * Plugin Name:       The Fontimator
  * Plugin URI:        http://reuven.rocks
  * Description:       The famous Fontimator (FKA 'Zipomator'), which does everything here, basically. Developed for AlefAlefAlef and Fontimonim.
- * Version:           2.4.53
+ * Version:           2.4.54
  * Author:            Reuven Karasik
  * Author URI:        https://alefalefalef.co.il/
  * License:           CC-NC-ND
