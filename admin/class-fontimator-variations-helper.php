@@ -39,6 +39,7 @@ class Fontimator_Variations_Helper extends Fontimator_Admin {
 	 * @since    2.0.0
 	 */
 	public function enqueue_scripts() {
+		public $version;
 		if ( 'product' === get_current_screen()->id ) {
 			wp_enqueue_script(
 				'fontimator-variations-helper-toolbar',
