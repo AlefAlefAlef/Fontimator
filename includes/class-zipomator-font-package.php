@@ -264,7 +264,7 @@ class Zipomator_Font_Package {
 		$nice_filename = FTM_SITE_PREFIX . '-fonts';
 		if ( count( $this->_items ) < 2 ) {
 			$single = $this->_items[0];
-			$nice_filename = Zipomator::single_name( $single[0], $single[1], self::simplify_license( $single[2] ), $single[3] );
+			$nice_filename = Zipomator::single_name( $single[0], $single[1], self::simplify_license( $single[2] ), count($single) > 2 ? $single[3] : null );
 		};
 		$this->_zip_file = new Zip_File( $this->_file_list, $nice_filename );
 		return $this->_zip_file;

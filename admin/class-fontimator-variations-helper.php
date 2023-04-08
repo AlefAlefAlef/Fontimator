@@ -27,8 +27,8 @@ class Fontimator_Variations_Helper extends Fontimator_Admin {
 	 *
 	 * @since    2.0.0
 	 */
-	public function __construct( $version ) {
-		// parent::__construct( 'fontimator-variations-helper', $version );
+	public function __construct( $plugin_name, $version ) {
+		parent::__construct( 'fontimator-variations-helper', $version );
 		// Override Woocommerce Max Linked Variations
 		define( 'WC_MAX_LINKED_VARIATIONS', 100 );
 	}
@@ -184,7 +184,7 @@ class Fontimator_Variations_Helper extends Fontimator_Admin {
 		?>
 		<label class="tips" data-tip="<?php esc_html_e( "Enable this option if this variation has custom price/download file which you don't want to be overriden by the Fontimator", 'fontimator' ); ?>">
 			<?php esc_html_e( 'Fontimator: Ignore me!', 'fontimator' ); ?>
-			<input type="checkbox" class="checkbox variable_fontimator_ignore" name="_fontimator_ignore[<?php echo esc_attr( $variation->ID ); ?>]" <?php checked( reset( $variation_data['_fontimator_ignore'] ), 'yes', true ); ?> />
+			<input type="checkbox" class="checkbox variable_fontimator_ignore" name="_fontimator_ignore[<?php echo esc_attr( $variation->ID ); ?>]" <?php checked( isset( $variation_data['_fontimator_ignore'] ) && is_array( $variation_data['_fontimator_ignore'] ) ? reset( $variation_data['_fontimator_ignore'] ) : null, 'yes', true ); ?> />
 		</label>
 		<?php
 	}

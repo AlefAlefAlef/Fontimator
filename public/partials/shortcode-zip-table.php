@@ -74,7 +74,7 @@
 			<?php
 			foreach ( $fonts as $font ) {
 				$font_attributes = $font->get_attributes();
-				if ( $font_attributes[ $weight_taxonomy ] ) {
+				if ( isset( $font_attributes[ $weight_taxonomy ] ) && $font_attributes[ $weight_taxonomy ] ) {
 					$font_weights = $font_attributes[ $weight_taxonomy ]->get_terms();
 					usort( $font_weights, function( $a, $b ) {
 						return strcmp( $a->slug, $b->slug );
