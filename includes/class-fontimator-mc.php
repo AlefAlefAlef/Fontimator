@@ -335,7 +335,7 @@ class Fontimator_MC {
    * @return mixed
    */
   public function get_academic_groups() {
-    if ( ! $this->academic_group ) {
+    if ( ! isset($this->academic_group) ) {
       return false;
     }
 
@@ -383,7 +383,7 @@ class Fontimator_MC {
    * @return Fontimator_I18n::GENDER The value in the list, or neutral if doesn't exist
    */
   public function get_user_gender( $user_email = null ) {
-    if ( ! $this->gender_field ) {
+    if ( ! isset($this->gender_field) ) {
       return Fontimator_I18n::GENDER_NEUTRAL;
     }
     

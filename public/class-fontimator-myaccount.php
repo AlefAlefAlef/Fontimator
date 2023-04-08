@@ -716,7 +716,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
         if ( ! $user_address ) {
             $user_address = new stdClass();
         }
-        if (isset($user_address->country) ) {
+        if ( ! isset($user_address->country) ) {
             $user_address->country = __( 'Israel', 'woocommerce' ); // Default to Israel
         }
 
