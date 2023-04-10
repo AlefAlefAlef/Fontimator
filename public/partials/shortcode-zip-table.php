@@ -135,8 +135,7 @@
 								?>
 								<td>
 									<?php
-									$cell_variation_id = $font_downloads[ $weight->slug ][ $license->slug ];
-									if ( $cell_variation_id ) {
+									if ( isset( $font_downloads[ $weight->slug ] ) && isset( $font_downloads[ $weight->slug ][ $license->slug ] ) && $cell_variation_id = $font_downloads[ $weight->slug ][ $license->slug ] ) {
 										?>
 										<a href="<?php echo Zipomator::get_nonced_url( $cell_variation_id ); ?>">
 											<?php echo $cell_variation_id; ?>
