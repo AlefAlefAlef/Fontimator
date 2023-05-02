@@ -76,6 +76,7 @@ class Fontimator_ACF {
 				'otf-10' => 2,
 				'otf-39' => 3,
 				'otf-inf' => 10,
+				'otf-social' => 2,
 				'web-30k' => 2.5,
 				'web-100k' => 3.5,
 				'web-reseller' => 10,
