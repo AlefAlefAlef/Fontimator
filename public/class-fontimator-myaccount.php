@@ -459,7 +459,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
 
     public function disable_subsciprion_cancellation( $actions, $subscription ) {
         $membership = new Fontimator_Membership( $subscription );
-        if ( ! $actions['cancel'] ) {
+        if ( ! ($actions['cancel'] ?? false) ) {
             return $actions;
         }
 

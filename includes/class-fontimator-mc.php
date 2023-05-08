@@ -347,7 +347,7 @@ class Fontimator_MC {
       }
     }
 
-    if ( ! $academic_group_cat ) {
+    if ( ! ($academic_group_cat ?? false) ) {
       return false;
     }
 
