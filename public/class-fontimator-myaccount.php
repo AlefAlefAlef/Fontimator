@@ -223,10 +223,10 @@ class Fontimator_MyAccount extends Fontimator_Public {
     public function sort_downloads_by_family( $downloads ) {
         foreach ( $downloads as $index => $download ) {
             if ( !isset($download['ftm_font_family']) ) {
-                $font_variation                         = new Fontimator_Font_Variation( $download['product_id'] );
+                $font_variation = new Fontimator_Font_Variation( $download['product_id'] ?? false );
                 $downloads[ $index ]['ftm_font_family'] = $font_variation->get_family();
             }
-            if ( null === $download['download_url'] ) {
+            if ( null === $download['download_url'] ?? false ) {
                 unset( $downloads[ $index ] );
             }
         }
