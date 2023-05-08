@@ -226,7 +226,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
                 $font_variation = new Fontimator_Font_Variation( $download['product_id'] ?? false );
                 $downloads[ $index ]['ftm_font_family'] = $font_variation->get_family();
             }
-            if ( isset($download['download_url']) {
+            if ( isset($download['download_url']) ) {
                 if ( null === $download['download_url'] ) {
                     unset( $downloads[ $index ] );
                 }
