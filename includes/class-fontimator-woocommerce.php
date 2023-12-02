@@ -27,7 +27,7 @@ class Fontimator_WooCommerce {
 	}
 
 	public function add_span_to_decimals_in_price( $return ) {
-		$return = preg_replace( '/(\d+)\.(\d{0,2})(\d*)/', '$1.<span data-wtf="class-fontimator-woocommerce.php:add_span_to_decimals_in_price" class="decimal-digits">$2</span>', $return );
+		$return = preg_replace( '/(\d+)\.(\d{0,2})(\d*)/', '$1<span data-wtf="class-fontimator-woocommerce.php:add_span_to_decimals_in_price" class="decimal-digits">.$2</span>', $return );
 		return $return;
 	}
 
