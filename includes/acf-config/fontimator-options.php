@@ -37,7 +37,7 @@ acf_add_local_field_group(
 					'class' => '',
 					'id' => '',
 				),
-				'default_value' => 'zm',
+				'default_value' => 'fm',
 				'placeholder' => 'xx',
 				'prepend' => '',
 				'append' => '',

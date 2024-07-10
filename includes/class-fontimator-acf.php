@@ -87,7 +87,7 @@ class Fontimator_ACF {
 				'app-inf' => 10,
 			),
 			'fonts_directory' => 'fonts',
-			'site_prefix' => 'zm',
+			'site_prefix' => 'fm',
 			'site_name' => 'Fontimator',
 			'license_attribute' => 'license',
 			'weight_attribute' => 'weight',
