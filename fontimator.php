@@ -34,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Currently plugin version.
  * Using SemVer - https://semver.org
  */
-define( 'FONTIMATOR_VERSION', '2.4.66' );
+define( 'FONTIMATOR_VERSION', '2.4.67' );
 
 /**
  * The code that runs during plugin activation.
