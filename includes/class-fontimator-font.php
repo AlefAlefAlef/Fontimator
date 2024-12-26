@@ -70,24 +70,32 @@ class Fontimator_Font extends WC_Product_Variable {
 		$acf = Fontimator::acf();
 		$ids = $acf->get_field( 'familybasic_weights', $this->id );
 
+		// Ensure $ids is an array
+		if ( ! is_array( $ids ) ) {
+			$ids = [];
+		}
+
 		if ( 'slug' === $return_format ) {
 			return array_map(
 				function( $id ) {
-						return get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->slug;
-				}, $ids
+					$term = get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE );
+					return $term ? $term->slug : null;
+				},
+				$ids
 			);
 		}
 
 		if ( 'name' === $return_format ) {
-			$weights = array_map(
+			return array_map(
 				function( $id ) {
-						return get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE )->name;
-				}, $ids
+					$term = get_term_by( 'id', $id, 'pa_' . FTM_WEIGHT_ATTRIBUTE );
+					return $term ? $term->name : null;
+				},
+				$ids
 			);
 		}
 
 		return $ids;
-
 	}
 
 	/**
