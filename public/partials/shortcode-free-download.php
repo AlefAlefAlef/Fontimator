@@ -43,7 +43,7 @@ $download    = new Fontimator_Free_Download( $download_id );
 		<?php } ?>
 
 		<label for="download-user-name"><?php echo esc_attr_x( 'Your name', 'Free Download Text Label', 'fontimator' ); ?></label>
-		<input id="download-user-name" class="your-name" type="text" placeholder="<?php echo esc_attr_x( 'John Smith', 'Free Download Text Field', 'fontimator' ); ?>" value="<?php echo $user_default_name; ?>" required minlength="6" pattern="['׳א-ת \-־]+" name="download-user-name">
+		<input id="download-user-name" class="your-name" type="text" placeholder="<?php echo esc_attr_x( 'John Smith', 'Free Download Text Field', 'fontimator' ); ?>" value="<?php echo $user_default_name; ?>" required minlength="6" pattern="[א-ת \-־]+" name="download-user-name">
 
 		<label for="download-user-email"><?php echo esc_attr_x( 'Your email', 'Free Download Text Label', 'fontimator' ); ?></label>
 		<input id="download-user-email" class="your-email" type="email" placeholder="<?php echo esc_attr_x( 'your@email.here', 'Free Download Text Field', 'fontimator' ); ?>" value="<?php echo $current_user->user_email; ?>" name="download-user-email">
