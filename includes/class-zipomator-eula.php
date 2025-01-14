@@ -48,7 +48,7 @@ class Zipomator_EULA {
         // var_dump( $licenses );
 
         $relevant_licenses = '
-<ol>
+<ol class="licesnses-list">
 <li>
 ' . implode( '</li><li>', $this->licenses_htmls ) . '
 </li>
