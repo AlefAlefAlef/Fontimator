@@ -66,7 +66,7 @@ class Zipomator_Font_Package {
 				break;
 
 			case 'specimen':
-				return FTM_FONTS_PATH . "{$family}/specimen.pdf";
+				return FTM_FONTS_PATH . "{$family}/{$family}-specimen.pdf";
 				break;
 
 			case 'poster':
