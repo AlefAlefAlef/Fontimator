@@ -66,7 +66,7 @@ class Zipomator_Font_Package {
 				break;
 
 			case 'specimen':
-				return FTM_FONTS_PATH . "{$family}/specimen.pdf";
+				return FTM_FONTS_PATH . "{$family}/{$family}-specimen.pdf";
 				break;
 
 			case 'poster':
@@ -251,7 +251,7 @@ class Zipomator_Font_Package {
 			$file_list[] = [ $file_path, $local_path ];
 
 			$file_path = $this->get_server_path( 'specimen', $family );
-			$local_path = $local_misc_path_prefix . "{$family}-specimen-a4.pdf";
+			$local_path = $site_prefix .'-fonts/' . "{$family}-specimen.pdf";
 			$file_list[] = [ $file_path, $local_path ];
 		}
 

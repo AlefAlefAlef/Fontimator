@@ -376,7 +376,14 @@ class Fontimator_MyAccount extends Fontimator_Public {
                     continue;
                 }
 
-                $membership_downloads = $this->get_all_fonts_downloads( $membership_license, $membership_id, 'membership' );
+                $font_family_override =  'membership';
+			
+                if ( $membership_license == "web-reseller" ){
+                    $membership_license = "otf-2";
+                     $font_family_override = "membership-reseller";
+                }
+
+                $membership_downloads = $this->get_all_fonts_downloads( $membership_license, $membership_id, $font_family_override );
                 $downloads            = array_merge( $downloads, $membership_downloads );
             }
         }
