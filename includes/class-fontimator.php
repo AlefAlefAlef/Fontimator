@@ -430,11 +430,13 @@ class Fontimator {
 
 		// WooCommerce Cart Page
 		$this->loader->add_action( 'woocommerce_cart_actions', $plugin_public, 'display_share_cart_url' );
+		$this->loader->add_action( 'woocommerce_after_cart_item_name', $plugin_public, 'add_custom_cart_item_info', 10, 2);
 		
 		// WooCommerce Checkout Page
 		$this->loader->add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', $plugin_public, 'terms_and_conditions_checkbox_text' );
 		$this->loader->add_filter( 'woocommerce_registration_error_email_exists', $plugin_public, 'returning_customers_custom_message', 10, 2 );
-
+		$this->loader->add_action( 'woocommerce_before_checkout_form', $plugin_public, 'display_purchased_variations_in_checkout', 10, 2 );
+		
 		// Shortcodes
 		$this->loader->add_shortcode( 'fontimator-zip-table', $plugin_public, 'shortcode_zip_table' );
 		$this->loader->add_shortcode( 'fontimator-eula', $plugin_public, 'shortcode_eula' );

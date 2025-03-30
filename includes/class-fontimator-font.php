@@ -632,3 +632,4 @@ function format_response($success, $message, $fonts = []) {
         'fonts' => $fonts
     ];
 }
+
