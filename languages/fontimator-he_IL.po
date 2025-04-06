@@ -1285,3 +1285,41 @@ msgstr "שימו לב: רכשתם כבר משקל פונט זה בעבר"
 
 #~ msgid "Product"
 #~ msgstr "מוצר"
+
+msgid "Hi %s!"
+msgstr "היי %s!"
+
+msgctxt "Male essential reporting message"
+msgid "It's essential that you report all domains where you've embedded our fonts as part of your reseller subscription in our website system each month. This is a critical part of our terms of use."
+msgstr "חשוב מאד שתדווח במערכת האתר שלנו בכל חודש על כל הדומיינים שבהם הטמעת את הפונטים שלנו כחלק ממינוי הריסלר שלך. זה מהותי וחלק מתנאי השימוש."
+
+msgctxt "Female essential reporting message"
+msgid "It's essential that you report all domains where you've embedded our fonts as part of your reseller subscription in our website system each month. This is a critical part of our terms of use."
+msgstr "חשוב מאד שתדווחי במערכת האתר שלנו בכל חודש על כל הדומיינים שבהם הטמעת את הפונטים שלנו כחלק ממינוי הריסלר שלך. זה מהותי וחלק מתנאי השימוש."
+
+msgctxt "Male how to do it message"
+msgid "Here's how to do it: Go to your subscription page:"
+msgstr "כך תעשה את זה: כנס לעמוד המינוי שלך:"
+
+msgctxt "Female how to do it message"
+msgid "Here's how to do it: Go to your subscription page:"
+msgstr "כך תעשי את זה: כנסי לעמוד המינוי שלך:"
+
+msgctxt "Male account email message"
+msgid "This is the email for your account:"
+msgstr "זה המייל של החשבון שלך"
+
+msgctxt "Female account email message"
+msgid "This is the email for your account:"
+msgstr "זה המייל של החשבון שלך"
+
+msgctxt "Male add domains message"
+msgid "In the \"Domain Licenses\" section, add all the domains where you've embedded our fonts in the past month."
+msgstr "ובאיזור \"רישיונות לדומיינים\" תוסיף את כל הדומיינים שבהם הטמעת פונטים שלנו בחודש האחרון."
+
+msgctxt "Female add domains message"
+msgid "In the \"Domain Licenses\" section, add all the domains where you've embedded our fonts in the past month."
+msgstr "ובאיזור \"רישיונות לדומיינים\" תוסיפי את כל הדומיינים שבהם הטמעת פונטים שלנו בחודש האחרון."
+
+msgid "Here for any questions, Yael"
+msgstr "כאן לכל שאלה, יעל"
