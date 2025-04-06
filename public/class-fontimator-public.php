@@ -540,5 +540,142 @@ class Fontimator_Public {
 		}
 		return $content;
 	}
+	
+	/**
+	 * Checks if a user has purchased a specific product variation.
+	 *
+	 * @param int $user_id User ID.
+	 * @param int $variation_id Variation ID.
+	 * @return bool True if user has purchased the variation, false otherwise.
+	 */
+	function has_user_purchased_variation($user_id, $variation_id) {
+		if ($user_id <= 0 || $variation_id <= 0) {
+			return false;
+		}
 
+		$orders = wc_get_orders(array(
+			'customer' => $user_id,
+			'status' => 'completed',
+			'limit' => -1, 
+		));
+
+		foreach ($orders as $order) {
+			$items = $order->get_items();
+			foreach ($items as $item) {
+				$item_variation_id = $item->get_variation_id();
+				if ($item_variation_id && $item_variation_id == $variation_id) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+/**
+ * Display previously purchased variations on the checkout page.
+ * 
+ * This function checks the current user's order history and identifies
+ * any product variations in the cart that they have already purchased.
+ * It then displays a notification with a list of these items.
+ * 
+ * @return void
+ */
+function display_purchased_variations_in_checkout() {
+    // Get the current user ID
+    $user_id = get_current_user_id();
+    
+    // Return early if no user is logged in
+    if (!$user_id) {
+        return;
+    }
+    
+    // Get the cart contents
+    $cart = WC()->cart->get_cart();
+    
+    // Array to store purchased variations that are in the cart
+    $purchased_variations = array();
+    
+    // Loop through cart items
+    foreach ($cart as $cart_item) {
+        // Get variation ID if it exists
+        $variation_id = isset($cart_item['variation_id']) ? $cart_item['variation_id'] : 0;
+        
+        // Get the variation name
+        $product_name = $cart_item['data']->get_name();
+        
+        // Get the weight attribute if available
+        $weight = '';
+        if (!empty($cart_item['variation']) && isset($cart_item['variation']['attribute_pa_' . FTM_WEIGHT_ATTRIBUTE])) {
+            $weight_slug = $cart_item['variation']['attribute_pa_' . FTM_WEIGHT_ATTRIBUTE];
+            $weight_term = get_term_by('slug', $weight_slug, 'pa_' . FTM_WEIGHT_ATTRIBUTE);
+            if ($weight_term) {
+                $weight = $weight_term->name;
+            }
+        }
+        
+        if ($variation_id > 0) {
+            $has_purchased = $this->has_user_purchased_variation($user_id, $variation_id);
+            
+            if ($has_purchased) {
+                $purchased_variations[] = array(
+                    'name' => $product_name,
+                    'id' => $variation_id,
+                    'weight' => $weight
+                );
+            }
+        }
+    }
+    
+    if (!empty($purchased_variations)) {
+        echo '<div class="purchased-variations-checkout woocommerce-info">';
+        echo '<h4>' . esc_html__('Please note: your order contains font weights that were already purchased before', 'fontimator') . '</h4>';
+        echo '<ul>';
+        foreach ($purchased_variations as $variation) {
+            echo '<li>' . esc_html($variation['name']);
+            
+            // Add weight information if available
+            if (!empty($variation['weight'])) {
+                echo ' - ' . esc_html($variation['weight']);
+            }
+            
+            echo '</li>';
+        }
+        echo '</ul>';
+        
+        // Add a "Back to Cart" link
+        echo '<p><a href="' . esc_url(wc_get_cart_url()) . '" class="button">' . 
+             esc_html__('Back to Cart', 'fontimator') . '</a></p>';
+        
+        echo '</div>';
+    }
+}
+
+	/**
+	 * Adds custom information to cart items about previously purchased font variations.
+	 *
+	 * @param array $cart_item Cart item data.
+	 * @param string $cart_item_key Unique cart item key.
+	 * @return void
+	 */
+	function add_custom_cart_item_info($cart_item) {
+		$variation_id = 0;
+		if(isset($cart_item['variation_id']) && $cart_item['variation_id'] > 0) {
+			$variation_id = $cart_item['variation_id'];
+		}
+		
+		$text = '<p class="font-already-purchased-message">';
+		$user_id = get_current_user_id();
+		if($user_id > 0) {
+			if ($variation_id > 0) {
+				$has_purchased = $this->has_user_purchased_variation($user_id, $variation_id);
+				
+				if($has_purchased){
+					$text .= esc_html__('Please note: you already purchased this font weight before', 'fontimator') . '<br>';
+				}
+			}
+		} 
+		$text .= '</p>';
+		echo $text;
+	}
 }
