@@ -1320,3 +1320,6 @@ msgstr "ובאיזור \"רישיונות לדומיינים\" תוסיף את �
 msgctxt "Female add domains message"
 msgid "In the \"Domain Licenses\" section, add all the domains where you've embedded our fonts in the past month."
 msgstr "ובאיזור \"רישיונות לדומיינים\" תוסיפי את כל הדומיינים שבהם הטמעת פונטים שלנו בחודש האחרון."
+
+msgid "Here for any questions, Yael"
+msgstr "כאן לכל שאלה, יעל"
