@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Fontimator\n"
 "POT-Creation-Date: 2021-02-01 11:31+0200\n"
-"PO-Revision-Date: 2025-04-15 17:37+0530\n"
+"PO-Revision-Date: 2025-05-18 15:06+0530\n"
 "Last-Translator: Reuven Karasik <rubik@karasik.org>\n"
 "Language-Team: Reuven Karasik <rubik@karasik.org>\n"
 "Language: he\n"
@@ -1187,7 +1187,7 @@ msgid "Please note: you already purchased this font weight before"
 msgstr "היי! נראה שכבר רכשת בעבר רישיון למשקל הזה…"
 
 msgid "Hi %s!"
-msgstr "היי %s!"
+msgstr "שלום %s,"
 
 msgctxt "Male essential reporting message"
 msgid "It's essential that you report all domains where you've embedded our fonts as part of your reseller subscription in our website system each month. This is a critical part of our terms of use."
@@ -1222,7 +1222,7 @@ msgid "In the \"Domain Licenses\" section, add all the domains where you've embe
 msgstr "ובאיזור \"רישיונות לדומיינים\" תוסיפי את כל הדומיינים שבהם הטמעת פונטים שלנו בחודש האחרון."
 
 msgid "Here for any questions, Yael"
-msgstr "כאן לכל שאלה, יעל"
+msgstr "אם יש שאלות – אנחנו כאן במייל."
 
 #~ msgctxt "Column in the reseller domains table"
 #~ msgid "Families"
