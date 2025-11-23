@@ -19,7 +19,7 @@
  * @author     Reuven Karasik <rubik@karasik.org>
  */
 class Zipomator {
-	protected static $zip_endpoint = 'get-zip';
+	protected static $zip_endpoint = false; // Temporarily disabled
 	protected static $variation_endpoint = 'download-font';
 	protected static $eula_endpoint = 'get-eula';
 	protected static $catalog_endpoint = 'get-catalog';
