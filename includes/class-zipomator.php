@@ -226,6 +226,12 @@ class Zipomator {
 			}
 		}
 
+		// Verify user has access to download these fonts
+		if ( ! $this->verify_package_access( $items ) ) {
+			wp_safe_redirect( home_url() );
+			exit();
+		}
+
 		// Create the package
 		$font_package = new Zipomator_Font_Package( $items );
 		if ( current_user_can( 'administrator' ) && ! $font_package->is_valid() ) {
@@ -234,6 +240,124 @@ class Zipomator {
 
 		$zip_file = $font_package->make_zip();
 		$zip_file->serve();
+	}
+
+	/**
+	 * Verify user has access to download the requested package items
+	 *
+	 * @param array $items Array of items in format [family, weight, license]
+	 * @return bool True if user has access to all items
+	 */
+	protected function verify_package_access( $items ) {
+		if ( current_user_can( 'administrator' ) ) {
+			return true;
+		}
+
+		$order_key = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : null;
+		$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : null;
+		$user_id = get_current_user_id();
+
+		// Require authentication: either logged in user OR order key + email
+		if ( $user_id === 0 && ( ! $order_key || ! $email ) ) {
+			return false;
+		}
+
+		foreach ( $items as $item ) {
+			list( $family, $weight, $license ) = $item;
+
+			$font_post = get_page_by_path( $family, OBJECT, 'product' );
+			if ( ! $font_post ) {
+				return false;
+			}
+
+			$font = new Fontimator_Font( $font_post->ID );
+			if ( ! $font || $font->get_slug() !== $family ) {
+				return false;
+			}
+
+			$variation = $font->get_specific_variation( $weight, $license );
+			if ( ! $variation ) {
+				return false;
+			}
+
+			$variation_id = $variation->get_id();
+			$has_access = false;
+
+			if ( $user_id > 0 ) {
+				$has_access = $this->user_has_variation_access( $user_id, $variation_id );
+			}
+
+			if ( ! $has_access && $order_key && $email ) {
+				$has_access = $this->guest_has_variation_access( $order_key, $email, $variation_id );
+			}
+
+			if ( ! $has_access ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if logged-in user has access to a variation
+	 *
+	 * @param int $user_id User ID
+	 * @param int $variation_id Variation ID
+	 * @return bool
+	 */
+	protected function user_has_variation_access( $user_id, $variation_id ) {
+		$downloads = wc_get_customer_available_downloads( $user_id );
+		foreach ( $downloads as $download ) {
+			if ( (int) $download['product_id'] === (int) $variation_id ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Check if guest user has access via order key and email
+	 *
+	 * @param string $order_key Order key
+	 * @param string $email Email address
+	 * @param int $variation_id Variation ID
+	 * @return bool
+	 */
+	protected function guest_has_variation_access( $order_key, $email, $variation_id ) {
+		global $wpdb;
+
+		$order_id = $wpdb->get_var( $wpdb->prepare(
+			"SELECT post_id FROM {$wpdb->postmeta} 
+			WHERE meta_key = '_order_key' AND meta_value = %s 
+			LIMIT 1",
+			$order_key
+		) );
+
+		if ( ! $order_id ) {
+			return false;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
+			return false;
+		}
+
+		if ( strtolower( $order->get_billing_email() ) !== strtolower( $email ) ) {
+			return false;
+		}
+
+		if ( ! in_array( $order->get_status(), array( 'wc-completed', 'wc-processing' ) ) ) {
+			return false;
+		}
+
+		foreach ( $order->get_items() as $item ) {
+			if ( (int) $item->get_variation_id() === (int) $variation_id ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	protected function get_membership_items( $license ) {
