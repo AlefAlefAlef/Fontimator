@@ -242,62 +242,131 @@ class Zipomator {
 		$zip_file->serve();
 	}
 
-	/**
-	 * Verify user has access to download the requested package items
-	 *
-	 * @param array $items Array of items in format [family, weight, license]
-	 * @return bool True if user has access to all items
-	 */
-	protected function verify_package_access( $items ) {
-		if ( current_user_can( 'administrator' ) ) {
-			return true;
+/**
+ * Verify user has access to download the requested package items
+ *
+ * @param array $items Array of items in format [family, weight, license]
+ * @return bool True if user has access to all items
+ */
+protected function verify_package_access( $items ) {
+	$log_file = WP_CONTENT_DIR . '/zipomator-access.log';
+	$log = "\n=== verify_package_access called at " . date( 'Y-m-d H:i:s' ) . " ===\n";
+	$log .= "REQUEST_URI: " . $_SERVER['REQUEST_URI'] . "\n";
+	file_put_contents( $log_file, $log, FILE_APPEND );
+	
+	$user_id = get_current_user_id();
+	$order_key = isset( $_REQUEST['order'] ) ? sanitize_text_field( $_REQUEST['order'] ) : null;
+	$email = isset( $_REQUEST['email'] ) ? sanitize_email( $_REQUEST['email'] ) : null;
+	
+	if ( $user_id > 0 && ! $email ) {
+		$user = get_userdata( $user_id );
+		if ( $user ) {
+			$email = $user->user_email;
+			$log = "Extracted email from logged-in user: {$email}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
 		}
-
-		$order_key = isset( $_GET['order'] ) ? sanitize_text_field( $_GET['order'] ) : null;
-		$email = isset( $_GET['email'] ) ? sanitize_email( $_GET['email'] ) : null;
-		$user_id = get_current_user_id();
-
-		// Require authentication: either logged in user OR order key + email
-		if ( $user_id === 0 && ( ! $order_key || ! $email ) ) {
-			return false;
-		}
-
-		foreach ( $items as $item ) {
-			list( $family, $weight, $license ) = $item;
-
-			$font_post = get_page_by_path( $family, OBJECT, 'product' );
-			if ( ! $font_post ) {
-				return false;
-			}
-
-			$font = new Fontimator_Font( $font_post->ID );
-			if ( ! $font || $font->get_slug() !== $family ) {
-				return false;
-			}
-
-			$variation = $font->get_specific_variation( $weight, $license );
-			if ( ! $variation ) {
-				return false;
-			}
-
-			$variation_id = $variation->get_id();
-			$has_access = false;
-
-			if ( $user_id > 0 ) {
-				$has_access = $this->user_has_variation_access( $user_id, $variation_id );
-			}
-
-			if ( ! $has_access && $order_key && $email ) {
-				$has_access = $this->guest_has_variation_access( $order_key, $email, $variation_id );
-			}
-
-			if ( ! $has_access ) {
-				return false;
-			}
-		}
-
-		return true;
 	}
+	
+	$log = "Email: " . ( $email ?: 'NOT SET' ) . "\n";
+	$log .= "User ID: " . $user_id . "\n";
+	$log .= "Items count: " . count( $items ) . "\n";
+	$log .= "Items: " . json_encode( $items ) . "\n";
+	file_put_contents( $log_file, $log, FILE_APPEND );
+	
+	if ( $user_id === 0 && ( ! $order_key || ! $email ) ) {
+		$log = "FAILED - No authentication (not logged in and missing order/email)\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		return false;
+	}
+	foreach ( $variation_ids as $vid ) {
+	$variation_product = wc_get_product( $vid );
+	if ( ! $variation_product ) {
+		continue;
+	}
+	
+	$attributes = $variation_product->get_variation_attributes();
+	$log = "  Variation ID {$vid}: " . json_encode( $attributes ) . "\n";
+	file_put_contents( $log_file, $log, FILE_APPEND );
+	
+	$matches_weight = false;
+	$matches_license = false;
+	
+	foreach ( $attributes as $attr_key => $attr_value ) {
+		if ( strpos( $attr_key, 'weight' ) !== false ) {
+			if ( $attr_value === $weight || strpos( $attr_value, '-' . $weight ) !== false ) {
+				$matches_weight = true;
+				$log = "    Weight match: '{$attr_value}' contains '{$weight}'\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			}
+		}
+		
+		if ( strpos( $attr_key, 'license' ) !== false && $attr_value === $license ) {
+			$matches_license = true;
+			$log = "    License match: '{$attr_value}' === '{$license}'\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+		}
+	}
+	
+	if ( $matches_weight && $matches_license ) {
+		$variation_id = $vid;
+		$log = "MATCH FOUND! Variation ID: {$vid}\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		break;
+	}
+}
+	
+	$log = "All items verified - ACCESS GRANTED\n";
+	file_put_contents( $log_file, $log, FILE_APPEND );
+	return true;
+}
+
+/**
+ * Check if user has purchased a variation in any of their orders
+ *
+ * @param int $user_id User ID
+ * @param string $email User email
+ * @param int $variation_id Variation ID
+ * @return bool
+ */
+protected function user_has_variation_in_any_order( $user_id, $email, $variation_id ) {
+	$log_file = WP_CONTENT_DIR . '/zipomator-access.log';
+	
+	$customer_orders = wc_get_orders( array(
+		'customer_id' => $user_id,
+		'limit'       => -1,
+		'status'      => array( 'completed', 'processing' ),
+	) );
+	
+	$log = "Found " . count( $customer_orders ) . " orders for user {$user_id}\n";
+	file_put_contents( $log_file, $log, FILE_APPEND );
+	
+	foreach ( $customer_orders as $order ) {
+		$log = "Checking order #" . $order->get_id() . " (status: " . $order->get_status() . ")\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		
+		if ( strtolower( $order->get_billing_email() ) !== strtolower( $email ) ) {
+			$log = "  Email mismatch, skipping\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			continue;
+		}
+		
+		foreach ( $order->get_items() as $item ) {
+			$item_variation_id = $item->get_variation_id();
+			$log = "  Checking item variation ID: {$item_variation_id}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			
+			if ( (int) $item_variation_id === (int) $variation_id ) {
+				$log = "  MATCH FOUND in order #" . $order->get_id() . "\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+				return true;
+			}
+		}
+	}
+	
+	$log = "No matching orders found for variation {$variation_id}\n";
+	file_put_contents( $log_file, $log, FILE_APPEND );
+	return false;
+}
 
 	/**
 	 * Check if logged-in user has access to a variation
