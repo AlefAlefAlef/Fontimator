@@ -278,42 +278,118 @@ protected function verify_package_access( $items ) {
 		file_put_contents( $log_file, $log, FILE_APPEND );
 		return false;
 	}
-	foreach ( $variation_ids as $vid ) {
-	$variation_product = wc_get_product( $vid );
-	if ( ! $variation_product ) {
-		continue;
-	}
 	
-	$attributes = $variation_product->get_variation_attributes();
-	$log = "  Variation ID {$vid}: " . json_encode( $attributes ) . "\n";
-	file_put_contents( $log_file, $log, FILE_APPEND );
-	
-	$matches_weight = false;
-	$matches_license = false;
-	
-	foreach ( $attributes as $attr_key => $attr_value ) {
-		if ( strpos( $attr_key, 'weight' ) !== false ) {
-			if ( $attr_value === $weight || strpos( $attr_value, '-' . $weight ) !== false ) {
-				$matches_weight = true;
-				$log = "    Weight match: '{$attr_value}' contains '{$weight}'\n";
+	foreach ( $items as $index => $item ) {
+		$log = "Checking item #{$index}: " . json_encode( $item ) . "\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		
+		list( $family, $weight, $license ) = $item;
+		
+		$font_post = get_page_by_path( $family, OBJECT, 'product' );
+		if ( ! $font_post ) {
+			$log = "FAILED - Font post not found for family: {$family}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			return false;
+		}
+		
+		$log = "Found font post ID: {$font_post->ID}\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		
+		$font = new Fontimator_Font( $font_post->ID );
+		if ( ! $font || $font->get_slug() !== $family ) {
+			$log = "FAILED - Invalid font or slug mismatch. Font slug: " . ( $font ? $font->get_slug() : 'NULL' ) . ", Expected: {$family}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			return false;
+		}
+		
+		$log = "Font loaded successfully. Slug: {$family}\n";
+		$log .= "Looking for variation with weight: '{$weight}', license: '{$license}'\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		
+		$product = wc_get_product( $font_post->ID );
+		if ( ! $product ) {
+			$log = "FAILED - Could not load WooCommerce product\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			return false;
+		}
+		
+		$variation_ids = $product->get_children();
+		$log = "Found " . count( $variation_ids ) . " variations for product {$font_post->ID}\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		
+		$variation_id = null;
+		foreach ( $variation_ids as $vid ) {
+			$variation_product = wc_get_product( $vid );
+			if ( ! $variation_product ) {
+				continue;
+			}
+			
+			$attributes = $variation_product->get_variation_attributes();
+			
+			$matches_weight = false;
+			$matches_license = false;
+			
+			foreach ( $attributes as $attr_key => $attr_value ) {
+				if ( strpos( $attr_key, 'weight' ) !== false ) {
+					if ( $attr_value === $weight || strpos( $attr_value, '-' . $weight ) !== false ) {
+						$matches_weight = true;
+					}
+				}
+				if ( strpos( $attr_key, 'license' ) !== false && $attr_value === $license ) {
+					$matches_license = true;
+				}
+			}
+			
+			if ( $matches_weight && $matches_license ) {
+				$variation_id = $vid;
+				$log = "MATCH FOUND! Variation ID: {$vid} with attributes: " . json_encode( $attributes ) . "\n";
 				file_put_contents( $log_file, $log, FILE_APPEND );
+				break;
 			}
 		}
 		
-		if ( strpos( $attr_key, 'license' ) !== false && $attr_value === $license ) {
-			$matches_license = true;
-			$log = "    License match: '{$attr_value}' === '{$license}'\n";
+		if ( ! $variation_id ) {
+			$log = "FAILED - No matching variation found for weight: '{$weight}', license: '{$license}'\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			return false;
+		}
+		
+		$log = "Using variation ID: {$variation_id}\n";
+		file_put_contents( $log_file, $log, FILE_APPEND );
+		
+		$has_access = false;
+		
+		if ( $user_id > 0 ) {
+			$log = "Checking logged-in user access for variation {$variation_id}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			$has_access = $this->user_has_variation_access( $user_id, $variation_id );
+			$log = "User access result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			
+			if ( ! $has_access ) {
+				$log = "Checking all user orders for variation {$variation_id}\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+				$has_access = $this->user_has_variation_in_any_order( $user_id, $email, $variation_id );
+				$log = "User orders check result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			}
+		} elseif ( $order_key && $email ) {
+			$log = "Checking guest access for variation {$variation_id}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			$has_access = $this->guest_has_variation_access( $order_key, $email, $variation_id );
+			$log = "Guest access result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
 			file_put_contents( $log_file, $log, FILE_APPEND );
 		}
-	}
-	
-	if ( $matches_weight && $matches_license ) {
-		$variation_id = $vid;
-		$log = "MATCH FOUND! Variation ID: {$vid}\n";
+		
+		if ( ! $has_access ) {
+			$log = "FAILED - No access to variation {$variation_id}\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+			return false;
+		}
+		
+		$log = "Item #{$index} access granted\n";
 		file_put_contents( $log_file, $log, FILE_APPEND );
-		break;
 	}
-}
 	
 	$log = "All items verified - ACCESS GRANTED\n";
 	file_put_contents( $log_file, $log, FILE_APPEND );
@@ -331,6 +407,7 @@ protected function verify_package_access( $items ) {
 protected function user_has_variation_in_any_order( $user_id, $email, $variation_id ) {
 	$log_file = WP_CONTENT_DIR . '/zipomator-access.log';
 	
+	// Get all customer orders
 	$customer_orders = wc_get_orders( array(
 		'customer_id' => $user_id,
 		'limit'       => -1,
@@ -344,12 +421,14 @@ protected function user_has_variation_in_any_order( $user_id, $email, $variation
 		$log = "Checking order #" . $order->get_id() . " (status: " . $order->get_status() . ")\n";
 		file_put_contents( $log_file, $log, FILE_APPEND );
 		
+		// Verify email matches
 		if ( strtolower( $order->get_billing_email() ) !== strtolower( $email ) ) {
 			$log = "  Email mismatch, skipping\n";
 			file_put_contents( $log_file, $log, FILE_APPEND );
 			continue;
 		}
 		
+		// Check if order contains this variation
 		foreach ( $order->get_items() as $item ) {
 			$item_variation_id = $item->get_variation_id();
 			$log = "  Checking item variation ID: {$item_variation_id}\n";
