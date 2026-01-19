@@ -1213,6 +1213,22 @@ msgctxt "Female account email message"
 msgid "This is the email for your account:"
 msgstr "זה המייל של החשבון שלך"
 
+#: ../10bit-woocommerce-greeninvoice/class-tb-wc-green-invoice.php:101
+msgid "I want to receive invoices by email"
+msgstr "אני רוצה לקבל חשבוניות במייל"
+
+#: ../10bit-woocommerce-greeninvoice/class-tb-wc-green-invoice.php:102
+msgid "Saving..."
+msgstr "שומר..."
+
+#: ../10bit-woocommerce-greeninvoice/class-tb-wc-green-invoice.php:103
+msgid "Preference saved successfully"
+msgstr "ההעדפה נשמרה בהצלחה"
+
+#: ../10bit-woocommerce-greeninvoice/class-tb-wc-green-invoice.php:104
+msgid "Error saving"
+msgstr "שגיאה בשמירה"
+
 msgctxt "Male add domains message"
 msgid "In the \"Domain Licenses\" section, add all the domains where you've embedded our fonts in the past month."
 msgstr "ובאיזור \"רישיונות לדומיינים\" תוסיף את כל הדומיינים שבהם הטמעת פונטים שלנו בחודש האחרון."
