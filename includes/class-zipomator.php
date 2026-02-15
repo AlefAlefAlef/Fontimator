@@ -555,6 +555,28 @@ protected function user_has_variation_in_any_order( $user_id, $email, $variation
 		return false;
 	}
 
+	/**
+	 * Check if a user (logged-in or guest) has access to a specific variation
+	 *
+	 * @param int $user_id User ID (0 if guest)
+	 * @param string|null $email Email address
+	 * @param string|null $order_key Order key (for guest access)
+	 * @param int $variation_id Variation ID to check
+	 * @return bool
+	 */
+	protected function check_variation_access( $user_id, $email, $order_key, $variation_id ) {
+		if ( $user_id > 0 ) {
+			$has_access = $this->user_has_variation_access( $user_id, $variation_id );
+			if ( ! $has_access ) {
+				$has_access = $this->user_has_variation_in_any_order( $user_id, $email, $variation_id );
+			}
+			return $has_access;
+		} elseif ( $order_key && $email ) {
+			return $this->guest_has_variation_access( $order_key, $email, $variation_id );
+		}
+		return false;
+	}
+
 	protected function get_membership_items( $license ) {
 		$fonts = Fontimator_Query::get_catalog_fonts();
 
