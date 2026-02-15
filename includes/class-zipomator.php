@@ -381,12 +381,59 @@ protected function verify_package_access( $items ) {
 			file_put_contents( $log_file, $log, FILE_APPEND );
 		}
 		
+		// Check if user purchased the complete family (000-family) for this license
 		if ( ! $has_access ) {
-			$log = "FAILED - No access to variation {$variation_id}\n";
+			$log = "Checking 000-family access for license: '{$license}'\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+
+			$family_variation = $font->get_specific_variation( '000-family', $license );
+			if ( $family_variation ) {
+				$family_variation_id = $family_variation->get_id();
+				$log = "Found 000-family variation ID: {$family_variation_id}\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+
+				$has_access = $this->check_variation_access( $user_id, $email, $order_key, $family_variation_id );
+				$log = "000-family access result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			} else {
+				$log = "No 000-family variation found for this font+license\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			}
+		}
+
+		// Check if user purchased familybasic (000-familybasic) and requested weight is included
+		if ( ! $has_access ) {
+			$log = "Checking 000-familybasic access for license: '{$license}'\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+
+			$familybasic_variation = $font->get_specific_variation( '000-familybasic', $license );
+			if ( $familybasic_variation ) {
+				$familybasic_weights = $font->get_familybasic_weights( 'slug' );
+				$clean_familybasic_weights = array_map( array( 'Zipomator', 'get_clean_weight' ), $familybasic_weights );
+				$log = "Found 000-familybasic variation. Included weights: " . json_encode( $clean_familybasic_weights ) . "\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+
+				if ( in_array( $weight, $clean_familybasic_weights, true ) ) {
+					$familybasic_variation_id = $familybasic_variation->get_id();
+					$has_access = $this->check_variation_access( $user_id, $email, $order_key, $familybasic_variation_id );
+					$log = "000-familybasic access result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
+					file_put_contents( $log_file, $log, FILE_APPEND );
+				} else {
+					$log = "Weight '{$weight}' is not included in familybasic weights\n";
+					file_put_contents( $log_file, $log, FILE_APPEND );
+				}
+			} else {
+				$log = "No 000-familybasic variation found for this font+license\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			}
+		}
+
+		if ( ! $has_access ) {
+			$log = "FAILED - No access to variation {$variation_id} (also checked family/familybasic)\n";
 			file_put_contents( $log_file, $log, FILE_APPEND );
 			return false;
 		}
-		
+
 		$log = "Item #{$index} access granted\n";
 		file_put_contents( $log_file, $log, FILE_APPEND );
 	}
