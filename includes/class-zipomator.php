@@ -331,7 +331,8 @@ protected function verify_package_access( $items ) {
 			
 			foreach ( $attributes as $attr_key => $attr_value ) {
 				if ( strpos( $attr_key, 'weight' ) !== false ) {
-					if ( $attr_value === $weight || strpos( $attr_value, '-' . $weight ) !== false ) {
+					$clean_attr_weight = self::get_clean_weight( $attr_value );
+					if ( $clean_attr_weight === $weight ) {
 						$matches_weight = true;
 					}
 				}
@@ -467,13 +468,6 @@ protected function user_has_variation_in_any_order( $user_id, $email, $variation
 	foreach ( $customer_orders as $order ) {
 		$log = "Checking order #" . $order->get_id() . " (status: " . $order->get_status() . ")\n";
 		file_put_contents( $log_file, $log, FILE_APPEND );
-		
-		// Verify email matches
-		if ( strtolower( $order->get_billing_email() ) !== strtolower( $email ) ) {
-			$log = "  Email mismatch, skipping\n";
-			file_put_contents( $log_file, $log, FILE_APPEND );
-			continue;
-		}
 		
 		// Check if order contains this variation
 		foreach ( $order->get_items() as $item ) {
