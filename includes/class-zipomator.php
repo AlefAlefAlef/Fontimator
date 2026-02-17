@@ -331,7 +331,8 @@ protected function verify_package_access( $items ) {
 			
 			foreach ( $attributes as $attr_key => $attr_value ) {
 				if ( strpos( $attr_key, 'weight' ) !== false ) {
-					if ( $attr_value === $weight || strpos( $attr_value, '-' . $weight ) !== false ) {
+					$clean_attr_weight = self::get_clean_weight( $attr_value );
+					if ( $clean_attr_weight === $weight ) {
 						$matches_weight = true;
 					}
 				}
@@ -381,12 +382,59 @@ protected function verify_package_access( $items ) {
 			file_put_contents( $log_file, $log, FILE_APPEND );
 		}
 		
+		// Check if user purchased the complete family (000-family) for this license
 		if ( ! $has_access ) {
-			$log = "FAILED - No access to variation {$variation_id}\n";
+			$log = "Checking 000-family access for license: '{$license}'\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+
+			$family_variation = $font->get_specific_variation( '000-family', $license );
+			if ( $family_variation ) {
+				$family_variation_id = $family_variation->get_id();
+				$log = "Found 000-family variation ID: {$family_variation_id}\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+
+				$has_access = $this->check_variation_access( $user_id, $email, $order_key, $family_variation_id );
+				$log = "000-family access result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			} else {
+				$log = "No 000-family variation found for this font+license\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			}
+		}
+
+		// Check if user purchased familybasic (000-familybasic) and requested weight is included
+		if ( ! $has_access ) {
+			$log = "Checking 000-familybasic access for license: '{$license}'\n";
+			file_put_contents( $log_file, $log, FILE_APPEND );
+
+			$familybasic_variation = $font->get_specific_variation( '000-familybasic', $license );
+			if ( $familybasic_variation ) {
+				$familybasic_weights = $font->get_familybasic_weights( 'slug' );
+				$clean_familybasic_weights = array_map( array( 'Zipomator', 'get_clean_weight' ), $familybasic_weights );
+				$log = "Found 000-familybasic variation. Included weights: " . json_encode( $clean_familybasic_weights ) . "\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+
+				if ( in_array( $weight, $clean_familybasic_weights, true ) ) {
+					$familybasic_variation_id = $familybasic_variation->get_id();
+					$has_access = $this->check_variation_access( $user_id, $email, $order_key, $familybasic_variation_id );
+					$log = "000-familybasic access result: " . ( $has_access ? 'TRUE' : 'FALSE' ) . "\n";
+					file_put_contents( $log_file, $log, FILE_APPEND );
+				} else {
+					$log = "Weight '{$weight}' is not included in familybasic weights\n";
+					file_put_contents( $log_file, $log, FILE_APPEND );
+				}
+			} else {
+				$log = "No 000-familybasic variation found for this font+license\n";
+				file_put_contents( $log_file, $log, FILE_APPEND );
+			}
+		}
+
+		if ( ! $has_access ) {
+			$log = "FAILED - No access to variation {$variation_id} (also checked family/familybasic)\n";
 			file_put_contents( $log_file, $log, FILE_APPEND );
 			return false;
 		}
-		
+
 		$log = "Item #{$index} access granted\n";
 		file_put_contents( $log_file, $log, FILE_APPEND );
 	}
@@ -420,13 +468,6 @@ protected function user_has_variation_in_any_order( $user_id, $email, $variation
 	foreach ( $customer_orders as $order ) {
 		$log = "Checking order #" . $order->get_id() . " (status: " . $order->get_status() . ")\n";
 		file_put_contents( $log_file, $log, FILE_APPEND );
-		
-		// Verify email matches
-		if ( strtolower( $order->get_billing_email() ) !== strtolower( $email ) ) {
-			$log = "  Email mismatch, skipping\n";
-			file_put_contents( $log_file, $log, FILE_APPEND );
-			continue;
-		}
 		
 		// Check if order contains this variation
 		foreach ( $order->get_items() as $item ) {
@@ -505,6 +546,28 @@ protected function user_has_variation_in_any_order( $user_id, $email, $variation
 			}
 		}
 
+		return false;
+	}
+
+	/**
+	 * Check if a user (logged-in or guest) has access to a specific variation
+	 *
+	 * @param int $user_id User ID (0 if guest)
+	 * @param string|null $email Email address
+	 * @param string|null $order_key Order key (for guest access)
+	 * @param int $variation_id Variation ID to check
+	 * @return bool
+	 */
+	protected function check_variation_access( $user_id, $email, $order_key, $variation_id ) {
+		if ( $user_id > 0 ) {
+			$has_access = $this->user_has_variation_access( $user_id, $variation_id );
+			if ( ! $has_access ) {
+				$has_access = $this->user_has_variation_in_any_order( $user_id, $email, $variation_id );
+			}
+			return $has_access;
+		} elseif ( $order_key && $email ) {
+			return $this->guest_has_variation_access( $order_key, $email, $variation_id );
+		}
 		return false;
 	}
 
