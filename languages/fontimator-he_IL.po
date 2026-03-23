@@ -1310,3 +1310,19 @@ msgstr "אם יש שאלות – אנחנו כאן במייל."
 
 #~ msgid "Product"
 #~ msgstr "מוצר"
+
+#: includes/woocommerce.php
+msgid "I want to receive subscription invoices by email"
+msgstr "אני רוצה לקבל חשבוניות מינויים במייל"
+
+#: includes/woocommerce.php
+msgid "Subscription Monthly Invoice"
+msgstr "חשבונית חודשית למינויים"
+
+#: includes/woocommerce.php
+msgid "Send subscription monthly invoice automatically"
+msgstr "שליחת חשבונית חודשית למינויים באופן אוטומטי"
+
+#: includes/woocommerce.php
+msgid "User has not set this preference yet."
+msgstr "המשתמש טרם הגדיר העדפה זו."
