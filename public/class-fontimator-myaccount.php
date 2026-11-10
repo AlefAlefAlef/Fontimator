@@ -907,6 +907,13 @@ class Fontimator_MyAccount extends Fontimator_Public {
     }
 
     protected function print_reseller_domains_table( $domains = array() ) {
+        // Sort domains by creation timestamp, newest first.
+        uasort( $domains, function( $a, $b ) {
+            $time_a = isset( $a['timestamp'] ) ? (int) $a['timestamp'] : 0;
+            $time_b = isset( $b['timestamp'] ) ? (int) $b['timestamp'] : 0;
+
+            return $time_a <=> $time_b;
+        }); 
         ?>
         <h2 id="reseller-domains"><?php _e( 'Web Domains', 'fontimator' ); ?></h2>
         <h6><?php _e( 'Your web license will only be valid for the domains bellow. You can add how many you want.', 'fontimator' ); ?></h6>
@@ -914,9 +921,9 @@ class Fontimator_MyAccount extends Fontimator_Public {
             <?php if ( !empty( $domains ) ) { ?>
                 <thead>
                 <tr>
-                    <th class="domain-added"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
-                    <th class="domain-name"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
-                    <th class="domain-families"><?php _ex( 'Font/s', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+                    <th class="domain-added data-sort="date"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+                    <th class="domain-name" data-sort="domain"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
+                    <th class="domain-families" data-sort="font"><?php _ex( 'Font/s', 'Column in the reseller domains table', 'fontimator' ); ?></th>
                     <th class="domain-actions"><?php _e( 'Actions', 'fontimator' ); ?></th>
                 </tr>
                 </thead>
@@ -933,7 +940,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
                 }
                 ?>
                 <tr>
-                    <td class="domain-added" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $creation_time ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ) ); ?></td>
+                    <td class="domain-added" data-sort-value="<?php echo esc_attr( $creation_time ); ?>" title="<?php echo esc_attr( date_i18n( 'Y-m-d h:i:s', $creation_time ) ); ?>"><?php echo esc_html( date_i18n( get_option( 'date_format' ), $creation_time ) ); ?></td>
                     <th class="domain-name" scope="row"><a href="http://<?php echo esc_attr( $domain ); ?>" target="_blank"><?php echo esc_html( $domain ); ?></a></th>
                     <th class="domain-families" scope="row"><?php echo esc_html( implode( ', ' , $families ) ); ?></th>
                     <td class="domain-actions">
@@ -985,6 +992,53 @@ class Fontimator_MyAccount extends Fontimator_Public {
             </tr>
             </tfoot>
         </table>
+
+        <script>
+            document.querySelectorAll('.reseller_domains th[data-sort]').forEach(header => {
+
+                header.style.cursor = 'pointer';
+
+                header.addEventListener('click', () => {
+
+                    const table = header.closest('table');
+                    const tbody = table.querySelector('tbody');
+                    const column = Array.from(header.parentNode.children).indexOf(header);
+                    const type = header.dataset.sort;
+
+                    const ascending = header.dataset.order !== 'asc';
+
+                    table.querySelectorAll('th[data-sort]').forEach(th => {
+                        delete th.dataset.order;
+                    });
+
+                    header.dataset.order = ascending ? 'asc' : 'desc';
+
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                    rows.sort((a, b) => {
+
+                        let x = a.children[column].dataset.sortValue ||
+                                a.children[column].textContent.trim();
+
+                        let y = b.children[column].dataset.sortValue ||
+                                b.children[column].textContent.trim();
+
+                        let result = type === 'date'
+                            ? Number(x) - Number(y)
+                            : x.localeCompare(y, undefined, {
+                                numeric: true,
+                                sensitivity: 'base'
+                            });
+
+                        return ascending ? result : -result;
+                    });
+
+                    rows.forEach(row => tbody.appendChild(row));
+
+                });
+
+            });
+        </script>
         <?php
     }
 
