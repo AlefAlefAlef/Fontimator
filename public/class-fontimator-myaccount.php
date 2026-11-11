@@ -921,7 +921,7 @@ class Fontimator_MyAccount extends Fontimator_Public {
             <?php if ( !empty( $domains ) ) { ?>
                 <thead>
                 <tr>
-                    <th class="domain-added data-sort="date"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
+                    <th class="domain-added" data-sort="date"><?php _ex( 'Added on', 'Column in the reseller domains table', 'fontimator' ); ?></th>
                     <th class="domain-name" data-sort="domain"><?php _e( 'Domain Name', 'fontimator' ); ?></th>
                     <th class="domain-families" data-sort="font"><?php _ex( 'Font/s', 'Column in the reseller domains table', 'fontimator' ); ?></th>
                     <th class="domain-actions"><?php _e( 'Actions', 'fontimator' ); ?></th>
